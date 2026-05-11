@@ -1,0 +1,4 @@
+com.huanniankj.framework.idempotent.config.UbaxIdempotentConfiguration
+com.huanniankj.framework.lock4j.config.UbaxLock4jConfiguration
+com.huanniankj.framework.ratelimiter.config.UbaxRateLimiterConfiguration
+com.huanniankj.framework.signature.config.UbaxApiSignatureAutoConfiguration

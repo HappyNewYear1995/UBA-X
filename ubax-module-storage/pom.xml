@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.huanniankj</groupId>
+        <artifactId>uba-x</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    <artifactId>ubax-module-storage</artifactId>
+
+    <name>${project.artifactId}</name>
+    <description>
+        数据存储与路由模块，负责消费 MQ 中的行为数据，并高吞吐地批量落盘到 ClickHouse (OLAP 数据库)。
+    </description>
+
+    <properties>
+        <clickhouse-jdbc.version>0.4.6</clickhouse-jdbc.version>
+    </properties>
+
+    <dependencies>
+        <!-- DB 相关，引入 MyBatis Plus (包含 ClickHouse 支持) -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-spring-boot-starter-mybatis</artifactId>
+        </dependency>
+
+        <!-- ClickHouse JDBC Driver -->
+        <dependency>
+            <groupId>com.clickhouse</groupId>
+            <artifactId>clickhouse-jdbc</artifactId>
+            <version>${clickhouse-jdbc.version}</version>
+            <classifier>all</classifier>
+            <!-- 排掉 grpc 等不常用协议依赖，减少包体积 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.clickhouse</groupId>
+                    <artifactId>clickhouse-grpc-client</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- MQ 消息队列 -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-spring-boot-starter-mq</artifactId>
+        </dependency>
+
+        <!-- Kafka 客户端 -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+        <!-- Hutool JSON 等工具类 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.25</version>
+        </dependency>
+
+        <!-- 基础依赖 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

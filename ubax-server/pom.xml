@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.huanniankj</groupId>
+        <artifactId>uba-x</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ubax-server</artifactId>
+    <packaging>jar</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>
+        后端 Server 的主项目，通过引入需要 ubax-module-xxx 的依赖，
+        从而实现提供 RESTful API 给 ubax-ui 前端项目。
+    </description>
+    <url>https://gitee.com/FoleyZhao/uba-x</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-module-system</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-module-infra</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <!-- AI 大模型相关模块 -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-module-ai</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <!-- 数据采集模块 -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-module-collect</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <!-- 数据存储模块 -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-module-storage</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <!-- 数据分析模块 -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-module-analysis</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <!-- spring boot 配置所需依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- 服务保障相关 -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-spring-boot-starter-protection</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <!-- 设置构建的 jar 包名 -->
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- 打包 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal> <!-- 将引入的 jar 打入其中 -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

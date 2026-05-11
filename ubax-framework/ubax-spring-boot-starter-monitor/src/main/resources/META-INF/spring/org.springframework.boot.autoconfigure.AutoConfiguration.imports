@@ -1,0 +1,2 @@
+com.huanniankj.framework.tracer.config.UbaxTracerAutoConfiguration
+com.huanniankj.framework.tracer.config.UbaxMetricsAutoConfiguration

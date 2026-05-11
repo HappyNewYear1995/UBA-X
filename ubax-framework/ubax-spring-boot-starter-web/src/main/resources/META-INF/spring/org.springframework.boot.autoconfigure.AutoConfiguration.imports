@@ -1,0 +1,7 @@
+com.huanniankj.framework.apilog.config.UbaxApiLogAutoConfiguration
+com.huanniankj.framework.jackson.config.UbaxJacksonAutoConfiguration
+com.huanniankj.framework.swagger.config.UbaxSwaggerAutoConfiguration
+com.huanniankj.framework.web.config.UbaxWebAutoConfiguration
+com.huanniankj.framework.xss.config.UbaxXssAutoConfiguration
+com.huanniankj.framework.banner.config.UbaxBannerAutoConfiguration
+com.huanniankj.framework.encrypt.config.UbaxApiEncryptAutoConfiguration

@@ -1,0 +1,3 @@
+com.huanniankj.framework.datasource.config.UbaxDataSourceAutoConfiguration
+com.huanniankj.framework.mybatis.config.UbaxMybatisAutoConfiguration
+com.huanniankj.framework.translate.config.UbaxTranslateAutoConfiguration

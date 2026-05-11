@@ -1,0 +1,2 @@
+com.huanniankj.framework.quartz.config.UbaxQuartzAutoConfiguration
+com.huanniankj.framework.quartz.config.UbaxAsyncAutoConfiguration

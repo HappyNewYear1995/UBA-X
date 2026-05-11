@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.huanniankj</groupId>
+        <artifactId>uba-x</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    <artifactId>ubax-module-analysis</artifactId>
+
+    <name>${project.artifactId}</name>
+    <description>
+        数据分析与查询模块，负责将存储层的海量数据通过 OLAP 引擎转换为前端可视化大盘所需的数据指标。
+    </description>
+
+    <dependencies>
+        <!-- 引入底层存储模块以复用实体和 Mapper (如果需要跨模块复用 DO/Mapper) -->
+        <!-- 注意：按照微服务化最佳实践，分析模块可以通过自己的 Mapper 独立查询 ClickHouse，这里暂不强依赖 storage -->
+        
+        <!-- Web 相关 -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- 安全权限 (因为要提供给后台管理系统调用) -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- DB 相关，引入 MyBatis Plus 进行数据查询 -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-spring-boot-starter-mybatis</artifactId>
+        </dependency>
+
+        <!-- Hutool 等工具类 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.25</version>
+        </dependency>
+
+        <!-- 基础依赖 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

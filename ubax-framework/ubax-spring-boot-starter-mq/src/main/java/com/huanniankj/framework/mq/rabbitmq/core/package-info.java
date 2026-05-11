@@ -1,0 +1,6 @@
+/**
+ * 占位
+ *
+ * @author zhaoff
+ */
+package com.huanniankj.framework.mq.rabbitmq.core;

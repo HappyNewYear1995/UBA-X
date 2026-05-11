@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.huanniankj</groupId>
+        <artifactId>uba-x</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    <artifactId>ubax-module-collect</artifactId>
+
+    <name>${project.artifactId}</name>
+    <description>
+        数据采集模块，负责接收各端 SDK 上报的事件和属性数据，进行基础的数据校验、IP解析、清洗，并下发到消息队列。
+    </description>
+
+    <dependencies>
+        <!-- Web 相关 -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- IP 解析 -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-spring-boot-starter-biz-ip</artifactId>
+        </dependency>
+
+        <!-- MQ 消息队列，用于流量削峰和异步解耦 -->
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-spring-boot-starter-mq</artifactId>
+        </dependency>
+
+        <!-- Kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+        <!-- 基础依赖 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
