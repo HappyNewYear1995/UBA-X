@@ -41,3 +41,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 ./jar
 .flattened-pom.xml
+
+# frontend
+ubax-ui/node_modules/*
+ubax-ui/package-lock.json
