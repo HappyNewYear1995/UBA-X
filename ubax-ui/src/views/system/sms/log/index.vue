@@ -183,7 +183,7 @@
   <SmsLogDetail ref="detailRef" />
 </template>
 <script lang="ts" setup>
-import { DICT_TYPE, getIntDictOptions, getDictLabel } from '@/utils/dict'
+import { DICT_TYPE, getDictLabel, getIntDictOptions } from '@/utils/dict'
 import { dateFormatter, formatDate } from '@/utils/formatTime'
 import download from '@/utils/download'
 import * as SmsChannelApi from '@/api/system/sms/smsChannel'

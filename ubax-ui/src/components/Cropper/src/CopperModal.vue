@@ -208,7 +208,8 @@ $prefix-cls: #{$namespace}-cropper-am;
   &-cropper {
     height: 300px;
     background: #eee;
-    background-image: linear-gradient(
+    background-image:
+      linear-gradient(
         45deg,
         rgb(0 0 0 / 25%) 25%,
         transparent 0,

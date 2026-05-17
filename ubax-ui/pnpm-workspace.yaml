@@ -1,0 +1,9 @@
+allowBuilds:
+  '@carbon/icons': false
+  '@parcel/watcher': true
+  '@swc/core': true
+  core-js: true
+  core-js-pure: true
+  es5-ext: true
+  esbuild: true
+  vue-demi: true

@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { Message } from '@/layout/components//Message'
 import { Collapse } from '@/layout/components/Collapse'
 import { UserInfo } from '@/layout/components/UserInfo'
@@ -73,7 +73,9 @@ export default defineComponent({
           {screenfull.value ? (
             <Screenfull class="custom-hover" color="var(--top-header-text-color)"></Screenfull>
           ) : undefined}
-          {search.value ? <RouterSearch isModal={false} color="var(--top-header-text-color)"/> : undefined}
+          {search.value ? (
+            <RouterSearch isModal={false} color="var(--top-header-text-color)" />
+          ) : undefined}
           {size.value ? (
             <SizeDropdown class="custom-hover" color="var(--top-header-text-color)"></SizeDropdown>
           ) : undefined}

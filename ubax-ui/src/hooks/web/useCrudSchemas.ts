@@ -162,7 +162,7 @@ const filterTableSchema = (crudSchema: CrudSchema[]): TableColumn[] => {
   const tableColumns = treeMap<CrudSchema>(crudSchema, {
     conversion: (schema: CrudSchema) => {
       if (schema?.isTable !== false && schema?.table?.show !== false) {
-        // add by 芋艿：增加对 dict 字典数据的支持
+        // 增加对 dict 字典数据的支持
         if (!schema.formatter && schema.dictType) {
           schema.formatter = (_: Recordable, __: TableColumn, cellValue: any) => {
             return h(DictTag, {

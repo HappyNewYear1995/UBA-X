@@ -80,7 +80,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'profile',
-        component: () => import('@/views/Profile/Index.vue'),
+        component: () => import('@/views/Profile/index.vue'),
         name: 'Profile',
         meta: {
           canTo: true,
@@ -123,30 +123,6 @@ const remainingRouter: AppRouteRecordRaw[] = [
           canTo: true,
           icon: '',
           activeMenu: '/system/dict'
-        }
-      }
-    ]
-  },
-
-  {
-    path: '/codegen',
-    component: Layout,
-    name: 'CodegenEdit',
-    meta: {
-      hidden: true
-    },
-    children: [
-      {
-        path: 'edit',
-        component: () => import('@/views/infra/codegen/EditTable.vue'),
-        name: 'InfraCodegenEditTable',
-        meta: {
-          noCache: true,
-          hidden: true,
-          canTo: true,
-          icon: 'ep:edit',
-          title: '修改生成配置',
-          activeMenu: 'infra/codegen/index'
         }
       }
     ]
@@ -243,7 +219,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       hidden: true,
       breadcrumb: false
     }
-  },
+  }
 ]
 
 export default remainingRouter

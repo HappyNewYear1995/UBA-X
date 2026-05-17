@@ -124,12 +124,13 @@ import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 import { useIcon } from '@/hooks/web/useIcon'
 
+import * as LoginApi from '@/api/login'
 import { sendSmsCode, smsResetPassword } from '@/api/login'
 import LoginFormTitle from './LoginFormTitle.vue'
 import { LoginStateEnum, useFormValid, useLoginState } from './useLogin'
 import { ElLoading } from 'element-plus'
 import * as authUtil from '@/utils/auth'
-import * as LoginApi from '@/api/login'
+
 defineOptions({ name: 'ForgetPasswordForm' })
 const verify = ref()
 

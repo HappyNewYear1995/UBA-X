@@ -54,6 +54,7 @@
 import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
 import * as NotifyTemplateApi from '@/api/system/notify/template'
 import { CommonStatusEnum } from '@/utils/constants'
+
 const message = useMessage() // 消息弹窗
 
 const dialogVisible = ref(false) // 弹窗的是否展示

@@ -1,8 +1,4 @@
 <template>
-  <doc-alert title="定时任务" url="https://doc.iocoder.cn/job/" />
-  <doc-alert title="异步任务" url="https://doc.iocoder.cn/async-task/" />
-  <doc-alert title="消息队列" url="https://doc.iocoder.cn/message-queue/" />
-
   <ContentWrap>
     <!-- 搜索工作栏 -->
     <el-form

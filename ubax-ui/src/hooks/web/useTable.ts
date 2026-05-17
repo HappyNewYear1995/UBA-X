@@ -217,7 +217,7 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
     elTableRef,
     tableObject,
     methods,
-    // add by 芋艿：返回 tableMethods 属性，和 tableObject 更统一
+    // 返回 tableMethods 属性，和 tableObject 更统一
     tableMethods: methods
   }
 }

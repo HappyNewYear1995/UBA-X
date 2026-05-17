@@ -1,7 +1,6 @@
 /**
  * Independent time operation tool to facilitate subsequent switch to dayjs
  */
-// TODO 芋艿：【锁屏】可能后面删除掉
 import dayjs from 'dayjs'
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'

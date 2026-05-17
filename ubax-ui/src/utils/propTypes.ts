@@ -1,4 +1,4 @@
-import { VueTypeValidableDef, VueTypesInterface, createTypes, toValidableType } from 'vue-types'
+import { createTypes, toValidableType, VueTypesInterface, VueTypeValidableDef } from 'vue-types'
 import { CSSProperties } from 'vue'
 
 type PropTypes = VueTypesInterface & {

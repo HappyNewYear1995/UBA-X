@@ -1,12 +1,12 @@
 import {
+  useAreaSelectRule,
   useDictSelectRule,
   useEditorRule,
+  useIframeRule,
   useSelectRule,
   useUploadFileRule,
   useUploadImgRule,
-  useUploadImgsRule,
-  useIframeRule,
-  useAreaSelectRule
+  useUploadImgsRule
 } from './config'
 import { Ref } from 'vue'
 import { Menu } from '@/components/FormCreate/src/type'
@@ -40,7 +40,14 @@ export const useFormCreateDesigner = async (designer: Ref) => {
     designer.value?.removeMenuItem('fcEditor')
     const iframeRule = useIframeRule()
     const areaSelectRule = useAreaSelectRule()
-    const components = [editorRule, uploadFileRule, uploadImgRule, uploadImgsRule, iframeRule, areaSelectRule]
+    const components = [
+      editorRule,
+      uploadFileRule,
+      uploadImgRule,
+      uploadImgsRule,
+      iframeRule,
+      areaSelectRule
+    ]
     components.forEach((component) => {
       // 插入组件规则
       designer.value?.addComponent(component)
@@ -127,8 +134,6 @@ export const useFormCreateDesigner = async (designer: Ref) => {
   /**
    * 修复重复的字段 ID 问题
    * 当复制组件时，自动为新组件生成新的字段 ID
-   *
-   * 对应 issue：https://gitee.com/yudaocode/yudao-ui-admin-vue3/issues/ICM22X
    */
   const fixDuplicateFields = () => {
     // 获取当前所有规则

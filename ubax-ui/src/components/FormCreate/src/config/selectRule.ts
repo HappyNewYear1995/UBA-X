@@ -9,7 +9,6 @@ const selectRule = [
       { label: '单选框', value: 'radio' },
       { label: '多选框', value: 'checkbox' }
     ],
-    // 参考 https://www.form-create.com/v3/guide/control 组件联动，单选框和多选框不需要多选属性
     control: [
       {
         value: 'select',

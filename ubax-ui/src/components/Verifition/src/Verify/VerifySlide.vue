@@ -234,7 +234,7 @@ const start = (e) => {
   }
   startLeft.value = Math.floor(x - barArea.value.getBoundingClientRect().left)
   startMoveTime.value = +new Date() //开始滑动的时间
-  if (isEnd.value == false) {
+  if (isEnd.value === false) {
     text.value = ''
     moveBlockBackgroundColor.value = '#337ab7'
     leftBarBorderColor.value = '#337AB7'
@@ -246,7 +246,7 @@ const start = (e) => {
 //鼠标移动
 const move = (e) => {
   e = e || window.event
-  if (status.value && isEnd.value == false) {
+  if (status.value && isEnd.value === false) {
     if (!e.touches) {
       //兼容PC端
       var x = e.clientX
@@ -276,7 +276,7 @@ const move = (e) => {
 const end = () => {
   endMovetime.value = +new Date()
   //判断是否重合
-  if (status.value && isEnd.value == false) {
+  if (status.value && isEnd.value === false) {
     var moveLeftDistance = parseInt((moveBlockLeft.value || '0').replace('px', ''))
     moveLeftDistance = (moveLeftDistance * 310) / parseInt(setSize.imgWidth)
     let data = {
@@ -287,14 +287,14 @@ const end = () => {
       token: backToken.value
     }
     reqCheck(data).then((res) => {
-      if (res.repCode == '0000') {
+      if (res.repCode === '0000') {
         moveBlockBackgroundColor.value = '#5cb85c'
         leftBarBorderColor.value = '#5cb85c'
         iconColor.value = '#fff'
         iconClass.value = 'icon-check'
         showRefresh.value = false
         isEnd.value = true
-        if (mode.value == 'pop') {
+        if (mode.value === 'pop') {
           setTimeout(() => {
             proxy.$parent.clickShow = false
             refresh()
@@ -364,7 +364,7 @@ const getPictrue = async () => {
     captchaType: captchaType.value
   }
   const res = await getCode(data)
-  if (res.repCode == '0000') {
+  if (res.repCode === '0000') {
     backImgBase.value = res.repData.originalImageBase64
     blockBackImgBase.value = res.repData.jigsawImageBase64
     backToken.value = res.repData.token

@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="系统日志" url="https://doc.iocoder.cn/system-log/" />
-
   <ContentWrap>
     <!-- 搜索工作栏 -->
     <el-form

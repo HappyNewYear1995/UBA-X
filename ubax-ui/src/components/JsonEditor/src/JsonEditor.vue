@@ -8,7 +8,6 @@ import JSONEditor, { JSONEditorMode, JSONEditorOptions } from 'jsoneditor'
 import 'jsoneditor/dist/jsoneditor.min.css'
 import { JsonEditorEmits, JsonEditorExpose, JsonEditorProps } from '../types'
 
-/** 基于 https://github.com/josdejong/jsoneditor 二次封装组件，提供 JSON 编辑器功能。 */
 defineOptions({ name: 'JsonEditor' })
 
 const props = withDefaults(defineProps<JsonEditorProps>(), {

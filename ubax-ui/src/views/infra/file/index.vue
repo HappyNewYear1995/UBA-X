@@ -1,5 +1,4 @@
 <template>
-  <doc-alert title="上传下载" url="https://doc.iocoder.cn/file/" />
   <!-- 搜索 -->
   <ContentWrap>
     <el-form

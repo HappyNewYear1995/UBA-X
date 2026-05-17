@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO @芋艿：可优化，对标 vben 版本 -->
   <div class="flex">
     <el-card class="user w-1/3" shadow="hover">
       <template #header>

@@ -1,7 +1,4 @@
 <template>
-  <doc-alert title="Redis 缓存" url="https://doc.iocoder.cn/redis-cache/" />
-  <doc-alert title="本地缓存" url="https://doc.iocoder.cn/local-cache/" />
-
   <el-scrollbar height="calc(100vh - 88px - 40px - 50px)">
     <el-row>
       <!-- 基本信息 -->
@@ -66,6 +63,7 @@
 <script lang="ts" setup>
 import * as RedisApi from '@/api/infra/redis'
 import { RedisMonitorInfoVO } from '@/api/infra/redis/types'
+
 const cache = ref<RedisMonitorInfoVO>()
 
 // 基本信息

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, computed, watch, onMounted } from 'vue'
+import { computed, onMounted, provide, watch } from 'vue'
 import { propTypes } from '@/utils/propTypes'
 import { ComponentSize, ElConfigProvider } from 'element-plus'
 import { useLocaleStore } from '@/store/modules/locale'

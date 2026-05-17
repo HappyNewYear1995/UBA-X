@@ -1,7 +1,7 @@
 <template>
-  <div v-show="showBox" :class="mode == 'pop' ? 'mask' : ''">
+  <div v-show="showBox" :class="mode === 'pop' ? 'mask' : ''">
     <div
-      :class="mode == 'pop' ? 'verifybox' : ''"
+      :class="mode === 'pop' ? 'verifybox' : ''"
       :style="{ 'max-width': parseInt(imgSize.width) + 20 + 'px' }"
     >
       <div v-if="mode == 'pop'" class="verifybox-top">
@@ -10,7 +10,7 @@
           <i class="iconfont icon-close"></i>
         </span>
       </div>
-      <div :style="{ padding: mode == 'pop' ? '10px' : '0' }" class="verifybox-bottom">
+      <div :style="{ padding: mode === 'pop' ? '10px' : '0' }" class="verifybox-bottom">
         <!-- 验证码容器 -->
         <component
           :is="componentType"
@@ -36,7 +36,7 @@
  * Verify 验证码组件
  * @description 分发验证码使用
  * */
-import {VerifyPictureWord, VerifyPoints, VerifySlide} from './Verify'
+import { VerifyPictureWord, VerifyPoints, VerifySlide } from './Verify'
 import { computed, ref, toRefs, watchEffect } from 'vue'
 
 export default {
@@ -113,7 +113,7 @@ export default {
       refresh()
     }
     const show = () => {
-      if (mode.value == 'pop') {
+      if (mode.value === 'pop') {
         clickShow.value = true
       }
     }

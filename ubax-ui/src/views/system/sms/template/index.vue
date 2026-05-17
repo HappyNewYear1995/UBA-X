@@ -220,7 +220,7 @@
   <SmsTemplateSendForm ref="sendFormRef" />
 </template>
 <script lang="ts" setup>
-import { DICT_TYPE, getIntDictOptions, getDictLabel } from '@/utils/dict'
+import { DICT_TYPE, getDictLabel, getIntDictOptions } from '@/utils/dict'
 import { dateFormatter } from '@/utils/formatTime'
 import * as SmsTemplateApi from '@/api/system/sms/smsTemplate'
 import * as SmsChannelApi from '@/api/system/sms/smsChannel'

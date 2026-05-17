@@ -1,8 +1,8 @@
 import * as FileApi from '@/api/infra/file'
 import {
+  UploadProgressEvent,
   UploadRawFile,
-  UploadRequestOptions,
-  UploadProgressEvent
+  UploadRequestOptions
 } from 'element-plus/es/components/upload/src/upload'
 import axios, { AxiosProgressEvent } from 'axios'
 

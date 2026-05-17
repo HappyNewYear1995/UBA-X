@@ -1,4 +1,5 @@
 import { isServer } from './is'
+
 const ieVersion = isServer ? 0 : Number((document as any).documentMode)
 const SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g
 const MOZ_HACK_REGEXP = /^moz([A-Z])/

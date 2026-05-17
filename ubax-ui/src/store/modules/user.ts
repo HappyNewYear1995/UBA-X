@@ -1,7 +1,7 @@
 import { store } from '@/store'
 import { defineStore } from 'pinia'
 import { getAccessToken, removeToken } from '@/utils/auth'
-import { CACHE_KEY, useCache, deleteUserCache } from '@/hooks/web/useCache'
+import { CACHE_KEY, deleteUserCache, useCache } from '@/hooks/web/useCache'
 import { getInfo, loginOut } from '@/api/login'
 
 const { wsCache } = useCache()

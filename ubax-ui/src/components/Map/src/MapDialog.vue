@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, nextTick } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { loadBaiduMapSdk } from './utils'
 
 const emits = defineEmits(['confirm'])

@@ -3,8 +3,9 @@ import { store } from '../index'
 // @ts-ignore
 import { DictDataVO } from '@/api/system/dict/types'
 import { CACHE_KEY, useCache } from '@/hooks/web/useCache'
-const { wsCache } = useCache('sessionStorage')
 import { getSimpleDictDataList } from '@/api/system/dict/dict.data'
+
+const { wsCache } = useCache('sessionStorage')
 
 export interface DictValueType {
   value: any

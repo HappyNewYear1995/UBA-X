@@ -1,4 +1,4 @@
-import { useCache, CACHE_KEY } from '@/hooks/web/useCache'
+import { CACHE_KEY, useCache } from '@/hooks/web/useCache'
 import { TokenType } from '@/api/login/types'
 import { decrypt, encrypt } from '@/utils/jsencrypt'
 

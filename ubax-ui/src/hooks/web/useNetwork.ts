@@ -1,4 +1,4 @@
-import { ref, onBeforeUnmount } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 
 const useNetwork = () => {
   const online = ref(true)

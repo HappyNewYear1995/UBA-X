@@ -1,6 +1,6 @@
 <script lang="tsx">
-import { ElTable, ElTableColumn, ElPagination } from 'element-plus'
-import { defineComponent, PropType, ref, computed, unref, watch, onMounted } from 'vue'
+import { ElPagination, ElTable, ElTableColumn } from 'element-plus'
+import { computed, defineComponent, onMounted, PropType, ref, unref, watch } from 'vue'
 import { propTypes } from '@/utils/propTypes'
 import { setIndex } from './helper'
 import { getSlot } from '@/utils/tsxHelper'
@@ -105,7 +105,7 @@ export default defineComponent({
     })
 
     const pagination = computed(() => {
-      // update by 芋艿：保持和 Pagination 组件的逻辑一致
+      // 保持和 Pagination 组件的逻辑一致
       return Object.assign(
         {
           small: false,
@@ -285,7 +285,7 @@ export default defineComponent({
           }}
         </ElTable>
         {unref(getProps).pagination ? (
-          // update by 芋艿：保持和 Pagination 组件一致
+          // 保持和 Pagination 组件一致
           <ElPagination
             v-model:pageSize={pageSizeRef.value}
             v-model:currentPage={currentPageRef.value}
