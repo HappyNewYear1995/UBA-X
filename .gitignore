@@ -19,11 +19,7 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-
-### IntelliJ IDEA ###
-### IntelliJ IDEA ###
+# IntelliJ IDEA #
 .idea
 *.iws
 *.iml
@@ -36,12 +32,6 @@ target/
 /ubax-framework/*/target/
 ./dependency-reduced-pom.xml
 
-# visual studio code
-.history
-!.mvn/wrapper/maven-wrapper.jar
-./jar
-.flattened-pom.xml
-
-# frontend
+# frontend #
 ubax-ui/node_modules/*
 ubax-ui/package-lock.json

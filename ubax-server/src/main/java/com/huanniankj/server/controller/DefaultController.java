@@ -8,22 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.huanniankj.framework.common.exception.enums.GlobalErrorCodeConstants.NOT_IMPLEMENTED;
-
 /**
- * 默认 Controller，解决部分 module 未开启时的 404 提示。
- * 例如说，/report/** 路径，报表模块
+ * 默认 Controller
  *
  * @author zhaoff
  */
 @RestController
 @Slf4j
 public class DefaultController {
-
-    @RequestMapping(value = {"/admin-api/report/**"})
-    public CommonResult<Boolean> report404() {
-        return CommonResult.error(NOT_IMPLEMENTED.getCode(), "[报表模块 ubax-module-report - 已禁用]");
-    }
 
     /**
      * 测试接口：打印 query、header、body
