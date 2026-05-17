@@ -15,7 +15,6 @@
         <!-- 各种 module 拓展 -->
         <module>ubax-module-system</module>
         <module>ubax-module-infra</module>
-        <module>ubax-module-ai</module>
         <module>ubax-module-collect</module>
         <module>ubax-module-storage</module>
         <module>ubax-module-analysis</module>

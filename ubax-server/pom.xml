@@ -31,13 +31,6 @@
             <version>${revision}</version>
         </dependency>
 
-        <!-- AI 大模型相关模块 -->
-        <dependency>
-            <groupId>com.huanniankj</groupId>
-            <artifactId>ubax-module-ai</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
         <!-- 数据采集模块 -->
         <dependency>
             <groupId>com.huanniankj</groupId>
