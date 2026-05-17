@@ -35,3 +35,6 @@ target/
 # frontend #
 ubax-ui/node_modules/*
 ubax-ui/package-lock.json
+ubax-ui/pnpm-lock.yaml
+ubax-ui/src/types/auto-components.d.ts
+ubax-ui/src/types/auto-imports.d.ts
