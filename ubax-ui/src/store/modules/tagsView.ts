@@ -93,7 +93,7 @@ export const useTagsViewStore = defineStore('tagsView', {
     delCachedView() {
       const route = router.currentRoute.value
       const index = findIndex<string>(this.getCachedViews, (v) => v === route.name)
-      // 需要注释，解决“标签页刷新无效”。相关案例：https://github.com/yudaocode/yudao-ui-admin-vue3/issues/180
+      // 需要注释，解决“标签页刷新无效”。
       // for (const v of this.visitedViews) {
       //   if (v.name === route.name) {
       //     return
