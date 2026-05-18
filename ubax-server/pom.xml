@@ -65,6 +65,12 @@
             <artifactId>ubax-spring-boot-starter-protection</artifactId>
         </dependency>
 
+        <!-- Liquibase 数据库版本管理 -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

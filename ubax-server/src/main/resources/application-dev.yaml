@@ -55,11 +55,11 @@ spring:
         #   url: jdbc:mysql://42.192.54.170:3306/ubax?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
         #   username: root
         #   password: happy@0220
-#        clickhouse: # 新增的 ClickHouse 数据源配置
-#          url: jdbc:clickhouse://localhost:18123/default # ClickHouse 默认端口是 8123，数据库名叫 default，按需修改
-#          username: default
-#          password: 123456 # 你的 ClickHouse 密码，没有就留空
-#          driver-class-name: com.clickhouse.jdbc.ClickHouseDriver
+  #        clickhouse: # 新增的 ClickHouse 数据源配置
+  #          url: jdbc:clickhouse://localhost:18123/default # ClickHouse 默认端口是 8123，数据库名叫 default，按需修改
+  #          username: default
+  #          password: 123456 # 你的 ClickHouse 密码，没有就留空
+  #          driver-class-name: com.clickhouse.jdbc.ClickHouseDriver
   # Redis 配置
   data:
     redis:
@@ -67,6 +67,9 @@ spring:
       port: 6379
       database: 1 # 数据库索引
       password: uba@2026_!
+  # Liquibase 配置
+  liquibase:
+    enabled: true # 开发环境启用 Liquibase
 
 --- #################### 定时任务相关配置 ####################
 

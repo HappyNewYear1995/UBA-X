@@ -29,6 +29,14 @@ spring:
     redis:
       time-to-live: 1h # 设置过期时间为 1 小时
 
+  # Liquibase 配置项
+  liquibase:
+    enabled: true # 是否启用 Liquibase
+    change-log: classpath:db/changelog/master.xml # changelog 文件路径
+    drop-first: false # 启动时是否先删除再创建（生产环境必须为 false）
+    database-change-log-table: DATABASECHANGELOG # 自定义 changelog 表名
+    database-change-log-lock-table: DATABASECHANGELOGLOCK # 自定义 lock 表名
+
 server:
   servlet:
     encoding:
