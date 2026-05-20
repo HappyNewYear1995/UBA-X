@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="data-20260520-001" author="zhaoff">
+        <comment>初始化菜单数据</comment>
+        <sql>
+            <![CDATA[
+            INSERT INTO `system_menu` VALUES (1, '系统管理', '', 1, 10, 0, '/system', 'ep:tools', NULL, NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (101, '租户管理', '', 2, 0, 1, 'tenant', 'fa-solid:house-user', NULL, NULL, 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1011, '租户列表', '', 2, 0, 101, 'list', 'ep:house', 'system/tenant/index', 'SystemTenant', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10111, '租户查询', 'system:tenant:query', 3, 1, 1011, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10112, '租户创建', 'system:tenant:create', 3, 2, 1011, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10113, '租户更新', 'system:tenant:update', 3, 3, 1011, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10114, '租户删除', 'system:tenant:delete', 3, 4, 1011, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10115, '租户导出', 'system:tenant:export', 3, 5, 1011, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10116, '租户切换', 'system:tenant:visit', 3, 999, 1011, '', '', '', '', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (102, '租户套餐', '', 2, 0, 101, 'package', 'fa:bars', 'system/tenantPackage/index', 'SystemTenantPackage', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1226, '租户套餐查询', 'system:tenant-package:query', 3, 1, 102, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1227, '租户套餐创建', 'system:tenant-package:create', 3, 2, 102, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1228, '租户套餐更新', 'system:tenant-package:update', 3, 3, 102, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1229, '租户套餐删除', 'system:tenant-package:delete', 3, 4, 102, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (102, '用户管理', 'system:user:list', 2, 1, 1, 'user', 'ep:avatar', 'system/user/index', 'SystemUser', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1021, '用户查询', 'system:user:query', 3, 1, 102, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1022, '用户新增', 'system:user:create', 3, 2, 102, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1023, '用户修改', 'system:user:update', 3, 3, 102, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1024, '用户删除', 'system:user:delete', 3, 4, 102, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1025, '用户导出', 'system:user:export', 3, 5, 102, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1026, '用户导入', 'system:user:import', 3, 6, 102, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1027, '重置密码', 'system:user:update-password', 3, 7, 102, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (103, '角色管理', '', 2, 2, 1, 'role', 'ep:user', 'system/role/index', 'SystemRole', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1031, '角色查询', 'system:role:query', 3, 1, 103, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1032, '角色新增', 'system:role:create', 3, 2, 103, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1033, '角色修改', 'system:role:update', 3, 3, 103, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1034, '角色删除', 'system:role:delete', 3, 4, 103, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1035, '角色导出', 'system:role:export', 3, 5, 103, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1036, '设置角色菜单权限', 'system:permission:assign-role-menu', 3, 6, 103, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1037, '设置角色数据权限', 'system:permission:assign-role-data-scope', 3, 7, 103, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1038, '设置用户角色', 'system:permission:assign-user-role', 3, 8, 103, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (104, '菜单管理', '', 2, 3, 1, 'menu', 'ep:menu', 'system/menu/index', 'SystemMenu', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1041, '菜单查询', 'system:menu:query', 3, 1, 104, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1042, '菜单新增', 'system:menu:create', 3, 2, 104, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1043, '菜单修改', 'system:menu:update', 3, 3, 104, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1044, '菜单删除', 'system:menu:delete', 3, 4, 104, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (105, '部门管理', '', 2, 4, 1, 'dept', 'fa:address-card', 'system/dept/index', 'SystemDept', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1051, '部门查询', 'system:dept:query', 3, 1, 105, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1052, '部门新增', 'system:dept:create', 3, 2, 105, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1053, '部门修改', 'system:dept:update', 3, 3, 105, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1054, '部门删除', 'system:dept:delete', 3, 4, 105, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (106, '岗位管理', '', 2, 5, 1, 'post', 'fa:address-book-o', 'system/post/index', 'SystemPost', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1061, '岗位查询', 'system:post:query', 3, 1, 106, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1062, '岗位新增', 'system:post:create', 3, 2, 106, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1063, '岗位修改', 'system:post:update', 3, 3, 106, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1064, '岗位删除', 'system:post:delete', 3, 4, 106, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1065, '岗位导出', 'system:post:export', 3, 5, 106, '', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (107, '字典管理', '', 2, 6, 1, 'dict', 'ep:collection', 'system/dict/index', 'SystemDictType', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1071, '字典查询', 'system:dict:query', 3, 1, 107, '#', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1072, '字典新增', 'system:dict:create', 3, 2, 107, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1073, '字典修改', 'system:dict:update', 3, 3, 107, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1074, '字典删除', 'system:dict:delete', 3, 4, 107, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1075, '字典导出', 'system:dict:export', 3, 5, 107, '#', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108, '消息中心', '', 1, 7, 1, 'messages', 'ep:chat-dot-round', '', '', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1081, '短信管理', '', 1, 1, 108, 'sms', 'ep:message', NULL, NULL, 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10811, '短信渠道', '', 2, 0, 1081, 'sms-channel', 'fa:stack-exchange', 'system/sms/channel/index', 'SystemSmsChannel', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108111, '短信渠道查询', 'system:sms-channel:query', 3, 1, 10811, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108112, '短信渠道创建', 'system:sms-channel:create', 3, 2, 10811, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108113, '短信渠道更新', 'system:sms-channel:update', 3, 3, 10811, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108114, '短信渠道删除', 'system:sms-channel:delete', 3, 4, 10811, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10812, '短信模板', '', 2, 1, 1081, 'sms-template', 'ep:connection', 'system/sms/template/index', 'SystemSmsTemplate', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108121, '短信模板查询', 'system:sms-template:query', 3, 1, 10812, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108122, '短信模板创建', 'system:sms-template:create', 3, 2, 10812, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108123, '短信模板更新', 'system:sms-template:update', 3, 3, 10812, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108124, '短信模板删除', 'system:sms-template:delete', 3, 4, 10812, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108125, '短信模板导出', 'system:sms-template:export', 3, 5, 10812, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108126, '发送测试短信', 'system:sms-template:send-sms', 3, 6, 10812, '', '', '', NULL, 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10811, '短信日志', '', 2, 2, 1081, 'sms-log', 'fa:edit', 'system/sms/log/index', 'SystemSmsLog', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108111, '短信日志查询', 'system:sms-log:query', 3, 1, 10811, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108112, '短信日志导出', 'system:sms-log:export', 3, 5, 10811, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1082, '邮箱管理', '', 2, 2, 108, 'mail', 'fa-solid:mail-bulk', NULL, NULL, 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10821, '邮箱账号', '', 2, 0, 1082, 'mail-account', 'fa:universal-access', 'system/mail/account/index', 'SystemMailAccount', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108211, '账号查询', 'system:mail-account:query', 3, 1, 10821, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108212, '账号创建', 'system:mail-account:create', 3, 2, 10821, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108213, '账号更新', 'system:mail-account:update', 3, 3, 10821, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108214, '账号删除', 'system:mail-account:delete', 3, 4, 10821, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10822, '邮件模版', '', 2, 0, 1082, 'mail-template', 'fa:tag', 'system/mail/template/index', 'SystemMailTemplate', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108221, '模版查询', 'system:mail-template:query', 3, 1, 10822, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108222, '模版创建', 'system:mail-template:create', 3, 2, 10822, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108223, '模版更新', 'system:mail-template:update', 3, 3, 10822, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108224, '模版删除', 'system:mail-template:delete', 3, 4, 10822, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108225, '发送测试邮件', 'system:mail-template:send-mail', 3, 5, 10822, '', '', '', NULL, 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10823, '邮件记录', '', 2, 0, 1082, 'mail-log', 'fa:edit', 'system/mail/log/index', 'SystemMailLog', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108231, '日志查询', 'system:mail-log:query', 3, 1, 10823, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1083, '站内信管理', '', 1, 3, 108, 'notify', 'ep:message-box', NULL, NULL, 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10831, '模板管理', '', 2, 0, 1083, 'notify-template', 'fa:archive', 'system/notify/template/index', 'SystemNotifyTemplate', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108311, '站内信模板查询', 'system:notify-template:query', 3, 1, 10831, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108312, '站内信模板创建', 'system:notify-template:create', 3, 2, 10831, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108313, '站内信模板更新', 'system:notify-template:update', 3, 3, 10831, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108314, '站内信模板删除', 'system:notify-template:delete', 3, 4, 10831, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108315, '发送测试站内信', 'system:notify-template:send-notify', 3, 5, 10831, '', '', '', NULL, 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10832, '消息记录', '', 2, 0, 1083, 'notify-message', 'fa:edit', 'system/notify/message/index', 'SystemNotifyMessage', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (108321, '站内信消息查询', 'system:notify-message:query', 3, 1, 10832, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1084, '通知公告', '', 2, 4, 108, 'notice', 'ep:takeaway-box', 'system/notice/index', 'SystemNotice', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10841, '公告查询', 'system:notice:query', 3, 1, 1084, '#', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10842, '公告新增', 'system:notice:create', 3, 2, 1084, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10843, '公告修改', 'system:notice:update', 3, 3, 1084, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10844, '公告删除', 'system:notice:delete', 3, 4, 1084, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (109, '审计日志', '', 1, 9, 1, 'log', 'ep:document-copy', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1091, '操作日志', '', 2, 1, 109, 'operate-log', 'ep:position', 'system/operatelog/index', 'SystemOperateLog', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10911, '操作查询', 'system:operate-log:query', 3, 1, 1091, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10912, '日志导出', 'system:operate-log:export', 3, 2, 1091, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1092, '登录日志', '', 2, 2, 109, 'login-log', 'ep:promotion', 'system/loginlog/index', 'SystemLoginLog', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10921, '登录查询', 'system:login-log:query', 3, 1, 1092, '#', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (10922, '日志导出', 'system:login-log:export', 3, 3, 1092, '#', '#', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (110, 'OAuth 2.0', '', 2, 10, 1, 'oauth2', 'fa:dashcube', NULL, NULL, 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1101, '应用管理', '', 2, 0, 110, 'oauth2/application', 'fa:hdd-o', 'system/oauth2/client/index', 'SystemOAuth2Client', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (11011, '客户端查询', 'system:oauth2-client:query', 3, 1, 1101, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (11012, '客户端创建', 'system:oauth2-client:create', 3, 2, 1101, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (11013, '客户端更新', 'system:oauth2-client:update', 3, 3, 1101, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (11014, '客户端删除', 'system:oauth2-client:delete', 3, 4, 1101, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1102, '令牌管理', '', 2, 2, 110, 'token', 'fa:key', 'system/oauth2/token/index', 'SystemTokenClient', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (11021, '令牌列表', 'system:oauth2-token:page', 3, 1, 1102, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (11022, '令牌删除', 'system:oauth2-token:delete', 3, 2, 1102, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (111, '三方登录', '', 1, 10, 1, 'social', 'fa:rocket', '', '', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1111, '三方应用', '', 2, 1, 111, 'client', 'ep:set-up', 'system/social/client/index.vue', 'SocialClient', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (11111, '三方应用查询', 'system:social-client:query', 3, 1, 1111, '', '', '', '', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (11112, '三方应用创建', 'system:social-client:create', 3, 2, 1111, '', '', '', '', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (11113, '三方应用更新', 'system:social-client:update', 3, 3, 1111, '', '', '', '', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (11114, '三方应用删除', 'system:social-client:delete', 3, 4, 1111, '', '', '', '', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (1112, '三方用户', 'system:social-user:query', 2, 2, 111, 'user', 'ep:avatar', 'system/social/user/index.vue', 'SocialUser', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (112, '地区管理', '', 2, 14, 1, 'area', 'fa:map-marker', 'system/area/index', 'SystemArea', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2, '基础设施', '', 1, 20, 0, '/infra', 'ep:monitor', NULL, NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (201, '数据源配置', '', 2, 1, 2, 'data-source-config', 'ep:data-analysis', 'infra/dataSourceConfig/index', 'InfraDataSourceConfig', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2011, '数据源配置查询', 'infra:data-source-config:query', 3, 1, 201, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2012, '数据源配置创建', 'infra:data-source-config:create', 3, 2, 201, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2013, '数据源配置更新', 'infra:data-source-config:update', 3, 3, 201, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2014, '数据源配置删除', 'infra:data-source-config:delete', 3, 4, 201, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2015, '数据源配置导出', 'infra:data-source-config:export', 3, 5, 201, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (202, 'API 接口', 'infra:swagger:list', 2, 3, 2, 'swagger', 'fa:fighter-jet', 'infra/swagger/index', 'InfraSwagger', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (203, 'API 日志', '', 2, 4, 2, 'log', 'fa:tasks', NULL, NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2031, '访问日志', '', 2, 1, 203, 'api-access-log', 'ep:place', 'infra/apiAccessLog/index', 'InfraApiAccessLog', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20311, '日志导出', 'infra:api-access-log:export', 3, 2, 2031, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20312, '日志查询', 'infra:api-access-log:query', 3, 1, 2031, '', '', '', NULL, 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2032, '错误日志', 'infra:api-error-log:query', 2, 2, 203, 'api-error-log', 'ep:warning-filled', 'infra/apiErrorLog/index', 'InfraApiErrorLog', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20321, '日志处理', 'infra:api-error-log:update-status', 3, 2, 2032, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20322, '日志导出', 'infra:api-error-log:export', 3, 3, 2032, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20323, '日志查询', 'infra:api-error-log:query', 3, 1, 2032, '', '', '', NULL, 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (204, 'WebSocket', '', 2, 5, 2, 'websocket', 'ep:connection', 'infra/webSocket/index', 'InfraWebSocket', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (205, '文件管理', '', 2, 6, 2, 'file', 'ep:files', NULL, '', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2051, '文件配置', '', 2, 0, 205, 'file-config', 'fa-solid:file-signature', 'infra/fileConfig/index', 'InfraFileConfig', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20511, '文件配置查询', 'infra:file-config:query', 3, 1, 2051, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20512, '文件配置创建', 'infra:file-config:create', 3, 2, 2051, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20513, '文件配置更新', 'infra:file-config:update', 3, 3, 2051, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20514, '文件配置删除', 'infra:file-config:delete', 3, 4, 2051, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20515, '文件配置导出', 'infra:file-config:export', 3, 5, 2051, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20521, '文件列表', '', 2, 5, 205, 'file', 'ep:upload-filled', 'infra/file/index', 'InfraFile', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20522, '文件查询', 'infra:file:query', 3, 1, 2052, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20523, '文件删除', 'infra:file:delete', 3, 4, 2052, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (206, '定时任务', '', 2, 7, 2, 'job', 'fa-solid:tasks', 'infra/job/index', 'InfraJob', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2061, '任务查询', 'infra:job:query', 3, 1, 206, '', '', '', NULL, 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2062, '任务新增', 'infra:job:create', 3, 2, 206, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2063, '任务修改', 'infra:job:update', 3, 3, 206, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2064, '任务删除', 'infra:job:delete', 3, 4, 206, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2065, '状态修改', 'infra:job:update', 3, 5, 206, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2066, '任务导出', 'infra:job:export', 3, 7, 206, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2067, '任务触发', 'infra:job:trigger', 3, 8, 206, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (207, '配置管理', '', 2, 8, 2, 'config', 'fa:connectdevelop', 'infra/config/index', 'InfraConfig', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2071, '配置查询', 'infra:config:query', 3, 1, 207, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2072, '配置新增', 'infra:config:create', 3, 2, 207, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2073, '配置修改', 'infra:config:update', 3, 3, 207, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2074, '配置删除', 'infra:config:delete', 3, 4, 207, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2075, '配置导出', 'infra:config:export', 3, 5, 207, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (208, '监控中心', '', 1, 10, 2, 'monitors', 'ep:monitor', '', '', 0, b'1', b'1', b'1', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2081, 'MySQL 监控', '', 2, 1, 208, 'druid', 'fa-solid:box', 'infra/druid/index', 'InfraDruid', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2082, 'Redis 监控', '', 2, 2, 208, 'redis', 'fa:reddit-square', 'infra/redis/index', 'InfraRedis', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20821, '获得 Redis 监控信息', 'infra:redis:get-monitor-info', 3, 1, 2082, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (20822, '获得 Redis Key 列表', 'infra:redis:get-key-list', 3, 2, 2082, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2083, 'Java 监控', '', 2, 3, 208, 'admin-server', 'ep:coffee-cup', 'infra/server/index', 'InfraAdminServer', 0, b'1', b'1', b'1', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_menu` VALUES (2084, '链路追踪', '', 2, 4, 208, 'skywalking', 'fa:eye', 'infra/skywalking/index', 'InfraSkyWalking', 0, b'1', b'1', b'1', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:005', b'0');
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="data-20260520-002" author="zhaoff">
+        <comment>初始化字典数据</comment>
+        <sql>
+            <![CDATA[
+            INSERT INTO `system_dict_type` VALUES (1, '用户性别', 'system_user_sex', 0, NULL, 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (101, 1, '男', '1', 'system_user_sex', 0, 'default', 'A', '性别男', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (102, 2, '女', '2', 'system_user_sex', 0, 'success', '', '性别女', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (2, '参数类型', 'infra_config_type', 0, NULL, 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (201, 1, '系统内置', '1', 'infra_config_type', 0, 'danger', '', '参数类型 - 系统内置', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (202, 2, '自定义', '2', 'infra_config_type', 0, 'primary', '', '参数类型 - 自定义', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (3, '通知类型', 'system_notice_type', 0, NULL, 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (301, 1, '通知', '1', 'system_notice_type', 0, 'success', '', '通知', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (302, 2, '公告', '2', 'system_notice_type', 0, 'info', '', '公告', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (4, '操作类型', 'infra_operate_type', 0, NULL, 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (401, 0, '其它', '0', 'infra_operate_type', 0, 'default', '', '其它操作', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (402, 1, '查询', '1', 'infra_operate_type', 0, 'info', '', '查询操作', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (403, 2, '新增', '2', 'infra_operate_type', 0, 'primary', '', '新增操作', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (404, 3, '修改', '3', 'infra_operate_type', 0, 'warning', '', '修改操作', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (405, 4, '删除', '4', 'infra_operate_type', 0, 'danger', '', '删除操作', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (406, 5, '导出', '5', 'infra_operate_type', 0, 'default', '', '导出操作', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (407, 6, '导入', '6', 'infra_operate_type', 0, 'default', '', '导入操作', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (5, '系统状态', 'common_status', 0, NULL, 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (501, 1, '开启', '0', 'common_status', 0, 'primary', '', '开启状态', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (502, 2, '关闭', '1', 'common_status', 0, 'info', '', '关闭状态', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (6, '登陆结果', 'system_login_result', 0, '登陆结果', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (601, 0, '成功', '0', 'system_login_result', 0, 'success', '', '登陆结果 - 成功', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (602, 10, '账号或密码不正确', '10', 'system_login_result', 0, 'primary', '', '登陆结果 - 账号或密码不正确', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (603, 20, '用户被禁用', '20', 'system_login_result', 0, 'warning', '', '登陆结果 - 用户被禁用', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (604, 30, '验证码不存在', '30', 'system_login_result', 0, 'info', '', '登陆结果 - 验证码不存在', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (605, 31, '验证码不正确', '31', 'system_login_result', 0, 'info', '', '登陆结果 - 验证码不正确', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (606, 100, '未知异常', '100', 'system_login_result', 0, 'danger', '', '登陆结果 - 未知异常', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (7, '定时任务状态', 'infra_job_status', 0, NULL, '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (701, 1, '正常', '1', 'infra_job_status', 0, 'success', '', '正常状态', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (702, 2, '暂停', '2', 'infra_job_status', 0, 'danger', '', '停用状态', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (703, 0, '初始化中', '0', 'infra_job_status', 0, 'primary', '', NULL, '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (8, '定时任务日志状态', 'infra_job_log_status', 0, NULL, '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (801, 0, '运行中', '0', 'infra_job_log_status', 0, 'primary', '', 'RUNNING', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (802, 1, '成功', '1', 'infra_job_log_status', 0, 'success', '', NULL, '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (803, 2, '失败', '2', 'infra_job_log_status', 0, 'warning', '', '失败', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (9, '用户类型', 'user_type', 0, NULL, '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (901, 1, '会员', '1', 'user_type', 0, 'primary', '', NULL, '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (902, 2, '管理员', '2', 'user_type', 0, 'success', '', NULL, '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (10, 'API 异常数据的处理状态', 'infra_api_error_log_process_status', 0, NULL, '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (101, 0, '未处理', '0', 'infra_api_error_log_process_status', 0, 'primary', '', NULL, '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (102, 1, '已处理', '1', 'infra_api_error_log_process_status', 0, 'success', '', NULL, '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (103, 2, '已忽略', '2', 'infra_api_error_log_process_status', 0, 'danger', '', NULL, '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (11, '短信渠道编码', 'system_sms_channel_code', 0, NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (111, 1, '阿里云', 'ALIYUN', 'system_sms_channel_code', 0, 'primary', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (112, 0, '调试(钉钉)', 'DEBUG_DING_TALK', 'system_sms_channel_code', 0, 'info', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (113, 2, '腾讯云', 'TENCENT', 'system_sms_channel_code', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (114, 3, '华为云', 'HUAWEI', 'system_sms_channel_code', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (115, 4, '七牛云', 'QINIU', 'system_sms_channel_code', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (12, '短信模板的类型', 'system_sms_template_type', 0, NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (121, 1, '验证码', '1', 'system_sms_template_type', 0, 'warning', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (122, 2, '通知', '2', 'system_sms_template_type', 0, 'primary', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (123, 0, '营销', '3', 'system_sms_template_type', 0, 'danger', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (13, '短信发送状态', 'system_sms_send_status', 0, NULL, '1', '2026-05-01 00:00:00', '1', '22026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (131, 0, '初始化', '0', 'system_sms_send_status', 0, 'primary', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (132, 1, '发送成功', '10', 'system_sms_send_status', 0, 'success', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (133, 2, '发送失败', '20', 'system_sms_send_status', 0, 'danger', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (134, 3, '不发送', '30', 'system_sms_send_status', 0, 'info', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (14, '短信接收状态', 'system_sms_receive_status', 0, NULL, '1', '2026-05-01 00:00:004', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (141, 0, '等待结果', '0', 'system_sms_receive_status', 0, 'primary', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (142, 1, '接收成功', '10', 'system_sms_receive_status', 0, 'success', '', NULL, '1', '2026-05-01 00:00:005', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (143, 2, '接收失败', '20', 'system_sms_receive_status', 0, 'danger', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (15, '登陆日志的类型', 'system_login_type', 0, '登陆日志的类型', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (151, 100, '账号登录', '100', 'system_login_type', 0, 'primary', '', '账号登录', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (152, 101, '社交登录', '101', 'system_login_type', 0, 'info', '', '社交登录', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (153, 200, '主动登出', '200', 'system_login_type', 0, 'primary', '', '主动登出', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (154, 202, '强制登出', '202', 'system_login_type', 0, 'danger', '', '强制退出', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (155, 103, '短信登录', '103', 'system_login_type', 0, 'default', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (16, '角色类型', 'system_role_type', 0, '角色类型', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (161, 1, '内置', '1', 'system_role_type', 0, 'danger', '', '内置角色', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (162, 2, '自定义', '2', 'system_role_type', 0, 'primary', '', '自定义角色', 'admin', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (17, '文件存储器', 'infra_file_storage', 0, '文件存储器', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (171, 1, '数据库', '1', 'infra_file_storage', 0, 'default', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (172, 10, '本地磁盘', '10', 'infra_file_storage', 0, 'default', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (173, 11, 'FTP 服务器', '11', 'infra_file_storage', 0, 'default', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (174, 12, 'SFTP 服务器', '12', 'infra_file_storage', 0, 'default', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (175, 20, 'S3 对象存储', '20', 'infra_file_storage', 0, 'default', '', NULL, '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (18, 'OAuth 2.0 授权类型', 'system_oauth2_grant_type', 0, 'OAuth 2.0 授权类型（模式）', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (1156, 1, 'password', 'password', 'system_oauth2_grant_type', 0, 'default', '', '密码模式', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (1157, 2, 'authorization_code', 'authorization_code', 'system_oauth2_grant_type', 0, 'primary', '', '授权码模式', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (1158, 3, 'implicit', 'implicit', 'system_oauth2_grant_type', 0, 'success', '', '简化模式', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (1159, 4, 'client_credentials', 'client_credentials', 'system_oauth2_grant_type', 0, 'default', '', '客户端模式', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (1160, 5, 'refresh_token', 'refresh_token', 'system_oauth2_grant_type', 0, 'info', '', '刷新模式', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (19, '终端', 'terminal', 0, '终端', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (191, 10, '微信小程序', '10', 'terminal', 0, 'default', '', '终端 - 微信小程序', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (192, 20, 'H5 网页', '20', 'terminal', 0, 'default', '', '终端 - H5 网页', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (193, 11, '微信公众号', '11', 'terminal', 0, 'default', '', '终端 - 微信公众号', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (194, 31, '苹果 App', '31', 'terminal', 0, 'default', '', '终端 - 苹果 App', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (195, 32, '安卓 App', '32', 'terminal', 0, 'default', '', '终端 - 安卓 App', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (20, '邮件发送状态', 'system_mail_send_status', 0, '邮件发送状态', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (201, 0, '初始化', '0', 'system_mail_send_status', 0, 'primary', '', '邮件发送状态 - 初始化\n', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (202, 10, '发送成功', '10', 'system_mail_send_status', 0, 'success', '', '邮件发送状态 - 发送成功', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (203, 20, '发送失败', '20', 'system_mail_send_status', 0, 'danger', '', '邮件发送状态 - 发送失败', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (204, 30, '不发送', '30', 'system_mail_send_status', 0, 'info', '', '邮件发送状态 -  不发送', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (21, '站内信模版的类型', 'system_notify_template_type', 0, '站内信模版的类型', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (211, 1, '通知公告', '1', 'system_notify_template_type', 0, 'primary', '', '站内信模版的类型 - 通知公告', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (212, 2, '系统消息', '2', 'system_notify_template_type', 0, 'success', '', '站内信模版的类型 - 系统消息', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (22, '社交类型', 'system_social_type', 0, '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (221, 10, 'Gitee', '10', 'system_social_type', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (222, 20, '钉钉', '20', 'system_social_type', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (223, 30, '企业微信', '30', 'system_social_type', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (224, 31, '微信公众平台', '31', 'system_social_type', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (225, 32, '微信开放平台', '32', 'system_social_type', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (226, 34, '微信小程序', '34', 'system_social_type', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (227, 40, '支付宝小程序', '40', 'system_social_type', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (23, '时间间隔', 'date_interval', 0, '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (231, 1, '天', '1', 'date_interval', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (232, 2, '周', '2', 'date_interval', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (233, 3, '月', '3', 'date_interval', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (234, 4, '季度', '4', 'date_interval', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (235, 5, '年', '5', 'date_interval', 0, '', '', '', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_type` VALUES (24, 'Boolean 是否类型', 'infra_boolean_string', 0, 'boolean 转是否', '', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0', NULL);
+            INSERT INTO `system_dict_data` VALUES (241, 1, '是', 'true', 'infra_boolean_string', 0, 'danger', '', 'Boolean 是否类型 - 是', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (242, 1, '否', 'false', 'infra_boolean_string', 0, 'info', '', 'Boolean 是否类型 - 否', '', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+
+            INSERT INTO `system_dict_data` VALUES (1, 1, '目录', '1', 'system_menu_type', 0, '', '', '目录', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (2, 2, '菜单', '2', 'system_menu_type', 0, '', '', '菜单', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (3, 3, '按钮', '3', 'system_menu_type', 0, '', '', '按钮', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (4, 1, '全部数据权限', '1', 'system_data_scope', 0, '', '', '全部数据权限', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (5, 2, '指定部门数据权限', '2', 'system_data_scope', 0, '', '', '指定部门数据权限', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (6, 3, '本部门数据权限', '3', 'system_data_scope', 0, '', '', '本部门数据权限', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (7, 4, '本部门及以下数据权限', '4', 'system_data_scope', 0, '', '', '本部门及以下数据权限', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            INSERT INTO `system_dict_data` VALUES (8, 5, '仅本人数据权限', '5', 'system_data_scope', 0, '', '', '仅本人数据权限', 'admin', '2026-05-01 00:00:00', '', '2026-05-01 00:00:00', b'0');
+            ]]>
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
