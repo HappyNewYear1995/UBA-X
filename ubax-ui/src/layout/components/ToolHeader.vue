@@ -100,6 +100,9 @@ export default defineComponent({
 $prefix-cls: #{$namespace}-tool-header;
 
 .#{$prefix-cls} {
-  transition: left var(--transition-time-02);
+  transition: left var(--transition-time-03) var(--transition-cubic);
+  box-shadow: var(--top-header-shadow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 </style>

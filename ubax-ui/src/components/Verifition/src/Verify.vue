@@ -150,12 +150,9 @@ export default {
 <style>
 .verifybox {
   position: relative;
-  top: 50%;
-  left: 50%;
   background-color: #fff;
   border: 1px solid #e4e7eb;
   border-radius: 5px;
-  transform: translate(-50%, -50%);
   box-shadow: 0 0 10px rgb(0 0 0 / 30%);
   box-sizing: border-box;
 }
@@ -190,10 +187,13 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1001;
-  width: 100%;
+  z-index: 10001;
+  width: 100vw;
   height: 100vh;
-  background: rgb(0 0 0 / 30%);
+  background: rgb(0 0 0 / 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   /* display: none; */
   transition: all 0.5s;

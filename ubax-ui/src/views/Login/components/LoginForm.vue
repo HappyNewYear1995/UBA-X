@@ -15,17 +15,7 @@
           <LoginFormTitle class="w-full" />
         </el-form-item>
       </el-col>
-      <el-col :span="24" class="px-10px">
-        <el-form-item v-if="loginData.tenantEnable === 'true'" prop="tenantName">
-          <el-input
-            v-model="loginData.loginForm.tenantName"
-            :placeholder="t('login.tenantNamePlaceholder')"
-            :prefix-icon="iconHouse"
-            link
-            type="primary"
-          />
-        </el-form-item>
-      </el-col>
+      <!-- 租户输入框已隐藏，租户值由系统自动设置 -->
       <el-col :span="24" class="px-10px">
         <el-form-item prop="username">
           <el-input
@@ -78,42 +68,28 @@
           />
         </el-form-item>
       </el-col>
-      <Verify
-        v-if="loginData.captchaEnable === 'true'"
-        ref="verify"
-        :captchaType="captchaType"
-        :imgSize="{ width: '400px', height: '200px' }"
-        mode="pop"
-        @success="handleLogin"
-      />
+      <Teleport to="body">
+        <Verify
+          v-if="loginData.captchaEnable === 'true'"
+          ref="verify"
+          :captchaType="captchaType"
+          :imgSize="{ width: '400px', height: '200px' }"
+          mode="pop"
+          @success="handleLogin"
+        />
+      </Teleport>
       <el-col :span="24" class="px-10px">
         <el-form-item>
-          <el-row :gutter="5" justify="space-between" style="width: 100%">
-            <el-col :span="8">
-              <XButton
-                :title="t('login.btnMobile')"
-                class="w-full"
-                @click="setLoginState(LoginStateEnum.MOBILE)"
-              />
-            </el-col>
-            <el-col :span="8">
-              <XButton
-                :title="t('login.btnQRCode')"
-                class="w-full"
-                @click="setLoginState(LoginStateEnum.QR_CODE)"
-              />
-            </el-col>
-            <el-col :span="8">
-              <XButton
-                :title="t('login.btnRegister')"
-                class="w-full"
-                @click="setLoginState(LoginStateEnum.REGISTER)"
-              />
-            </el-col>
-          </el-row>
+          <XButton
+            :title="t('login.btnMobile')"
+            class="w-full"
+            @click="setLoginState(LoginStateEnum.MOBILE)"
+          />
         </el-form-item>
       </el-col>
-      <el-divider content-position="center">{{ t('login.otherLogin') }}</el-divider>
+      <div class="other-login-divider">
+        <span>{{ t('login.otherLogin') }}</span>
+      </div>
       <el-col :span="24" class="px-10px">
         <el-form-item>
           <div class="w-full flex justify-between">
@@ -279,21 +255,8 @@ const doSocialLogin = async (type: number) => {
   } else {
     loginLoading.value = true
     if (loginData.tenantEnable === 'true') {
-      // 尝试先通过 tenantName 获取租户
+      // 自动读取系统配置的租户
       await getTenantId()
-      // 如果获取不到，则需要弹出提示，进行处理
-      if (!authUtil.getTenantId()) {
-        try {
-          const data = await message.prompt('请输入租户名称', t('common.reminder'))
-          if (data?.action !== 'confirm') throw 'cancel'
-          const res = await LoginApi.getTenantIdByName(data.value)
-          authUtil.setTenantId(res)
-        } catch (error) {
-          if (error === 'cancel') return
-        } finally {
-          loginLoading.value = false
-        }
-      }
     }
     // 计算 redirectUri
     // 注意: type、redirect 需要先 encode 一次，否则钉钉回调会丢失。
@@ -340,6 +303,40 @@ onMounted(() => {
     max-width: 100px;
     vertical-align: middle;
     cursor: pointer;
+  }
+}
+
+// 其他登录方式分割线
+.other-login-divider {
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+  width: 100%;
+
+  &::before,
+  &::after {
+    flex: 1;
+    content: '';
+    height: 1px;
+    background-color: var(--border-color-light);
+  }
+
+  span {
+    padding: 0 16px;
+    white-space: nowrap;
+    font-size: 13px;
+    color: var(--el-text-color-placeholder);
+  }
+}
+
+.dark .other-login-divider {
+  &::before,
+  &::after {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  span {
+    color: rgba(255, 255, 255, 0.5);
   }
 }
 </style>

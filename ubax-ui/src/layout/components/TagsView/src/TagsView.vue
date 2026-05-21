@@ -503,6 +503,8 @@ watch(
 $prefix-cls: #{$namespace}-tags-view;
 
 .#{$prefix-cls} {
+  background: var(--tags-view-bg) !important;
+
   :deep(.#{$elNamespace}-scrollbar__view) {
     height: 100%;
   }
@@ -516,7 +518,7 @@ $prefix-cls: #{$namespace}-tags-view;
       left: 0;
       width: 100%;
       height: 100%;
-      border-left: 1px solid var(--el-border-color);
+      border-left: 1px solid var(--tags-view-border-color);
       content: '';
     }
 
@@ -527,7 +529,7 @@ $prefix-cls: #{$namespace}-tags-view;
         left: 0;
         width: 100%;
         height: 100%;
-        border-right: 1px solid var(--el-border-color);
+        border-right: 1px solid var(--tags-view-border-color);
         border-left: none;
         content: '';
       }
@@ -540,11 +542,15 @@ $prefix-cls: #{$namespace}-tags-view;
     height: calc(100% - 6px);
     padding-right: 15px;
     margin-left: 4px;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-    border: 1px solid #d9d9d9;
-    border-radius: 2px;
+    border: 1px solid var(--tags-view-border-color);
+    border-radius: var(--radius-md);
     box-sizing: border-box;
+    background: transparent;
+    color: var(--tags-view-text-color);
+    transition: all var(--transition-time-02) var(--transition-cubic);
 
     &--close {
       position: absolute;
@@ -558,6 +564,9 @@ $prefix-cls: #{$namespace}-tags-view;
       .#{$prefix-cls}__item--close {
         display: block;
       }
+      background: var(--tags-view-hover-bg);
+      color: var(--el-color-primary);
+      border-color: var(--el-color-primary);
     }
   }
 
@@ -565,20 +574,15 @@ $prefix-cls: #{$namespace}-tags-view;
     padding-right: 20px;
   }
 
-  &__item:not(.is-active) {
-    &:hover {
-      color: var(--el-color-primary);
-    }
-  }
-
   &__item.is-active {
-    color: var(--el-color-white);
-    background-color: var(--el-color-primary);
-    border: 1px solid var(--el-color-primary);
+    color: var(--tags-view-active-text-color);
+    background: var(--tags-view-active-bg);
+    border: 1px solid transparent;
+    box-shadow: var(--shadow-glow);
 
     .#{$prefix-cls}__item--close {
       :deep(span) {
-        color: var(--el-color-white) !important;
+        color: var(--tags-view-active-text-color) !important;
       }
     }
   }
@@ -607,12 +611,12 @@ $prefix-cls: #{$namespace}-tags-view;
 
   &__item--immerse:not(.is-active) {
     &:hover {
-      color: var(--el-color-white);
+      color: var(--tags-view-active-text-color);
       background-color: var(--el-color-primary);
 
       .#{$prefix-cls}__item--close {
         :deep(span) {
-          color: var(--el-color-white) !important;
+          color: var(--tags-view-active-text-color) !important;
         }
       }
     }
@@ -630,7 +634,7 @@ $prefix-cls: #{$namespace}-tags-view;
     }
 
     &__item {
-      border: 1px solid var(--el-border-color);
+      border: 1px solid var(--tags-view-border-color);
     }
 
     &__item:not(.is-active) {
@@ -640,20 +644,20 @@ $prefix-cls: #{$namespace}-tags-view;
     }
 
     &__item.is-active {
-      color: var(--el-color-white);
-      background-color: var(--el-color-primary);
-      border: 1px solid var(--el-color-primary);
+      color: var(--tags-view-active-text-color);
+      background: var(--tags-view-active-bg);
+      border: 1px solid transparent;
 
       .#{$prefix-cls}__item--close {
         :deep(span) {
-          color: var(--el-color-white) !important;
+          color: var(--tags-view-active-text-color) !important;
         }
       }
     }
 
     &__item--immerse:not(.is-active) {
       &:hover {
-        color: var(--el-color-white);
+        color: var(--tags-view-active-text-color);
       }
     }
   }

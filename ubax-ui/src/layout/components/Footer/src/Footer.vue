@@ -20,8 +20,16 @@ const currentYear = computed(() => new Date().getFullYear())
 <template>
   <div
     :class="prefixCls"
-    class="h-[var(--app-footer-height)] bg-[var(--app-content-bg-color)] text-center leading-[var(--app-footer-height)] text-[var(--el-text-color-placeholder)] dark:bg-[var(--el-bg-color)] overflow-hidden"
+    class="h-[var(--app-footer-height)] bg-[var(--app-content-bg-color)] text-center leading-[var(--app-footer-height)] text-[var(--el-text-color-placeholder)] dark:bg-[var(--el-bg-color)] overflow-hidden transition-all duration-300"
   >
-    <span class="text-14px">Copyright ©{{ currentYear }} {{ title }}</span>
+    <span class="text-13px font-500">Copyright ©{{ currentYear }} 杭州欢年科技有限公司</span>
   </div>
 </template>
+
+<style lang="scss" scoped>
+$prefix-cls: #{$namespace}-footer;
+
+.#{$prefix-cls} {
+  border-top: 1px solid var(--border-color-light);
+}
+</style>

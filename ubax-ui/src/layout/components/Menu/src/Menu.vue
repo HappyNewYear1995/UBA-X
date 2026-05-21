@@ -131,11 +131,27 @@ $prefix-cls: #{$namespace}-menu;
 
 .#{$prefix-cls} {
   position: relative;
-  transition: width var(--transition-time-02);
+  transition: width var(--transition-time-03) var(--transition-cubic);
+  box-shadow: var(--left-menu-glow);
 
   :deep(.#{$elNamespace}-menu) {
     width: 100% !important;
-    border-right: none;
+    border-right: none !important;
+
+    // 菜单项基础样式
+    .#{$elNamespace}-sub-menu__title,
+    .#{$elNamespace}-menu-item {
+      border-radius: var(--radius-md) !important;
+      margin: 4px 8px !important;
+      font-weight: 600 !important;
+      font-size: 15px !important;
+      transition: all var(--transition-time-02) var(--transition-cubic) !important;
+
+      &:hover {
+        color: var(--left-menu-text-active-color) !important;
+        background-color: var(--left-menu-hover-bg-color) !important;
+      }
+    }
 
     // 设置选中时子标题的颜色
     .is-active {
@@ -149,17 +165,18 @@ $prefix-cls: #{$namespace}-menu;
     .#{$elNamespace}-menu-item {
       &:hover {
         color: var(--left-menu-text-active-color) !important;
-        background-color: var(--left-menu-bg-color) !important;
+        background-color: var(--left-menu-hover-bg-color) !important;
       }
     }
 
     // 设置选中时的高亮背景和高亮颜色
     .#{$elNamespace}-menu-item.is-active {
       color: var(--left-menu-text-active-color) !important;
-      background-color: var(--left-menu-bg-active-color) !important;
+      background: var(--primary-gradient) !important;
+      box-shadow: var(--shadow-glow) !important;
 
       &:hover {
-        background-color: var(--left-menu-bg-active-color) !important;
+        background: var(--primary-gradient) !important;
       }
     }
 
@@ -174,6 +191,17 @@ $prefix-cls: #{$namespace}-menu;
         background-color: var(--left-menu-bg-light-color) !important;
       }
     }
+
+    // 菜单图标样式
+    .#{$elNamespace}-menu-item .#{$elNamespace}-icon,
+    .#{$elNamespace}-sub-menu__title .#{$elNamespace}-icon {
+      transition: transform var(--transition-time-02) var(--transition-cubic);
+    }
+
+    .#{$elNamespace}-menu-item:hover .#{$elNamespace}-icon,
+    .#{$elNamespace}-sub-menu__title:hover .#{$elNamespace}-icon {
+      transform: scale(1.1);
+    }
   }
 
   // 折叠时的最小宽度
@@ -183,13 +211,12 @@ $prefix-cls: #{$namespace}-menu;
     & > .is-active,
     & > .is-active > .#{$elNamespace}-sub-menu__title {
       position: relative;
-      background-color: var(--left-menu-collapse-bg-active-color) !important;
+      background: var(--primary-gradient) !important;
     }
   }
 
   // 折叠动画的时候，就需要把文字给隐藏掉
   :deep(.horizontal-collapse-transition) {
-    // transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out !important;
     .#{$prefix-cls}__title {
       display: none;
     }
@@ -255,17 +282,18 @@ $prefix-cls: #{$namespace}-menu-popper;
   .el-menu-item {
     &:hover {
       color: var(--left-menu-text-active-color) !important;
-      background-color: var(--left-menu-bg-color) !important;
+      background-color: var(--left-menu-hover-bg-color) !important;
     }
   }
 
   // 设置选中时的高亮背景
   .el-menu-item.is-active {
     position: relative;
-    background-color: var(--left-menu-bg-active-color) !important;
+    background: var(--primary-gradient) !important;
+    box-shadow: var(--shadow-glow) !important;
 
     &:hover {
-      background-color: var(--left-menu-bg-active-color) !important;
+      background: var(--primary-gradient) !important;
     }
   }
 }

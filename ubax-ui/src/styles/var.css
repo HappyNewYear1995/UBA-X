@@ -1,68 +1,185 @@
 :root {
-    --login-bg-color: #293146;
+    /* ===== 登录页面 ===== */
+    --login-bg-color: #0a0e27;
+    --login-bg-gradient-1: #0a0e27;
+    --login-bg-gradient-2: #1a1f4d;
+    --login-bg-gradient-3: #0d1235;
 
-    --left-menu-max-width: 200px;
-
+    /* ===== 左侧菜单 - 高级深色主题 ===== */
+    --left-menu-max-width: 240px;
     --left-menu-min-width: 64px;
 
-    --left-menu-bg-color: #001529;
-
-    --left-menu-bg-light-color: #0f2438;
-
+    /* 主背景：深邃蓝黑 */
+    --left-menu-bg-color: #0a0e1a;
+    /* 子菜单背景：略浅一层 */
+    --left-menu-bg-light-color: #0f1425;
+    /* 激活态：主题色 */
     --left-menu-bg-active-color: var(--el-color-primary);
-
-    --left-menu-text-color: #bfcbd9;
-
-    --left-menu-text-active-color: #fff;
-
+    /* 文字颜色：银灰 */
+    --left-menu-text-color: #8b92a8;
+    /* 激活文字：纯白 */
+    --left-menu-text-active-color: #ffffff;
+    /* 折叠时激活背景 */
     --left-menu-collapse-bg-active-color: var(--el-color-primary);
+    /* 菜单项悬停效果 */
+    --left-menu-hover-bg-color: rgba(255, 255, 255, 0.04);
+    /* 菜单项边框分隔 */
+    --left-menu-border-color: rgba(255, 255, 255, 0.06);
+    /* 菜单发光效果 */
+    --left-menu-glow: 0 0 30px rgba(0, 0, 0, 0.3);
     /* left menu end */
 
-    /* logo start */
-    --logo-height: 50px;
-
-    --logo-title-text-color: #fff;
+    /* ===== Logo 区域 ===== */
+    --logo-height: 60px;
+    --logo-title-text-color: #ffffff;
+    --logo-bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --logo-border-color: rgba(255, 255, 255, 0.08);
     /* logo end */
 
-    /* header start */
-    --top-header-bg-color: '#fff';
-
-    --top-header-text-color: 'inherit';
-
-    --top-header-hover-color: #f6f6f6;
-
+    /* ===== 顶部导航栏 ===== */
+    --top-header-bg-color: #0a0e1a;
+    --top-header-text-color: #e4e7f1;
+    --top-header-hover-color: rgba(255, 255, 255, 0.06);
     --top-tool-height: var(--logo-height);
-
     --top-tool-p-x: 0;
+    --top-header-border-color: rgba(255, 255, 255, 0.06);
+    --top-header-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    /* header end */
 
-    --tags-view-height: 35px;
-    /* header start */
+    /* ===== 标签页 ===== */
+    --tags-view-height: 40px;
+    --tags-view-bg: #0a0e1a;
+    --tags-view-border-color: rgba(255, 255, 255, 0.06);
+    --tags-view-text-color: #8b92a8;
+    --tags-view-active-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --tags-view-active-text-color: #ffffff;
+    --tags-view-hover-bg: rgba(255, 255, 255, 0.04);
+    /* tags view end */
 
-    /* tab menu start */
+    /* ===== Tab Menu ===== */
     --tab-menu-max-width: 80px;
-
     --tab-menu-min-width: 30px;
-
     --tab-menu-collapse-height: 36px;
     /* tab menu end */
 
+    /* ===== 内容区域 ===== */
     --app-content-padding: 20px;
-
-    --app-content-bg-color: #f5f7f9;
+    --app-content-bg-color: #0d1120;
+    --app-content-card-bg: #111628;
+    --app-content-card-border: rgba(255, 255, 255, 0.06);
+    --app-content-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+    --app-content-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.35);
 
     --app-footer-height: 50px;
 
+    /* ===== 过渡动画 ===== */
     --transition-time-02: 0.2s;
+    --transition-time-03: 0.3s;
+    --transition-time-04: 0.4s;
+    --transition-cubic: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* ===== 全局高级配色 ===== */
+    /* 主色调渐变 */
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --primary-gradient-hover: linear-gradient(135deg, #7c8ff8 0%, #8a5db8 100%);
+
+    /* 辅助色 */
+    --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    --warning-gradient: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+    --danger-gradient: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+    --info-gradient: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+
+    /* 高级阴影系统 */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.3);
+    --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
+    --shadow-glow-lg: 0 0 40px rgba(102, 126, 234, 0.4);
+
+    /* 玻璃态效果 */
+    --glass-bg: rgba(17, 22, 40, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-backdrop: blur(12px);
+
+    /* 边框系统 */
+    --border-color-light: rgba(255, 255, 255, 0.06);
+    --border-color-medium: rgba(255, 255, 255, 0.1);
+    --border-color-strong: rgba(255, 255, 255, 0.15);
+
+    /* 圆角系统 */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+
+    /* 文字渐变 */
+    --text-gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --text-gradient-gold: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
 }
 
+/* ===== 深色模式增强 ===== */
 .dark {
-    --app-content-bg-color: var(--el-bg-color);
+    --app-content-bg-color: #0d1120;
+    --app-content-card-bg: #111628;
+    --top-header-bg-color: #0a0e1a;
+    --left-menu-bg-color: #0a0e1a;
 }
 
+/* ===== 浅色模式 ===== */
+.light {
+    --login-bg-color: #f5f7fa;
+    --login-bg-gradient-1: #f5f7fa;
+    --login-bg-gradient-2: #e8ecf1;
+    --login-bg-gradient-3: #f0f2f5;
+
+    --left-menu-bg-color: #ffffff;
+    --left-menu-bg-light-color: #f8f9fc;
+    --left-menu-text-color: #5a6178;
+    --left-menu-text-active-color: #ffffff;
+    --left-menu-hover-bg-color: rgba(102, 126, 234, 0.08);
+    --left-menu-border-color: rgba(0, 0, 0, 0.06);
+    --left-menu-glow: 0 0 30px rgba(0, 0, 0, 0.08);
+
+    --logo-title-text-color: #1a1f4d;
+    --logo-border-color: rgba(0, 0, 0, 0.06);
+
+    --top-header-bg-color: #ffffff;
+    --top-header-text-color: #1a1f4d;
+    --top-header-hover-color: rgba(102, 126, 234, 0.08);
+    --top-header-border-color: rgba(0, 0, 0, 0.06);
+    --top-header-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+    --tags-view-bg: #ffffff;
+    --tags-view-border-color: rgba(0, 0, 0, 0.06);
+    --tags-view-text-color: #5a6178;
+    --tags-view-hover-bg: rgba(102, 126, 234, 0.08);
+
+    --app-content-bg-color: #f5f7fa;
+    --app-content-card-bg: #ffffff;
+    --app-content-card-border: rgba(0, 0, 0, 0.06);
+    --app-content-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    --app-content-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.06);
+
+    --border-color-light: rgba(0, 0, 0, 0.06);
+    --border-color-medium: rgba(0, 0, 0, 0.1);
+    --border-color-strong: rgba(0, 0, 0, 0.15);
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== 全局基础样式 ===== */
 html,
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 *,
@@ -71,4 +188,166 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+/* ===== 滚动条美化 ===== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.light ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* ===== 全局动画 ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+    }
+}
+
+/* ===== 工具类 ===== */
+.animate-fade-in {
+    animation: fadeIn 0.4s var(--transition-cubic);
+}
+
+.animate-slide-up {
+    animation: slideUp 0.4s var(--transition-cubic);
+}
+
+.animate-slide-down {
+    animation: slideDown 0.4s var(--transition-cubic);
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.3s var(--transition-cubic);
+}
+
+/* 玻璃态卡片 */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    -webkit-backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+}
+
+/* 渐变文字 */
+.text-gradient-primary {
+    background: var(--text-gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-gradient-gold {
+    background: var(--text-gradient-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 高级卡片样式 */
+.premium-card {
+    background: var(--app-content-card-bg);
+    border: 1px solid var(--app-content-card-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-time-03) var(--transition-cubic);
+}
+
+.premium-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
 }

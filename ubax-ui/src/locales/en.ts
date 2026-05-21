@@ -114,7 +114,7 @@ export default {
   },
   login: {
     welcome: 'Welcome to the system',
-    message: 'Backstage management system',
+    message: 'Intelligent User Behaviour Analysis Platform',
     tenantname: 'TenantName',
     username: 'Username',
     password: 'Password',

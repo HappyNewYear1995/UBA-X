@@ -62,24 +62,28 @@ watch(
       :class="[
         prefixCls,
         layout !== 'classic' ? `${prefixCls}__Top` : '',
-        'flex !h-[var(--logo-height)] items-center cursor-pointer pl-8px relative decoration-none overflow-hidden'
+        'flex !h-[var(--logo-height)] items-center cursor-pointer pl-8px relative decoration-none overflow-hidden transition-all duration-300'
       ]"
       to="/"
+      style="border-bottom: 1px solid var(--logo-border-color);"
     >
-      <img
-        class="h-[calc(var(--logo-height)-10px)] w-[calc(var(--logo-height)-10px)]"
-        src="@/assets/imgs/logo.png"
-      />
+      <div class="flex items-center justify-center h-[calc(var(--logo-height)-10px)] w-[calc(var(--logo-height)-10px)] rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 shadow-lg">
+        <img
+          class="h-[calc(var(--logo-height)-18px)] w-[calc(var(--logo-height)-18px)]"
+          src="@/assets/imgs/logo.png"
+        />
+      </div>
       <div
         v-if="show"
         :class="[
-          'ml-10px text-16px font-700',
+          'ml-10px text-18px font-700 tracking-wide',
           {
             'text-[var(--logo-title-text-color)]': layout === 'classic',
             'text-[var(--top-header-text-color)]':
               layout === 'topLeft' || layout === 'top' || layout === 'cutMenu'
           }
         ]"
+        style="background: var(--logo-bg-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"
       >
         {{ title }}
       </div>

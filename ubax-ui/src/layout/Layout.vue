@@ -71,5 +71,6 @@ $prefix-cls: #{$namespace}-layout;
 
 .#{$prefix-cls} {
   background-color: var(--app-content-bg-color);
+  transition: all var(--transition-time-03) var(--transition-cubic);
 }
 </style>

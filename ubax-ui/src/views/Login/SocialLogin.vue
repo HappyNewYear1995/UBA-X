@@ -19,7 +19,7 @@
             enter-active-class="animate__animated animate__bounceInLeft"
             tag="div"
           >
-            <img key="1" alt="" class="w-350px" src="@/assets/svgs/login-box-bg.svg" />
+            <img key="1" alt="" class="w-350px" src="@/assets/imgs/login-box-bg.png" />
             <div key="2" class="text-3xl text-white">{{ t('login.welcome') }}</div>
             <div key="3" class="mt-5 text-14px font-normal text-white">
               {{ t('login.message') }}
@@ -201,7 +201,7 @@ const loginData = reactive({
   loginForm: {
     tenantName: '欢年科技',
     username: 'admin',
-    password: 'admin123',
+    password: '123456',
     captchaVerification: '',
     rememberMe: false
   }
