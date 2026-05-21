@@ -8,6 +8,58 @@
     <changeSet id="schema-20260518-001" author="zhaoff">
         <comment>Quartz 调度相关表</comment>
         <sql>
+            <![CDATA[
+            CREATE TABLE `QRTZ_JOB_DETAILS`
+            (
+                `SCHED_NAME`        varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                `JOB_NAME`          varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                `JOB_GROUP`         varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                `DESCRIPTION`       varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+                `JOB_CLASS_NAME`    varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                `IS_DURABLE`        varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NOT NULL,
+                `IS_NONCONCURRENT`  varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NOT NULL,
+                `IS_UPDATE_DATA`    varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NOT NULL,
+                `REQUESTS_RECOVERY` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NOT NULL,
+                `JOB_DATA`          blob NULL,
+                PRIMARY KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) USING BTREE,
+                INDEX               `IDX_QRTZ_J_REQ_RECOVERY`(`SCHED_NAME`, `REQUESTS_RECOVERY`) USING BTREE,
+                INDEX               `IDX_QRTZ_J_GRP`(`SCHED_NAME`, `JOB_GROUP`) USING BTREE
+            ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+            CREATE TABLE `QRTZ_TRIGGERS`
+            (
+                `SCHED_NAME`     varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                `TRIGGER_NAME`   varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                `TRIGGER_GROUP`  varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                `JOB_NAME`       varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                `JOB_GROUP`      varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                `DESCRIPTION`    varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+                `NEXT_FIRE_TIME` bigint(20) NULL DEFAULT NULL,
+                `PREV_FIRE_TIME` bigint(20) NULL DEFAULT NULL,
+                `PRIORITY`       int(11) NULL DEFAULT NULL,
+                `TRIGGER_STATE`  varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL,
+                `TRIGGER_TYPE`   varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NOT NULL,
+                `START_TIME`     bigint(20) NOT NULL,
+                `END_TIME`       bigint(20) NULL DEFAULT NULL,
+                `CALENDAR_NAME`  varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+                `MISFIRE_INSTR`  smallint(6) NULL DEFAULT NULL,
+                `JOB_DATA`       blob NULL,
+                PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_J`(`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_JG`(`SCHED_NAME`, `JOB_GROUP`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_C`(`SCHED_NAME`, `CALENDAR_NAME`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_G`(`SCHED_NAME`, `TRIGGER_GROUP`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_STATE`(`SCHED_NAME`, `TRIGGER_STATE`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_N_STATE`(`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `TRIGGER_STATE`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_N_G_STATE`(`SCHED_NAME`, `TRIGGER_GROUP`, `TRIGGER_STATE`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_NEXT_FIRE_TIME`(`SCHED_NAME`, `NEXT_FIRE_TIME`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_NFT_ST`(`SCHED_NAME`, `TRIGGER_STATE`, `NEXT_FIRE_TIME`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_NFT_MISFIRE`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_NFT_ST_MISFIRE`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_STATE`) USING BTREE,
+                INDEX            `IDX_QRTZ_T_NFT_ST_MISFIRE_GRP`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_GROUP`, `TRIGGER_STATE`) USING BTREE,
+                CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) REFERENCES `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
+            ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
             CREATE TABLE `QRTZ_BLOB_TRIGGERS`
             (
                 `SCHED_NAME`    varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -60,23 +112,6 @@
                 INDEX               `IDX_QRTZ_FT_JG`(`SCHED_NAME`, `JOB_GROUP`) USING BTREE,
                 INDEX               `IDX_QRTZ_FT_T_G`(`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
                 INDEX               `IDX_QRTZ_FT_TG`(`SCHED_NAME`, `TRIGGER_GROUP`) USING BTREE
-            ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
-
-            CREATE TABLE `QRTZ_JOB_DETAILS`
-            (
-                `SCHED_NAME`        varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-                `JOB_NAME`          varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-                `JOB_GROUP`         varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-                `DESCRIPTION`       varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-                `JOB_CLASS_NAME`    varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-                `IS_DURABLE`        varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NOT NULL,
-                `IS_NONCONCURRENT`  varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NOT NULL,
-                `IS_UPDATE_DATA`    varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NOT NULL,
-                `REQUESTS_RECOVERY` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NOT NULL,
-                `JOB_DATA`          blob NULL,
-                PRIMARY KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) USING BTREE,
-                INDEX               `IDX_QRTZ_J_REQ_RECOVERY`(`SCHED_NAME`, `REQUESTS_RECOVERY`) USING BTREE,
-                INDEX               `IDX_QRTZ_J_GRP`(`SCHED_NAME`, `JOB_GROUP`) USING BTREE
             ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
             CREATE TABLE `QRTZ_LOCKS`
@@ -133,46 +168,14 @@
                 PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
                 CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `QRTZ_TRIGGERS` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
             ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
-
-            CREATE TABLE `QRTZ_TRIGGERS`
-            (
-                `SCHED_NAME`     varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-                `TRIGGER_NAME`   varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-                `TRIGGER_GROUP`  varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-                `JOB_NAME`       varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-                `JOB_GROUP`      varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-                `DESCRIPTION`    varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-                `NEXT_FIRE_TIME` bigint(20) NULL DEFAULT NULL,
-                `PREV_FIRE_TIME` bigint(20) NULL DEFAULT NULL,
-                `PRIORITY`       int(11) NULL DEFAULT NULL,
-                `TRIGGER_STATE`  varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL,
-                `TRIGGER_TYPE`   varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NOT NULL,
-                `START_TIME`     bigint(20) NOT NULL,
-                `END_TIME`       bigint(20) NULL DEFAULT NULL,
-                `CALENDAR_NAME`  varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-                `MISFIRE_INSTR`  smallint(6) NULL DEFAULT NULL,
-                `JOB_DATA`       blob NULL,
-                PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_J`(`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_JG`(`SCHED_NAME`, `JOB_GROUP`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_C`(`SCHED_NAME`, `CALENDAR_NAME`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_G`(`SCHED_NAME`, `TRIGGER_GROUP`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_STATE`(`SCHED_NAME`, `TRIGGER_STATE`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_N_STATE`(`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `TRIGGER_STATE`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_N_G_STATE`(`SCHED_NAME`, `TRIGGER_GROUP`, `TRIGGER_STATE`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_NEXT_FIRE_TIME`(`SCHED_NAME`, `NEXT_FIRE_TIME`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_NFT_ST`(`SCHED_NAME`, `TRIGGER_STATE`, `NEXT_FIRE_TIME`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_NFT_MISFIRE`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_NFT_ST_MISFIRE`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_STATE`) USING BTREE,
-                INDEX            `IDX_QRTZ_T_NFT_ST_MISFIRE_GRP`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_GROUP`, `TRIGGER_STATE`) USING BTREE,
-                CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) REFERENCES `QRTZ_JOB_DETAILS` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-            ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-002" author="zhaoff">
         <comment>租户相关表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `system_tenant`
             (
                 `id`              bigint(20) NOT NULL AUTO_INCREMENT COMMENT '租户编号',
@@ -207,12 +210,14 @@
                 `deleted`     bit(1)                                                         NOT NULL DEFAULT b'0' COMMENT '是否删除',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 113 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '租户套餐表' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-003" author="zhaoff">
         <comment>用户，角色，菜单表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `system_users`
             (
                 `id`          bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
@@ -309,12 +314,14 @@
                 `tenant_id`   bigint(20) NOT NULL DEFAULT 0 COMMENT '租户编号',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 6293 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-004" author="zhaoff">
         <comment>部门，岗位表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `system_dept`
             (
                 `id`             bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门id',
@@ -364,12 +371,14 @@
                 `tenant_id`   bigint(20) NOT NULL DEFAULT 0 COMMENT '租户编号',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 129 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户岗位表' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-005" author="zhaoff">
         <comment>访问日志表，系统异常日志表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `infra_api_access_log`
             (
                 `id`               bigint(20) NOT NULL AUTO_INCREMENT COMMENT '日志主键',
@@ -433,12 +442,14 @@
                 `tenant_id`                    bigint(20) NOT NULL DEFAULT 0 COMMENT '租户编号',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 23216 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统异常日志' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-006" author="zhaoff">
         <comment>文件相关表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `infra_file`
             (
                 `id`          bigint(20) NOT NULL AUTO_INCREMENT COMMENT '文件编号',
@@ -485,12 +496,14 @@
                 `deleted`     bit(1)                                                        NOT NULL DEFAULT b'0' COMMENT '是否删除',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 286 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '文件表' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-007" author="zhaoff">
         <comment>系统配置表，数据源配置表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `infra_config`
             (
                 `id`          bigint(20) NOT NULL AUTO_INCREMENT COMMENT '参数主键',
@@ -523,13 +536,14 @@
                 `deleted`     bit(1)                                                         NOT NULL DEFAULT b'0' COMMENT '是否删除',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '数据源配置表' ROW_FORMAT = Dynamic;
-
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-008" author="zhaoff">
         <comment>操作日志，登录日志表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `system_operate_log`
             (
                 `id`             bigint(20) NOT NULL AUTO_INCREMENT COMMENT '日志主键',
@@ -574,12 +588,14 @@
                 `tenant_id`   bigint(20) NOT NULL DEFAULT 0 COMMENT '租户编号',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 4083 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-009" author="zhaoff">
         <comment>oauth2相关表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `system_oauth2_access_token`
             (
                 `id`            bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
@@ -683,12 +699,14 @@
                 `tenant_id`     bigint(20) NOT NULL DEFAULT 0 COMMENT '租户编号',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 2253 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'OAuth2 刷新令牌' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-010" author="zhaoff">
         <comment>邮件相关表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `system_mail_account`
             (
                 `id`              bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -754,12 +772,14 @@
                 `deleted`     bit(1)                                                          NOT NULL DEFAULT b'0' COMMENT '是否删除',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '邮件模版表' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-011" author="zhaoff">
         <comment>短信相关表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `system_sms_channel`
             (
                 `id`           bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
@@ -851,12 +871,14 @@
                 `deleted`         bit(1)                                                        NOT NULL DEFAULT b'0' COMMENT '是否删除',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '短信模板' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-012" author="zhaoff">
         <comment>社交用户相关表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `system_social_client`
             (
                 `id`            bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
@@ -913,12 +935,14 @@
                 `tenant_id`      bigint(20) NOT NULL DEFAULT 0 COMMENT '租户编号',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 165 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '社交绑定表' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-013" author="zhaoff">
         <comment>系统通知相关表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `system_notice`
             (
                 `id`          bigint(20) NOT NULL AUTO_INCREMENT COMMENT '公告ID',
@@ -975,12 +999,14 @@
                 `deleted`     bit(1)                                                         NOT NULL DEFAULT b'0' COMMENT '是否删除',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '站内信模板表' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-014" author="zhaoff">
         <comment>定时任务相关表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `infra_job`
             (
                 `id`              bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务编号',
@@ -1019,12 +1045,14 @@
                 `deleted`       bit(1)                                                       NOT NULL DEFAULT b'0' COMMENT '是否删除',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 987 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '定时任务日志表' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
     <changeSet id="schema-20260518-015" author="zhaoff">
         <comment>定时任务相关表</comment>
         <sql>
+            <![CDATA[
             CREATE TABLE `system_dict_type`
             (
                 `id`           bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字典主键',
@@ -1059,6 +1087,7 @@
                 `deleted`     bit(1)                                                        NOT NULL DEFAULT b'0' COMMENT '是否删除',
                 PRIMARY KEY (`id`) USING BTREE
             ) ENGINE = InnoDB AUTO_INCREMENT = 3036 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+            ]]>
         </sql>
     </changeSet>
 
