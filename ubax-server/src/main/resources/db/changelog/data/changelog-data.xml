@@ -356,4 +356,13 @@
         </sql>
     </changeSet>
 
+    <changeSet id="data-20260521-002" author="zhaoff">
+        <comment>c</comment>
+        <sql>
+            <![CDATA[
+            INSERT INTO `system_oauth2_client` VALUES (1, 'default', 'admin123', 'UBA-X', 'https://assets.huanniankj.com/common/logo.png', 'UBA-X 默认的 Oauth2 客户端', 0, 1800, 2592000, '[]', '[\"password\",\"authorization_code\",\"implicit\",\"refresh_token\",\"client_credentials\"]', '[\"user.read\",\"user.write\"]', '[]', '[\"user.read\",\"user.write\"]', '[]', '{}', '1', '2026-05-01 00:00:00', '1', '2026-05-01 00:00:00', b'0');
+            ]]>
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
