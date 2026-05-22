@@ -125,6 +125,14 @@
       box-shadow: var(--shadow-glow) !important;
     }
   }
+
+  // 表格操作列 link 按钮防止文字撑出
+  &.is-link {
+    font-size: 12px !important;
+    padding: 4px 6px !important;
+    min-height: auto !important;
+    line-height: 1.2 !important;
+  }
 }
 
 // Input 输入框美化

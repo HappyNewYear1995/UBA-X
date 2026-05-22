@@ -190,6 +190,22 @@ $prefix-cls: #{$namespace}-menu;
       .#{$elNamespace}-menu-item:not(.is-active) {
         background-color: var(--left-menu-bg-light-color) !important;
       }
+
+      // 二级/三级菜单去除框线
+      .#{$elNamespace}-sub-menu__title,
+      .#{$elNamespace}-menu-item {
+        border-radius: 0 !important;
+        margin: 0 !important;
+        padding-left: 20px !important;
+      }
+
+      // 三级菜单额外缩进
+      .#{$elNamespace}-menu {
+        .#{$elNamespace}-sub-menu__title,
+        .#{$elNamespace}-menu-item {
+          padding-left: 40px !important;
+        }
+      }
     }
 
     // 菜单图标样式

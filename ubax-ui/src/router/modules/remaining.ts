@@ -53,19 +53,251 @@ const remainingRouter: AppRouteRecordRaw[] = [
   {
     path: '/',
     component: Layout,
-    redirect: '/index',
+    redirect: '/data-dashboard/metrics',
     name: 'Home',
-    meta: {},
+    meta: {
+      hidden: true
+    },
+    children: []
+  },
+  {
+    path: '/index',
+    component: Layout,
+    redirect: '/data-dashboard/metrics',
+    name: 'Index',
+    meta: {
+      hidden: true
+    },
+    children: []
+  },
+  {
+    path: '/data-dashboard',
+    component: Layout,
+    redirect: '/data-dashboard/metrics',
+    name: 'DataDashboard',
+    meta: {
+      title: '数据概览',
+      icon: 'ep:monitor'
+    },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/Home/Index.vue'),
-        name: 'Index',
+        path: 'metrics',
+        component: () => import('@/views/ubax/metrics/index.vue'),
+        name: 'MetricsDashboard',
         meta: {
-          title: t('router.home'),
-          icon: 'ep:home-filled',
-          noCache: false,
-          affix: true
+          title: '核心看板',
+          icon: 'ep:data-board',
+          noCache: false
+        }
+      },
+      {
+        path: 'alerts',
+        component: () => import('@/views/ubax/alerts/index.vue'),
+        name: 'AlertsCenter',
+        meta: {
+          title: '告警中心',
+          icon: 'ep:warning',
+          noCache: false
+        }
+      }
+    ]
+  },
+  {
+    path: '/app-management',
+    component: Layout,
+    redirect: '/app-management/list',
+    name: 'AppManagement',
+    meta: {
+      title: '集成管理',
+      icon: 'ep:grid'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/ubax/app-list/index.vue'),
+        name: 'ClientList',
+        meta: {
+          title: '客户端列表',
+          icon: 'ep:menu',
+          noCache: false
+        }
+      },
+      {
+        path: 'sdk',
+        component: () => import('@/views/ubax/sdk/index.vue'),
+        name: 'SDKIntegration',
+        meta: {
+          title: 'UBAX-Pilot',
+          icon: 'ep:connection',
+          noCache: false
+        }
+      },
+      {
+        path: 'events',
+        component: () => import('@/views/ubax/events/index.vue'),
+        name: 'EventConfig',
+        meta: {
+          title: '事件配置',
+          icon: 'ep:edit',
+          noCache: false
+        }
+      },
+      {
+        path: 'monitor',
+        component: () => import('@/views/ubax/client-management/index.vue'),
+        name: 'AppMonitor',
+        meta: {
+          title: '运行监控',
+          icon: 'ep:monitor',
+          noCache: false
+        }
+      },
+      {
+        path: 'data-log',
+        component: () => import('@/views/ubax/data-log/index.vue'),
+        name: 'DataLog',
+        meta: {
+          title: '数据日志',
+          icon: 'ep:document',
+          noCache: false
+        }
+      }
+    ]
+  },
+  {
+    path: '/data-processing',
+    component: Layout,
+    redirect: '/data-processing/cleaning',
+    name: 'DataProcessing',
+    meta: {
+      title: '数据处理',
+      icon: 'ep:filter'
+    },
+    children: [
+      {
+        path: 'cleaning',
+        component: () => import('@/views/ubax/cleaning/index.vue'),
+        name: 'CleaningPipeline',
+        meta: {
+          title: '清洗管道',
+          icon: 'ep:magic-stick',
+          noCache: false
+        }
+      },
+      {
+        path: 'dirty-data',
+        component: () => import('@/views/ubax/dirty-data/index.vue'),
+        name: 'DirtyDataLog',
+        meta: {
+          title: '异常日志',
+          icon: 'ep:document-remove',
+          noCache: false
+        }
+      }
+    ]
+  },
+  {
+    path: '/data-analysis',
+    component: Layout,
+    redirect: '/data-analysis/funnel',
+    name: 'DataAnalysis',
+    meta: {
+      title: '数据分析',
+      icon: 'ep:trend-charts'
+    },
+    children: [
+      {
+        path: 'funnel',
+        component: () => import('@/views/ubax/funnel/index.vue'),
+        name: 'FunnelAnalysis',
+        meta: {
+          title: '漏斗分析',
+          icon: 'ep:trend-charts',
+          noCache: false
+        }
+      },
+      {
+        path: 'retention',
+        component: () => import('@/views/ubax/retention/index.vue'),
+        name: 'RetentionAnalysis',
+        meta: {
+          title: '留存分析',
+          icon: 'ep:calendar',
+          noCache: false
+        }
+      },
+      {
+        path: 'path',
+        component: () => import('@/views/ubax/path/index.vue'),
+        name: 'PathAnalysis',
+        meta: {
+          title: '路径分析',
+          icon: 'ep:connection',
+          noCache: false
+        }
+      }
+    ]
+  },
+  {
+    path: '/ai-monitor',
+    component: Layout,
+    redirect: '/ai-monitor/realtime',
+    name: 'AIMonitor',
+    meta: {
+      title: 'AI监测',
+      icon: 'ep:cpu'
+    },
+    children: [
+      {
+        path: 'realtime',
+        component: () => import('@/views/ubax/realtime-monitor/index.vue'),
+        name: 'RealtimeMonitor',
+        meta: {
+          title: '实时监控',
+          icon: 'ep:monitor',
+          noCache: false
+        }
+      },
+      {
+        path: 'alert-config',
+        component: () => import('@/views/ubax/alert-config/index.vue'),
+        name: 'AlertConfig',
+        meta: {
+          title: '检测配置',
+          icon: 'ep:setting',
+          noCache: false
+        }
+      }
+    ]
+  },
+  {
+    path: '/system-settings',
+    component: Layout,
+    redirect: '/system-settings/project',
+    name: 'SystemSettings',
+    meta: {
+      title: '系统设置',
+      icon: 'ep:setting'
+    },
+    children: [
+      {
+        path: 'project',
+        component: () => import('@/views/ubax/project/index.vue'),
+        name: 'ProjectManagement',
+        meta: {
+          title: '项目管理',
+          icon: 'ep:folder',
+          noCache: false
+        }
+      },
+      {
+        path: 'permission',
+        component: () => import('@/views/ubax/permission/index.vue'),
+        name: 'MemberPermission',
+        meta: {
+          title: '成员权限',
+          icon: 'ep:user-filled',
+          noCache: false
         }
       }
     ]
