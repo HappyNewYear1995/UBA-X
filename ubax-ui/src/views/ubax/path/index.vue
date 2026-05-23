@@ -32,18 +32,18 @@
           </template>
 
           <!-- 桑基图 -->
-          <Echart :options="sankeyOptions" :height="500" />
+          <Echart :options="sankeyOptions" :height="350" />
 
           <!-- 路径统计 -->
           <el-table :data="pathStats" style="width: 100%; margin-top: 20px">
-            <el-table-column prop="path" label="用户路径" />
-            <el-table-column prop="users" label="用户数" width="120" />
-            <el-table-column prop="percentage" label="占比" width="100">
+            <el-table-column prop="path" label="用户路径" min-width="300" />
+            <el-table-column prop="users" label="用户数" min-width="120" />
+            <el-table-column prop="percentage" label="占比" min-width="100">
               <template #default="{ row }">
                 {{ row.percentage }}%
               </template>
             </el-table-column>
-            <el-table-column prop="avgDuration" label="平均耗时" width="120" />
+            <el-table-column prop="avgDuration" label="平均耗时" min-width="120" />
           </el-table>
         </el-card>
       </el-col>

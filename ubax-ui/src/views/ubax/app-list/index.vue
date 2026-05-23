@@ -117,7 +117,7 @@
       </div>
 
       <!-- 客户端列表 -->
-      <el-table :data="filteredAppList" style="width: 100%" class="app-table mt-4" stripe>
+      <el-table :data="paginatedAppList" style="width: 100%" class="app-table mt-4" stripe>
         <el-table-column prop="name" label="客户端名称" min-width="180">
           <template #default="{ row }">
             <div class="app-name-cell">
@@ -191,6 +191,18 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="pagination-wrapper">
+        <el-pagination
+          v-model:current-page="currentPage"
+          v-model:page-size="pageSize"
+          :page-sizes="[10, 20, 50, 100]"
+          :total="filteredAppList.length"
+          layout="total, sizes, prev, pager, next, jumper"
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
     </el-card>
 
     <!-- 编辑客户端对话框 -->
@@ -350,6 +362,23 @@ const filteredAppList = computed(() => {
   return result
 })
 
+// 分页
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const paginatedAppList = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  return filteredAppList.value.slice(start, start + pageSize.value)
+})
+
+const handleSizeChange = () => {
+  currentPage.value = 1
+}
+
+const handleCurrentChange = () => {
+  // 页码变化时自动滚动到表格顶部（可选）
+}
+
 const getPlatformTag = (platform: string) => {
   const map: Record<string, string> = {
     'Web': 'primary',
@@ -394,7 +423,7 @@ const formatNumber = (num: number) => {
 }
 
 const handleSearch = () => {
-  // 由 computed 自动处理
+  currentPage.value = 1
 }
 
 const handleStatusChange = (row: any) => {
@@ -741,6 +770,13 @@ const handleSubmitApp = () => {
 :deep(.el-switch) {
   --el-switch-on-color: #10b981;
   --el-switch-off-color: #9ca3af;
+}
+
+// 分页
+.pagination-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 0 0;
 }
 
 // 健康状态标签

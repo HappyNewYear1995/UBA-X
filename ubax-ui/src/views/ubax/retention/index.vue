@@ -33,43 +33,43 @@
           </template>
 
           <!-- 留存趋势图 -->
-          <Echart :options="retentionTrendOptions" :height="350" />
+          <Echart :options="retentionTrendOptions" :height="280" />
 
           <!-- 留存表格 -->
           <el-table :data="retentionTable" style="width: 100%; margin-top: 20px" border>
-            <el-table-column prop="date" label="日期" width="120" fixed />
-            <el-table-column prop="newUsers" label="新增用户" width="100" />
-            <el-table-column prop="day1" label="第1天" width="90">
+            <el-table-column prop="date" label="日期" min-width="120" fixed />
+            <el-table-column prop="newUsers" label="新增用户" min-width="100" />
+            <el-table-column prop="day1" label="第1天" min-width="90">
               <template #default="{ row }">
                 <span :style="{ color: getRetentionColor(row.day1) }">{{ row.day1 }}%</span>
               </template>
             </el-table-column>
-            <el-table-column prop="day2" label="第2天" width="90">
+            <el-table-column prop="day2" label="第2天" min-width="90">
               <template #default="{ row }">
                 <span :style="{ color: getRetentionColor(row.day2) }">{{ row.day2 }}%</span>
               </template>
             </el-table-column>
-            <el-table-column prop="day3" label="第3天" width="90">
+            <el-table-column prop="day3" label="第3天" min-width="90">
               <template #default="{ row }">
                 <span :style="{ color: getRetentionColor(row.day3) }">{{ row.day3 }}%</span>
               </template>
             </el-table-column>
-            <el-table-column prop="day4" label="第4天" width="90">
+            <el-table-column prop="day4" label="第4天" min-width="90">
               <template #default="{ row }">
                 <span :style="{ color: getRetentionColor(row.day4) }">{{ row.day4 }}%</span>
               </template>
             </el-table-column>
-            <el-table-column prop="day5" label="第5天" width="90">
+            <el-table-column prop="day5" label="第5天" min-width="90">
               <template #default="{ row }">
                 <span :style="{ color: getRetentionColor(row.day5) }">{{ row.day5 }}%</span>
               </template>
             </el-table-column>
-            <el-table-column prop="day6" label="第6天" width="90">
+            <el-table-column prop="day6" label="第6天" min-width="90">
               <template #default="{ row }">
                 <span :style="{ color: getRetentionColor(row.day6) }">{{ row.day6 }}%</span>
               </template>
             </el-table-column>
-            <el-table-column prop="day7" label="第7天" width="90">
+            <el-table-column prop="day7" label="第7天" min-width="90">
               <template #default="{ row }">
                 <span :style="{ color: getRetentionColor(row.day7) }">{{ row.day7 }}%</span>
               </template>
