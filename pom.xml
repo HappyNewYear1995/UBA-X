@@ -19,6 +19,7 @@
         <module>ubax-module-storage</module>
         <module>ubax-module-analysis</module>
         <module>ubax-module-flink</module>
+        <module>ubax-module-pilot</module>
     </modules>
 
     <name>${project.artifactId}</name>
