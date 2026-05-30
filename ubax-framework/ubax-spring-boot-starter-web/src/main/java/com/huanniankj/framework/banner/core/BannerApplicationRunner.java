@@ -24,9 +24,9 @@ public class BannerApplicationRunner implements ApplicationRunner {
                     "项目启动成功！\n\t" +
                     "----------------------------------------------------------");
 
-            // 数据报表
-            if (isNotPresent("com.huanniankj.module.report.framework.security.config.SecurityConfiguration")) {
-                System.out.println("[报表模块 ubax-module-report - 已禁用]");
+            // pilot 模块
+            if (isNotPresent("com.huanniankj.module.pilot.framework.security.config.SecurityConfiguration")) {
+                System.out.println("[报表模块 ubax-module-pilot - 已禁用]");
             }
         });
     }

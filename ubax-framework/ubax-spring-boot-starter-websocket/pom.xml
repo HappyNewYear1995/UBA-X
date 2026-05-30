@@ -13,7 +13,7 @@
 
     <name>${project.artifactId}</name>
     <description>WebSocket 框架，支持多节点的广播</description>
-    <url>https://gitee.com/FoleyZhao/uba-x</url>
+    <url>https://github.com/HappyNewYear1995/UBA-X</url>
 
 
     <dependencies>

@@ -13,7 +13,7 @@
 
     <name>${project.artifactId}</name>
     <description>服务保证，提供分布式锁、幂等、限流、熔断、API 签名等等功能</description>
-    <url>https://gitee.com/FoleyZhao/uba-x</url>
+    <url>https://github.com/HappyNewYear1995/UBA-X</url>
 
     <dependencies>
         <!-- Web 相关 -->

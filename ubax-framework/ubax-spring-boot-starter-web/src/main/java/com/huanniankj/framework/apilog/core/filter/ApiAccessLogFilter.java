@@ -166,18 +166,13 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
         if (requestMethod == null) {
             return OperateTypeEnum.OTHER;
         }
-        switch (requestMethod) {
-            case GET:
-                return OperateTypeEnum.GET;
-            case POST:
-                return OperateTypeEnum.CREATE;
-            case PUT:
-                return OperateTypeEnum.UPDATE;
-            case DELETE:
-                return OperateTypeEnum.DELETE;
-            default:
-                return OperateTypeEnum.OTHER;
-        }
+        return switch (requestMethod) {
+            case GET -> OperateTypeEnum.GET;
+            case POST -> OperateTypeEnum.CREATE;
+            case PUT -> OperateTypeEnum.UPDATE;
+            case DELETE -> OperateTypeEnum.DELETE;
+            default -> OperateTypeEnum.OTHER;
+        };
     }
 
     // ========== 请求和响应的脱敏逻辑，移除类似 password、token 等敏感字段 ==========

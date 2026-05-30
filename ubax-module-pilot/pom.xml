@@ -17,24 +17,27 @@
     </description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-spring-boot-starter-biz-tenant</artifactId>
+        </dependency>
         <!-- Web 相关 -->
         <dependency>
             <groupId>com.huanniankj</groupId>
             <artifactId>ubax-spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- 安全权限 (因为要提供给后台管理系统调用) -->
+        <!-- 安全权限 -->
         <dependency>
             <groupId>com.huanniankj</groupId>
             <artifactId>ubax-spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- DB 相关，引入 MyBatis Plus 进行数据查询 -->
+        <!-- DB 相关 -->
         <dependency>
             <groupId>com.huanniankj</groupId>
             <artifactId>ubax-spring-boot-starter-mybatis</artifactId>
         </dependency>
-
         <!-- Hutool 等工具类 -->
         <dependency>
             <groupId>cn.hutool</groupId>

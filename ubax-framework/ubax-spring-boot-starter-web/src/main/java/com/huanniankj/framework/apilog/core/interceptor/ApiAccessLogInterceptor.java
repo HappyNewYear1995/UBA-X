@@ -9,6 +9,7 @@ import com.huanniankj.framework.common.util.spring.SpringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.util.StopWatch;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -34,7 +35,7 @@ public class ApiAccessLogInterceptor implements HandlerInterceptor {
     private static final String ATTRIBUTE_STOP_WATCH = "ApiAccessLogInterceptor.StopWatch";
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
         // 记录 HandlerMethod，提供给 ApiAccessLogFilter 使用
         HandlerMethod handlerMethod = handler instanceof HandlerMethod ? (HandlerMethod) handler : null;
         if (handlerMethod != null) {
@@ -62,7 +63,7 @@ public class ApiAccessLogInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+    public void afterCompletion(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler, Exception ex) {
         // 打印 response 日志
         if (!SpringUtils.isProd()) {
             StopWatch stopWatch = (StopWatch) request.getAttribute(ATTRIBUTE_STOP_WATCH);
@@ -90,7 +91,7 @@ public class ApiAccessLogInterceptor implements HandlerInterceptor {
                     .filter(i -> clazzContents.get(i).contains(" " + method.getName() + "(")) // 简单匹配，不考虑方法重名
                     .mapToObj(i -> i + 1) // 行号从 1 开始
                     .findFirst();
-            if (!lineNumber.isPresent()) {
+            if (lineNumber.isEmpty()) {
                 return;
             }
             // 打印结果

@@ -1,91 +1,84 @@
 package com.huanniankj.module.pilot.controller;
 
 import com.huanniankj.framework.common.pojo.CommonResult;
-import com.huanniankj.module.pilot.controller.vo.EventAnalysisReqVO;
-import com.huanniankj.module.pilot.dal.model.HeartbeatPayload;
-import com.huanniankj.module.pilot.service.AgentsService;
+import com.huanniankj.framework.common.pojo.PageResult;
+import com.huanniankj.module.pilot.controller.vo.*;
+import com.huanniankj.module.pilot.service.AgentService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.Map;
+import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - Agent控制层", description = "ubax-pilot 相关接口")
+/**
+ * Agent 控制层
+ *
+ * @author zhaoff
+ */
+@Slf4j
+@Tag(name = "Agent 管理", description = "Agent 探针管理接口")
 @RestController
 @RequestMapping("/pilot/agent")
 @Validated
 public class AgentController {
 
     @Resource
-    private AgentsService agentsService;
+    private AgentService agentService;
 
-    @GetMapping("/config")
-    @Operation(summary = "ubax-pilot 周期性拉取配置", description = "ubax-pilot 周期性拉取配置")
+    @GetMapping("/page")
+    @Operation(summary = "获得 Agent 分页列表", description = "用于管理后台查看 Agent 列表")
     @PermitAll
-    public CommonResult<String> getConfig(@RequestHeader(value = "X-Hostname", defaultValue = "unknown") String hostnameO) {
-        // 返回 Vector YAML 配置规则
-        return CommonResult.success("""
-                sources:
-                  app_logs:
-                    type: "file"
-                    include: ["/var/log/app/*.log"]
-                    read_from: "beginning"
-                
-                sinks:
-                  ubax_server:
-                    type: "http"
-                    inputs: ["app_logs"]
-                    uri: "http://your-server/api/logs"
-                    encoding:
-                      codec: "json"
-                """);
+    public CommonResult<PageResult<AgentRespVO>> getAgentPage(@Validated AgentPageReqVO pageReqVO) {
+        return success(agentService.getAgentPage(pageReqVO));
+    }
+
+    @GetMapping("/get")
+    @Operation(summary = "获得 Agent 详情", description = "用于管理后台查看 Agent 详情")
+    @Parameter(name = "id", description = "Agent ID", required = true, example = "1")
+    @PermitAll
+    public CommonResult<AgentRespVO> getAgent(@RequestParam("id") Long id) {
+        return success(agentService.getAgent(id));
+    }
+
+    @PostMapping("/push-command")
+    @Operation(summary = "向指定 Agent 推送命令")
+    @PermitAll
+    public CommonResult<Boolean> pushCommand(@Validated @RequestBody AgentCommandReqVO reqVO) {
+        agentService.pushCommand(reqVO);
+        return success(true);
     }
 
     @PostMapping("/heartbeat")
-    @Operation(summary = "接收 ubax-pilot 心跳上报", description = "接收 ubax-pilot 心跳上报")
+    @Operation(summary = "接收 Agent 心跳上报")
     @PermitAll
-    public CommonResult<Map<String, String>> heartbeat(@RequestBody HeartbeatPayload payload) {
-        agentsService.updateHeartbeat(payload);
-        return CommonResult.success(Map.of("status", "ok"));
+    public CommonResult<Boolean> heartbeat(@RequestBody AgentHeartbeatReqVO reqVO) {
+        agentService.receiveHeartbeat(reqVO);
+        return success(true);
     }
 
-    @GetMapping("/push")
-    @Operation(summary = "SSE 推送流，ubax-pilot 建立长连接接收配置和命令", description = "SSE 推送流，ubax-pilot 建立长连接接收配置和命令")
+    @PostMapping(path = "/content", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @Operation(summary = "连接 SSE 推送流", description = "Agent 建立长连接接收配置和命令")
     @PermitAll
-    public CommonResult<SseEmitter> push(@RequestHeader(value = "X-Hostname", defaultValue = "unknown") String hostname) {
-        SseEmitter emitter = new SseEmitter(60_000L); // 60 秒超时
+    public SseEmitter content(@RequestHeader(value = "X-Agent-UUID", defaultValue = "unknown") String agentUuid,
+                              @RequestBody AgentSaveReqVO reqVO) {
 
+        agentService.createAgent(reqVO);
+        SseEmitter emitter = new SseEmitter(120_000L); // 60 秒超时
         // 注册客户端
-        agentsService.registerClient(hostname, emitter);
-
+        agentService.registerClient(agentUuid, emitter);
         // 客户端断开时清理
-        emitter.onCompletion(() -> agentsService.removeClient(hostname));
-        emitter.onTimeout(() -> agentsService.removeClient(hostname));
-        emitter.onError((e) -> agentsService.removeClient(hostname));
+        emitter.onCompletion(() -> agentService.removeClient(agentUuid));
+        emitter.onTimeout(() -> agentService.removeClient(agentUuid));
+        emitter.onError((e) -> agentService.removeClient(agentUuid));
 
-        return CommonResult.success(emitter);
-    }
-
-    @PostMapping("/admin/push-command")
-    @Operation(summary = "向指定 ubax-pilot 推送命令", description = "向指定 ubax-pilot 推送命令")
-    @PermitAll
-    public CommonResult<Map<String, String>> pushCommand(@RequestParam String hostname, @RequestParam String action) {
-        boolean success = agentsService.pushCommand(hostname, action);
-        if (success) {
-            return CommonResult.success(Map.of("status", "ok", "message", "命令已推送: " + action));
-        }
-        return CommonResult.success(Map.of("status", "error", "message", "客户端不在线"));
-    }
-
-    @GetMapping("/admin/clients")
-    @Operation(summary = "查看所有在线客户端", description = "查看所有在线客户端")
-    @PermitAll
-    public CommonResult<Map<String, HeartbeatPayload>> getClients(@RequestBody @Validated EventAnalysisReqVO reqVO) {
-        return CommonResult.success(agentsService.getAllClients());
+        return emitter;
     }
 
 }

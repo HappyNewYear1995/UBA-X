@@ -1,14 +1,24 @@
 package com.huanniankj.module.pilot.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.huanniankj.module.pilot.dal.model.HeartbeatPayload;
+import com.huanniankj.framework.common.pojo.PageResult;
+import com.huanniankj.module.pilot.controller.vo.*;
+import com.huanniankj.module.pilot.convert.AgentConvert;
+import com.huanniankj.module.pilot.dal.dataobject.AgentDO;
+import com.huanniankj.module.pilot.dal.mysql.AgentMapper;
+import com.huanniankj.module.pilot.enums.*;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
 
 /**
  * Agent服务实现
@@ -17,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 @Slf4j
-public class AgentServiceImpl implements AgentsService {
+public class AgentServiceImpl implements AgentService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -26,100 +36,192 @@ public class AgentServiceImpl implements AgentsService {
      */
     private final Map<String, SseEmitter> clients = new ConcurrentHashMap<>();
 
-    /**
-     * 存储客户端最新心跳
-     */
-    private final Map<String, HeartbeatPayload> heartbeats = new ConcurrentHashMap<>();
+    @Resource
+    private AgentMapper agentMapper;
 
-    public void updateHeartbeat(HeartbeatPayload payload) {
-        heartbeats.put(payload.getHostname(), payload);
-        log.info("收到心跳: {}", payload);
+    @Override
+    public void createAgent(AgentSaveReqVO saveReqVO) {
+        AgentDO agentHistory = agentMapper.selectByUUid(saveReqVO.getUuid());
+        if (agentHistory != null) {
+            // 更新 Agent
+            AgentDO agentUpdate = new AgentDO();
+            agentUpdate.setId(agentHistory.getId());
+            agentUpdate.setHostname(saveReqVO.getHostname());
+            agentUpdate.setVersion(saveReqVO.getVersion());
+            agentUpdate.setIp(saveReqVO.getIp());
+            agentUpdate.setOs(saveReqVO.getOs());
+            if (saveReqVO.getTerminal().equals(TerminalEnum.LINUX.getName())) {
+                agentUpdate.setTerminal(TerminalEnum.LINUX.getTerminal());
+            } else if (saveReqVO.getTerminal().equals(TerminalEnum.WINDOWS.getName())) {
+                agentUpdate.setTerminal(TerminalEnum.WINDOWS.getTerminal());
+            }
+            // 默认在线
+            agentUpdate.setOnline(true);
+            // 当前时间为最后心跳时间
+            agentUpdate.setLastHeartbeat(LocalDateTime.now());
+            agentMapper.updateById(agentUpdate);
+        } else {
+            // 插入 Agent
+            AgentDO agentInsert = new AgentDO();
+            agentInsert.setUuid(saveReqVO.getUuid());
+            agentInsert.setHostname(saveReqVO.getHostname());
+            agentInsert.setVersion(saveReqVO.getVersion());
+            agentInsert.setIp(saveReqVO.getIp());
+            agentInsert.setOs(saveReqVO.getOs());
+            if (saveReqVO.getTerminal().equals(TerminalEnum.LINUX.getName())) {
+                agentInsert.setTerminal(TerminalEnum.LINUX.getTerminal());
+            } else if (saveReqVO.getTerminal().equals(TerminalEnum.WINDOWS.getName())) {
+                agentInsert.setTerminal(TerminalEnum.WINDOWS.getTerminal());
+            }
+
+            // Agent平台类型默认为自动
+            agentInsert.setPlatform(PlatformEnum.AUTO.getPlatform());
+            // Agent状态默认开启
+            agentInsert.setStatus(AgentStatusEnum.ON.getStatus());
+            // 采集器状态默认未知
+            agentInsert.setCollectorStatus(CollectorStatusEnum.UNKNOWN.getStatus());
+            // 默认在线
+            agentInsert.setOnline(true);
+            // 当前时间为最后心跳时间
+            agentInsert.setLastHeartbeat(LocalDateTime.now());
+            agentMapper.insert(agentInsert);
+        }
     }
 
-    public void registerClient(String hostname, SseEmitter emitter) {
-        clients.put(hostname, emitter);
-        log.info("客户端已连接: {}", hostname);
+    @Override
+    public void registerClient(String uuid, SseEmitter emitter) {
+        clients.put(uuid, emitter);
+        log.info("客户端已连接: {}", uuid);
 
         try {
             emitter.send(SseEmitter.event()
-                    .name("connected")
+                    .name(EventTypeEnum.CONNECTED.getEventType())
                     .data("欢迎连接 UBAX-Pilot 推送服务"));
         } catch (IOException e) {
             log.error("发送欢迎消息失败: {}", e.getMessage());
         }
     }
 
-    public void removeClient(String hostname) {
-        clients.remove(hostname);
-        log.info("客户端已断开: {}", hostname);
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void receiveHeartbeat(AgentHeartbeatReqVO reqVO) {
+        log.info("收到心跳: {}", reqVO);
+
+        // 查询数据库中是否已存在该 Agent
+        AgentDO agent = agentMapper.selectByUUid(reqVO.getUuid());
+        if (agent != null) {
+            agent.setHostname(reqVO.getHostname());
+            agent.setCollectorStatus(reqVO.getCollectorStatus());
+            agent.setLastHeartbeat(reqVO.getTimestamp() != null ? reqVO.getTimestamp() : LocalDateTime.now());
+            agent.setOnline(true);
+            agentMapper.updateById(agent);
+        }
     }
 
-    public boolean pushConfig(String hostname, String rules, String version) {
-        SseEmitter emitter = clients.get(hostname);
+    @Override
+    public void removeClient(String uuid) {
+        clients.remove(uuid);
+        log.info("客户端已断开: {}", uuid);
+
+        // 更新数据库中的在线状态
+        AgentDO agent = agentMapper.selectByUUid(uuid);
+        if (agent != null) {
+            agent.setOnline(false);
+            agentMapper.updateById(agent);
+        }
+    }
+
+    @Override
+    public void pushConfig(String uuid, String rules) {
+        // 校验 Agent 是否存在
+        AgentDO agent = agentMapper.selectByUUid(uuid);
+        if (agent == null) {
+            throw exception(ErrorCodeConstants.AGENT_NOT_EXISTS);
+        }
+        // 校验 Agent 是否在线
+        if (!Boolean.TRUE.equals(agent.getOnline())) {
+            throw exception(ErrorCodeConstants.AGENT_OFFLINE);
+        }
+        SseEmitter emitter = clients.get(uuid);
         if (emitter == null) {
-            log.warn("客户端不在线: {}", hostname);
-            return false;
+            throw exception(ErrorCodeConstants.AGENT_OFFLINE);
         }
 
         try {
             Map<String, Object> payload = Map.of(
-                    "rules", rules,
-                    "version", version
+                    "rules", rules
             );
 
             Map<String, Object> message = Map.of(
-                    "type", "config",
+                    "type", MessageTypeEnum.CONFIG.getType(),
                     "payload", payload,
                     "timestamp", System.currentTimeMillis() / 1000
             );
 
             emitter.send(SseEmitter.event()
-                    .name("message")
+                    .name(EventTypeEnum.MESSAGE.getEventType())
                     .data(objectMapper.writeValueAsString(message)));
 
-            log.info("配置已推送到 {}: version={}", hostname, version);
-            return true;
+            log.info("配置已推送到 {}: ", uuid);
         } catch (IOException e) {
             log.error("推送配置失败: {}", e.getMessage());
-            clients.remove(hostname);
-            return false;
+            throw exception(ErrorCodeConstants.AGENT_PUSH_CONFIG_FAILED);
         }
     }
 
-    public boolean pushCommand(String hostname, String action) {
-        SseEmitter emitter = clients.get(hostname);
+    @Override
+    public void pushCommand(AgentCommandReqVO reqVO) {
+        String uuid = reqVO.getUuid();
+        // 校验 Agent 是否存在
+        AgentDO agent = agentMapper.selectByUUid(uuid);
+        if (agent == null) {
+            throw exception(ErrorCodeConstants.AGENT_NOT_EXISTS);
+        }
+        // 校验 Agent 是否在线
+        if (!Boolean.TRUE.equals(agent.getOnline())) {
+            throw exception(ErrorCodeConstants.AGENT_OFFLINE);
+        }
+        SseEmitter emitter = clients.get(uuid);
         if (emitter == null) {
-            log.warn("客户端不在线: {}", hostname);
-            return false;
+            throw exception(ErrorCodeConstants.AGENT_OFFLINE);
         }
 
         try {
             Map<String, Object> payload = Map.of(
-                    "action", action,
+                    "action", reqVO.getAction(),
                     "params", Map.of()
             );
 
             Map<String, Object> message = Map.of(
-                    "type", "command",
+                    "type", MessageTypeEnum.COMMAND.getType(),
                     "payload", payload,
                     "timestamp", System.currentTimeMillis() / 1000
             );
 
             emitter.send(SseEmitter.event()
-                    .name("message")
+                    .name(EventTypeEnum.CONNECTED.getEventType())
                     .data(objectMapper.writeValueAsString(message)));
 
-            log.info("命令已推送到 {}: action={}", hostname, action);
-            return true;
+            log.info("命令已推送到 {}: action={}", uuid, reqVO.getAction());
         } catch (IOException e) {
             log.error("推送命令失败: {}", e.getMessage());
-            clients.remove(hostname);
-            return false;
+            throw exception(ErrorCodeConstants.AGENT_PUSH_COMMAND_FAILED);
         }
     }
 
-    public Map<String, HeartbeatPayload> getAllClients() {
-        return new ConcurrentHashMap<>(heartbeats);
+    @Override
+    public PageResult<AgentRespVO> getAgentPage(AgentPageReqVO pageReqVO) {
+        PageResult<AgentDO> pageResult = agentMapper.selectPage(pageReqVO);
+        return AgentConvert.INSTANCE.convertPage(pageResult);
+    }
+
+    @Override
+    public AgentRespVO getAgent(Long id) {
+        AgentDO agent = agentMapper.selectById(id);
+        if (agent == null) {
+            throw exception(ErrorCodeConstants.AGENT_NOT_EXISTS);
+        }
+        return AgentConvert.INSTANCE.convert(agent);
     }
 
 }

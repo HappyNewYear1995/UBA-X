@@ -1091,4 +1091,38 @@
         </sql>
     </changeSet>
 
+    <changeSet id="schema-20260524-001" author="zhaoff">
+        <comment>Agent 探针表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE IF NOT EXISTS `pilot_agent`
+            (
+                `id`               BIGINT       NOT NULL AUTO_INCREMENT COMMENT 'Agent ID',
+                `uuid`             VARCHAR(255) NOT NULL COMMENT 'UUID',
+                `hostname`         VARCHAR(255) DEFAULT NULL COMMENT '主机名',
+                `version`          VARCHAR(64)  DEFAULT NULL COMMENT 'Agent 版本',
+                `terminal`         INT          DEFAULT 0 COMMENT '终端类型',
+                `platform`         INT          DEFAULT 0 COMMENT '平台类型',
+                `status`           INT          DEFAULT 0 COMMENT '状态',
+                `collector_status` VARCHAR(64)  DEFAULT NULL COMMENT '采集器状态',
+                `online`           BIT          DEFAULT 0 COMMENT '在线状态 (true: 在线, false: 离线)',
+                `last_heartbeat`   DATETIME     DEFAULT NULL COMMENT '最后心跳时间',
+                `ip`               VARCHAR(64)  DEFAULT NULL COMMENT 'IP 地址',
+                `os`               VARCHAR(128) DEFAULT NULL COMMENT '操作系统',
+                `config`           text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Vector 配置内容',
+                `remark`           VARCHAR(500) DEFAULT NULL COMMENT '备注',
+                `creator`          VARCHAR(64)  DEFAULT '' COMMENT '创建者',
+                `create_time`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater`          VARCHAR(64)  DEFAULT '' COMMENT '更新者',
+                `update_time`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted`          BIT          NOT NULL DEFAULT 0 COMMENT '是否删除',
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `uk_uuid` (`uuid`)
+                ) ENGINE = InnoDB
+                DEFAULT CHARSET = utf8mb4
+                COLLATE = utf8mb4_unicode_ci COMMENT ='Agent 探针表';
+            ]]>
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

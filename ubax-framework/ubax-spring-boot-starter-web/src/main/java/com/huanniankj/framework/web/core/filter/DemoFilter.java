@@ -7,6 +7,7 @@ import com.huanniankj.framework.web.core.util.WebFrameworkUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jspecify.annotations.NonNull;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import static com.huanniankj.framework.common.exception.enums.GlobalErrorCodeConstants.DEMO_DENY;
@@ -26,7 +27,7 @@ public class DemoFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain chain) {
         // 直接返回 DEMO_DENY 的结果。即，请求不继续
         ServletUtils.writeJSON(response, CommonResult.error(DEMO_DENY));
     }

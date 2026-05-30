@@ -1,17 +1,24 @@
-package com.huanniankj.module.pilot.dal.model;
+package com.huanniankj.module.pilot.controller.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * Agent心跳 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "Agent心跳 Request VO")
 @Setter
 @Getter
-public class HeartbeatPayload {
+public class AgentHeartbeatReqVO {
 
-    @JsonProperty("version")
-    private String version;
+    @JsonProperty("uuid")
+    private String uuid;
 
     @JsonProperty("hostname")
     private String hostname;
@@ -19,19 +26,12 @@ public class HeartbeatPayload {
     @JsonProperty("timestamp")
     private LocalDateTime timestamp;
 
-    @JsonProperty("healthy")
-    private boolean healthy;
-
     @JsonProperty("collector_status")
     private String collectorStatus;
 
-    @JsonProperty("os")
-    private String os;
-
     @Override
     public String toString() {
-        return String.format("Heartbeat{hostname='%s', version='%s', status='%s', os='%s'}",
-                hostname, version, collectorStatus, os);
+        return String.format("Heartbeat{uuid='%s', hostname='%s', status='%s'}", uuid, hostname, collectorStatus);
     }
 
 }

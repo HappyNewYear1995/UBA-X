@@ -17,7 +17,7 @@
         后端 Server 的主项目，通过引入需要 ubax-module-xxx 的依赖，
         从而实现提供 RESTful API 给 ubax-ui 前端项目。
     </description>
-    <url>https://gitee.com/FoleyZhao/uba-x</url>
+    <url>https://github.com/HappyNewYear1995/UBA-X</url>
 
     <dependencies>
         <dependency>
@@ -49,6 +49,12 @@
         <dependency>
             <groupId>com.huanniankj</groupId>
             <artifactId>ubax-module-analysis</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.huanniankj</groupId>
+            <artifactId>ubax-module-pilot</artifactId>
             <version>${revision}</version>
         </dependency>
 
