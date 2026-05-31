@@ -53,7 +53,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
   {
     path: '/',
     component: Layout,
-    redirect: '/data-dashboard/metrics',
+    redirect: '/ubax/dashboard/metrics',
     name: 'Home',
     meta: {
       hidden: true
@@ -63,7 +63,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
   {
     path: '/index',
     component: Layout,
-    redirect: '/data-dashboard/metrics',
+    redirect: '/ubax/dashboard/metrics',
     name: 'Index',
     meta: {
       hidden: true
@@ -71,9 +71,9 @@ const remainingRouter: AppRouteRecordRaw[] = [
     children: []
   },
   {
-    path: '/data-dashboard',
+    path: '/ubax/dashboard',
     component: Layout,
-    redirect: '/data-dashboard/metrics',
+    redirect: '/ubax/dashboard/metrics',
     name: 'DataDashboard',
     meta: {
       title: '数据概览',
@@ -82,7 +82,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'metrics',
-        component: () => import('@/views/ubax/metrics/index.vue'),
+        component: () => import('@/views/ubax/analysis/metrics/index.vue'),
         name: 'MetricsDashboard',
         meta: {
           title: '核心看板',
@@ -92,7 +92,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       },
       {
         path: 'alerts',
-        component: () => import('@/views/ubax/alerts/index.vue'),
+        component: () => import('@/views/ubax/dashboard/alerts/index.vue'),
         name: 'AlertsCenter',
         meta: {
           title: '告警中心',
@@ -103,58 +103,80 @@ const remainingRouter: AppRouteRecordRaw[] = [
     ]
   },
   {
-    path: '/app-management',
+    path: '/ubax/gather',
     component: Layout,
-    redirect: '/app-management/list',
-    name: 'AppManagement',
+    redirect: '/ubax/gather/agent',
+    name: 'GatherManagement',
     meta: {
-      title: '集成管理',
+      title: '采集管理',
       icon: 'ep:grid'
     },
     children: [
       {
-        path: 'list',
-        component: () => import('@/views/ubax/app-list/index.vue'),
+        path: 'agent',
+        component: () => import('@/views/ubax/gather/agent/index.vue'),
         name: 'ClientList',
         meta: {
-          title: '客户端列表',
+          title: 'Agent管理',
           icon: 'ep:menu',
           noCache: false
         }
       },
       {
-        path: 'sdk',
-        component: () => import('@/views/ubax/sdk/index.vue'),
-        name: 'SDKIntegration',
-        meta: {
-          title: 'UBAX-Pilot',
-          icon: 'ep:connection',
-          noCache: false
-        }
-      },
-      {
         path: 'events',
-        component: () => import('@/views/ubax/events/index.vue'),
+        component: () => import('@/views/ubax/gather/events/index.vue'),
         name: 'EventConfig',
         meta: {
-          title: '事件配置',
+          title: '事件管理',
           icon: 'ep:edit',
           noCache: false
         }
       },
       {
         path: 'monitor',
-        component: () => import('@/views/ubax/client-management/index.vue'),
+        component: () => import('@/views/ubax/gather/client-management/index.vue'),
         name: 'AppMonitor',
         meta: {
           title: '运行监控',
           icon: 'ep:monitor',
           noCache: false
         }
+      }
+    ]
+  },
+  {
+    path: '/ubax/processing',
+    component: Layout,
+    redirect: '/ubax/processing/cleaning',
+    name: 'DataProcessing',
+    meta: {
+      title: '数据处理',
+      icon: 'ep:filter'
+    },
+    children: [
+      {
+        path: 'cleaning',
+        component: () => import('@/views/ubax/processing/cleaning/index.vue'),
+        name: 'CleaningPipeline',
+        meta: {
+          title: '清洗管道',
+          icon: 'ep:magic-stick',
+          noCache: false
+        }
+      },
+      {
+        path: 'dirty-data',
+        component: () => import('@/views/ubax/processing/dirty-data/index.vue'),
+        name: 'DirtyDataLog',
+        meta: {
+          title: '异常日志',
+          icon: 'ep:document-remove',
+          noCache: false
+        }
       },
       {
         path: 'data-log',
-        component: () => import('@/views/ubax/data-log/index.vue'),
+        component: () => import('@/views/ubax/processing/data-log/index.vue'),
         name: 'DataLog',
         meta: {
           title: '数据日志',
@@ -165,41 +187,9 @@ const remainingRouter: AppRouteRecordRaw[] = [
     ]
   },
   {
-    path: '/data-processing',
+    path: '/ubax/analysis',
     component: Layout,
-    redirect: '/data-processing/cleaning',
-    name: 'DataProcessing',
-    meta: {
-      title: '数据处理',
-      icon: 'ep:filter'
-    },
-    children: [
-      {
-        path: 'cleaning',
-        component: () => import('@/views/ubax/cleaning/index.vue'),
-        name: 'CleaningPipeline',
-        meta: {
-          title: '清洗管道',
-          icon: 'ep:magic-stick',
-          noCache: false
-        }
-      },
-      {
-        path: 'dirty-data',
-        component: () => import('@/views/ubax/dirty-data/index.vue'),
-        name: 'DirtyDataLog',
-        meta: {
-          title: '异常日志',
-          icon: 'ep:document-remove',
-          noCache: false
-        }
-      }
-    ]
-  },
-  {
-    path: '/data-analysis',
-    component: Layout,
-    redirect: '/data-analysis/funnel',
+    redirect: '/ubax/analysis/funnel',
     name: 'DataAnalysis',
     meta: {
       title: '数据分析',
@@ -208,7 +198,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'funnel',
-        component: () => import('@/views/ubax/funnel/index.vue'),
+        component: () => import('@/views/ubax/analysis/funnel/index.vue'),
         name: 'FunnelAnalysis',
         meta: {
           title: '漏斗分析',
@@ -218,7 +208,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       },
       {
         path: 'retention',
-        component: () => import('@/views/ubax/retention/index.vue'),
+        component: () => import('@/views/ubax/analysis/retention/index.vue'),
         name: 'RetentionAnalysis',
         meta: {
           title: '留存分析',
@@ -228,7 +218,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       },
       {
         path: 'path',
-        component: () => import('@/views/ubax/path/index.vue'),
+        component: () => import('@/views/ubax/analysis/path/index.vue'),
         name: 'PathAnalysis',
         meta: {
           title: '路径分析',
@@ -239,18 +229,18 @@ const remainingRouter: AppRouteRecordRaw[] = [
     ]
   },
   {
-    path: '/ai-monitor',
+    path: '/ubax/app',
     component: Layout,
-    redirect: '/ai-monitor/realtime',
-    name: 'AIMonitor',
+    redirect: '/ubax/app/realtime',
+    name: 'DataApp',
     meta: {
-      title: 'AI监测',
+      title: '数据应用',
       icon: 'ep:cpu'
     },
     children: [
       {
         path: 'realtime',
-        component: () => import('@/views/ubax/realtime-monitor/index.vue'),
+        component: () => import('@/views/ubax/dashboard/realtime-monitor/index.vue'),
         name: 'RealtimeMonitor',
         meta: {
           title: '实时监控',
@@ -260,7 +250,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       },
       {
         path: 'alert-config',
-        component: () => import('@/views/ubax/alert-config/index.vue'),
+        component: () => import('@/views/ubax/dashboard/alert-config/index.vue'),
         name: 'AlertConfig',
         meta: {
           title: '检测配置',
@@ -271,9 +261,9 @@ const remainingRouter: AppRouteRecordRaw[] = [
     ]
   },
   {
-    path: '/system-settings',
+    path: '/ubax/setting',
     component: Layout,
-    redirect: '/system-settings/project',
+    redirect: '/ubax/setting/project',
     name: 'SystemSettings',
     meta: {
       title: '系统设置',
@@ -282,7 +272,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'project',
-        component: () => import('@/views/ubax/project/index.vue'),
+        component: () => import('@/views/ubax/setting/project/index.vue'),
         name: 'ProjectManagement',
         meta: {
           title: '项目管理',
@@ -291,8 +281,18 @@ const remainingRouter: AppRouteRecordRaw[] = [
         }
       },
       {
+        path: 'sdk',
+        component: () => import('@/views/ubax/setting/sdk/index.vue'),
+        name: 'SDKIntegration',
+        meta: {
+          title: 'UBAX-Pilot',
+          icon: 'ep:connection',
+          noCache: false
+        }
+      },
+      {
         path: 'permission',
-        component: () => import('@/views/ubax/permission/index.vue'),
+        component: () => import('@/views/ubax/setting/permission/index.vue'),
         name: 'MemberPermission',
         meta: {
           title: '成员权限',

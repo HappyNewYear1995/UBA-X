@@ -196,14 +196,14 @@ $prefix-cls: #{$namespace}-menu;
       .#{$elNamespace}-menu-item {
         border-radius: 0 !important;
         margin: 0 !important;
-        padding-left: 20px !important;
+        padding-left: 44px !important;
       }
 
       // 三级菜单额外缩进
       .#{$elNamespace}-menu {
         .#{$elNamespace}-sub-menu__title,
         .#{$elNamespace}-menu-item {
-          padding-left: 40px !important;
+          padding-left: 64px !important;
         }
       }
     }

@@ -182,42 +182,42 @@ const features = ref([
     desc: '核心指标实时看板',
     icon: 'ep:monitor',
     iconBg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    path: '/data-dashboard'
+    path: '/ubax/dashboard'
   },
   {
-    title: '应用管理',
+    title: '采集管理',
     desc: '多端接入统一管理',
     icon: 'ep:grid',
     iconBg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    path: '/app-management'
+    path: '/ubax/gather'
   },
   {
     title: '数据处理',
     desc: '智能清洗标准化',
     icon: 'ep:filter',
     iconBg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-    path: '/data-processing'
+    path: '/ubax/processing'
   },
   {
     title: '数据分析',
     desc: '漏斗留存路径分析',
     icon: 'ep:trend-charts',
     iconBg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    path: '/data-analysis'
+    path: '/ubax/analysis'
   },
   {
-    title: 'AI监测',
+    title: '数据应用',
     desc: '智能异常检测预警',
     icon: 'ep:cpu',
     iconBg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-    path: '/ai-monitor'
+    path: '/ubax/app'
   },
   {
     title: '系统设置',
     desc: '项目权限灵活配置',
     icon: 'ep:setting',
     iconBg: 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)',
-    path: '/system-settings'
+    path: '/ubax/setting'
   }
 ])
 
@@ -250,7 +250,7 @@ const modules = ref([
 ])
 
 const handleStart = () => {
-  window.location.href = '/data-dashboard'
+  window.location.href = '/ubax/dashboard'
 }
 
 const handleLearnMore = () => {
