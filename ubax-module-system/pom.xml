@@ -24,12 +24,6 @@
             <version>${revision}</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.huanniankj</groupId>-->
-<!--            <artifactId>ubax-module-pilot</artifactId>-->
-<!--            <version>${revision}</version>-->
-<!--        </dependency>-->
-
         <!-- 业务组件 -->
         <dependency>
             <groupId>com.huanniankj</groupId>

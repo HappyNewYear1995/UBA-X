@@ -7,15 +7,13 @@
         </div>
       </template>
 
-      <!-- 统计视图 -->
       <div class="stats-row">
-        <!-- 左侧：终端类型 -->
         <div class="stats-section terminal-section">
           <div class="section-title">终端类型</div>
           <div class="stats-cards">
             <div class="stat-card">
               <div class="stat-icon windows">
-                <Icon icon="ep:monitor" :size="24" />
+                <Icon icon="ep:monitor" :size="24"/>
               </div>
               <div class="stat-content">
                 <div class="stat-label">Windows</div>
@@ -24,7 +22,7 @@
             </div>
             <div class="stat-card">
               <div class="stat-icon linux">
-                <Icon icon="ep:cpu" :size="24" />
+                <Icon icon="ep:cpu" :size="24"/>
               </div>
               <div class="stat-content">
                 <div class="stat-label">Linux</div>
@@ -33,13 +31,12 @@
             </div>
           </div>
         </div>
-        <!-- 右侧：平台类型 -->
         <div class="stats-section platform-section">
           <div class="section-title">平台类型</div>
           <div class="stats-cards">
             <div class="stat-card">
               <div class="stat-icon auto">
-                <Icon icon="ep:refresh" :size="24" />
+                <Icon icon="ep:refresh" :size="24"/>
               </div>
               <div class="stat-content">
                 <div class="stat-label">自动</div>
@@ -48,7 +45,7 @@
             </div>
             <div class="stat-card">
               <div class="stat-icon web">
-                <Icon icon="ep:monitor" :size="24" />
+                <Icon icon="ep:monitor" :size="24"/>
               </div>
               <div class="stat-content">
                 <div class="stat-label">Web</div>
@@ -57,7 +54,7 @@
             </div>
             <div class="stat-card">
               <div class="stat-icon h5">
-                <Icon icon="ep:cellphone" :size="24" />
+                <Icon icon="ep:cellphone" :size="24"/>
               </div>
               <div class="stat-content">
                 <div class="stat-label">H5</div>
@@ -66,7 +63,7 @@
             </div>
             <div class="stat-card">
               <div class="stat-icon app">
-                <Icon icon="ep:iphone" :size="24" />
+                <Icon icon="ep:iphone" :size="24"/>
               </div>
               <div class="stat-content">
                 <div class="stat-label">App</div>
@@ -75,7 +72,7 @@
             </div>
             <div class="stat-card">
               <div class="stat-icon mini">
-                <Icon icon="ep:chat-dot-round" :size="24" />
+                <Icon icon="ep:chat-dot-round" :size="24"/>
               </div>
               <div class="stat-content">
                 <div class="stat-label">微信小程序</div>
@@ -86,406 +83,530 @@
         </div>
       </div>
 
-      <!-- 搜索筛选 -->
       <div class="search-bar">
         <el-input
-          v-model="searchText"
-          placeholder="搜索客户端名称或 App ID"
+          v-model="queryParams.hostname"
+          placeholder="搜索主机名"
           prefix-icon="ep:search"
           clearable
           class="search-input"
-          @input="handleSearch"
+          @keyup.enter="handleQuery"
+        />
+        <el-input
+          v-model="queryParams.ip"
+          placeholder="搜索 IP 地址"
+          prefix-icon="ep:search"
+          clearable
+          class="search-input"
+          @keyup.enter="handleQuery"
         />
         <el-select
-          v-model="filterTerminal"
+          v-model="queryParams.terminal"
           placeholder="终端筛选"
           clearable
           class="filter-select"
-          @change="handleSearch"
+          @change="handleQuery"
         >
-          <el-option label="全部" value="" />
-          <el-option label="Windows" value="Windows" />
-          <el-option label="Linux" value="Linux" />
+          <el-option label="全部" :value="undefined"/>
+          <el-option label="Windows" :value="10"/>
+          <el-option label="Linux" :value="20"/>
         </el-select>
         <el-select
-          v-model="filterPlatform"
+          v-model="queryParams.platform"
           placeholder="平台筛选"
           clearable
           class="filter-select"
-          @change="handleSearch"
+          @change="handleQuery"
         >
-          <el-option label="全部" value="" />
-          <el-option label="自动" value="自动" />
-          <el-option label="Web" value="Web" />
-          <el-option label="H5" value="H5" />
-          <el-option label="App" value="App" />
-          <el-option label="微信小程序" value="微信小程序" />
+          <el-option label="全部" :value="undefined"/>
+          <el-option label="自动" :value="1"/>
+          <el-option label="Web" :value="10"/>
+          <el-option label="H5" :value="20"/>
+          <el-option label="App" :value="30"/>
+          <el-option label="微信小程序" :value="40"/>
         </el-select>
         <el-select
-          v-model="filterStatus"
+          v-model="queryParams.status"
           placeholder="状态筛选"
           clearable
           class="filter-select"
-          @change="handleSearch"
+          @change="handleQuery"
         >
-          <el-option label="全部" value="" />
-          <el-option label="启用" value="active" />
-          <el-option label="停用" value="inactive" />
+          <el-option label="全部" :value="undefined"/>
+          <el-option label="启用" :value="0"/>
+          <el-option label="停用" :value="1"/>
         </el-select>
+        <el-button type="primary" @click="handleQuery">
+          <Icon icon="ep:search"/>
+          搜索
+        </el-button>
+        <el-button @click="resetQuery">
+          <Icon icon="ep:refresh"/>
+          重置
+        </el-button>
       </div>
 
-      <!-- 客户端列表 -->
-      <el-table :data="paginatedAppList" style="width: 100%" class="app-table mt-4" stripe>
-        <el-table-column prop="name" label="客户端名称" min-width="180">
+      <el-table v-loading="loading" :data="agentList" stripe>
+        <el-table-column prop="uuid" label="UUID" min-width="120" show-overflow-tooltip fixed="left"/>
+        <el-table-column prop="hostname" label="主机名" min-width="120" show-overflow-tooltip fixed="left"/>
+        <el-table-column prop="ip" label="IP 地址" width="120"/>
+        <el-table-column prop="os" label="操作系统" width="100" show-overflow-tooltip/>
+        <el-table-column prop="terminal" label="终端类型" width="100" align="center">
           <template #default="{ row }">
-            <div class="app-name-cell">
-              <div class="app-icon" :class="getPlatformIconClass(row.platform)">
-                <Icon :icon="getPlatformIcon(row.platform)" :size="18" />
-              </div>
-              <div class="app-info">
-                <span class="app-name">{{ row.name }}</span>
-                <span class="app-id">{{ row.appId }}</span>
-              </div>
-            </div>
+            <el-tag type="info" size="small" round>
+              {{ getTerminalName(row.terminal) }}
+            </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="terminal" label="终端类型" width="120" align="center">
+        <el-table-column prop="platform" label="平台类型" width="80" align="center">
           <template #default="{ row }">
-            <el-tag
-              :type="row.terminal === 'Windows' ? '' : 'info'"
-              size="small"
-              effect="light"
-              round
-              >{{ row.terminal }}</el-tag
-            >
+            <el-tag type="success" size="small" round>
+              {{ getPlatformName(row.platform) }}
+            </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="platform" label="平台类型" width="130" align="center">
+        <el-table-column prop="version" label="版本" width="80" align="center"/>
+        <el-table-column prop="collectorStatus" label="采集器状态" width="100" align="center">
           <template #default="{ row }">
-            <el-tag :type="getPlatformTag(row.platform)" size="small" effect="light" round>{{
-              row.platform
-            }}</el-tag>
+            <el-tag type="success" size="small" round>
+              {{ getCollectorStatusName(row.collectorStatus) }}
+            </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="sdkVersion" label="SDK 版本" width="110" align="center">
+        <el-table-column prop="online" label="在线状态" width="80" align="center">
           <template #default="{ row }">
-            <span class="sdk-version">{{ row.sdkVersion }}</span>
+            <el-tag :type="row.online ? 'success' : 'info'" size="small" round>
+              {{ row.online ? '在线' : '离线' }}
+            </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="100" align="center">
+        <el-table-column
+          label="最后心跳时间"
+          align="center"
+          prop="lastHeartbeat"
+          width="180"
+          :formatter="dateFormatter"
+        />
+        <el-table-column prop="status" label="状态" width="80" align="center">
           <template #default="{ row }">
             <el-switch
               v-model="row.status"
-              active-value="active"
-              inactive-value="inactive"
+              :active-value="0"
+              :inactive-value="1"
               @change="handleStatusChange(row)"
             />
           </template>
         </el-table-column>
-        <el-table-column prop="healthStatus" label="健康状态" width="110" align="center">
+        <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true"/>
+        <el-table-column
+          label="创建时间"
+          align="center"
+          prop="createTime"
+          width="180"
+          :formatter="dateFormatter"
+        />
+        <el-table-column label="操作" width="260" fixed="right" align="center">
           <template #default="{ row }">
-            <el-tag
-              :type="row.healthStatus === '正常' ? 'success' : 'danger'"
-              size="small"
-              effect="light"
-              round
-            >
-              {{ row.healthStatus }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="dailyEvents" label="今日事件数" width="130" align="right">
-          <template #default="{ row }">
-            <span class="events-value" :class="row.dailyEvents > 0 ? 'active' : 'zero'">
-              {{ formatNumber(row.dailyEvents) }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="createdAt" label="创建时间" width="180" align="center">
-          <template #default="{ row }">
-            <span class="time-text">{{ row.createdAt }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="220" fixed="right" align="center">
-          <template #default="{ row }">
-            <div class="action-buttons">
-              <el-button type="primary" link @click="handleEditApp(row)">
-                <Icon icon="ep:edit" /> 编辑
-              </el-button>
-              <el-button type="primary" link @click="handleViewConfig(row)">
-                <Icon icon="ep:setting" /> 配置
-              </el-button>
-              <el-button type="danger" link @click="handleDeleteApp(row)">
-                <Icon icon="ep:delete" /> 删除
-              </el-button>
-            </div>
+            <el-button type="primary" link @click="handleDetail(row)">详情</el-button>
+            <el-button type="info" link @click="handleEdit(row)">编辑</el-button>
+            <el-button type="success" link @click="handlePushConfig(row)">推送配置</el-button>
+            <el-button type="warning" link @click="handlePushCommand(row)">推送命令</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <div class="pagination-wrapper">
-        <el-pagination
-          v-model:current-page="currentPage"
-          v-model:page-size="pageSize"
-          :page-sizes="[10, 20, 50, 100]"
-          :total="filteredAppList.length"
-          layout="total, sizes, prev, pager, next, jumper"
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        />
-      </div>
+
+      <Pagination
+        v-model:page="queryParams.pageNo"
+        v-model:limit="queryParams.pageSize"
+        :total="total"
+        @pagination="getList"
+      />
     </el-card>
 
-    <!-- 编辑客户端对话框 -->
-    <el-dialog v-model="appDialogVisible" :title="appDialogTitle" width="600px">
-      <el-form :model="appForm" label-width="100px">
-        <el-form-item label="客户端名称">
-          <el-input v-model="appForm.name" placeholder="请输入客户端名称" />
+    <el-dialog v-model="detailDialogVisible" title="Agent 详情" width="700px" class="agent-detail-dialog">
+      <el-descriptions :column="2" border>
+        <el-descriptions-item label="UUID">{{ detailData.uuid }}</el-descriptions-item>
+        <el-descriptions-item label="主机名">{{ detailData.hostname }}</el-descriptions-item>
+        <el-descriptions-item label="IP 地址">{{ detailData.ip }}</el-descriptions-item>
+        <el-descriptions-item label="操作系统">{{ detailData.os }}</el-descriptions-item>
+        <el-descriptions-item label="终端类型">
+          {{ getTerminalName(detailData.terminal) }}
+        </el-descriptions-item>
+        <el-descriptions-item label="平台类型">
+          {{ getPlatformName(detailData.platform) }}
+        </el-descriptions-item>
+        <el-descriptions-item label="版本">{{ detailData.version }}</el-descriptions-item>
+        <el-descriptions-item label="采集器状态">
+          {{ getCollectorStatusName(detailData.collectorStatus) }}
+        </el-descriptions-item>
+        <el-descriptions-item label="在线状态">
+          <el-tag :type="detailData.online ? 'success' : 'info'" size="small">
+            {{ detailData.online ? '在线' : '离线' }}
+          </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="最后心跳时间">
+          {{ formatDate(detailData.lastHeartbeat) }}
+        </el-descriptions-item>
+        <el-descriptions-item label="创建时间">
+          {{ formatDate(detailData.createTime) }}
+        </el-descriptions-item>
+        <el-descriptions-item label="备注" :span="2">{{ detailData.remark }}</el-descriptions-item>
+      </el-descriptions>
+
+      <div class="config-section">
+        <div class="config-title">Vector 配置</div>
+        <pre class="config-content">{{ detailData.config || '无配置' }}</pre>
+      </div>
+    </el-dialog>
+
+    <el-dialog v-model="commandDialogVisible" title="推送命令" width="500px">
+      <el-form :model="commandForm" label-width="100px">
+        <el-form-item label="Agent UUID">
+          <el-input v-model="commandForm.uuid" disabled/>
         </el-form-item>
-        <el-form-item label="客户端描述">
-          <el-input
-            v-model="appForm.description"
-            type="textarea"
-            :rows="3"
-            placeholder="请输入客户端描述"
-          />
-        </el-form-item>
-        <el-form-item label="平台类型">
-          <el-select v-model="appForm.platform" placeholder="请选择平台类型" style="width: 100%">
-            <el-option label="自动" value="自动" />
-            <el-option label="Web" value="Web" />
-            <el-option label="H5" value="H5" />
-            <el-option label="App" value="App" />
-            <el-option label="微信小程序" value="微信小程序" />
+        <el-form-item label="命令动作">
+          <el-select v-model="commandForm.action" placeholder="请选择命令动作" style="width: 100%">
+            <el-option label="重启" value="restart"/>
+            <el-option label="停止" value="stop"/>
           </el-select>
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="appDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleSubmitApp">确定</el-button>
+        <el-button @click="commandDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitCommand">确定</el-button>
+      </template>
+    </el-dialog>
+
+    <el-dialog v-model="editDialogVisible" title="编辑 Agent" width="700px">
+      <el-form :model="editForm" label-width="100px">
+        <el-form-item label="平台类型">
+          <el-select v-model="editForm.platform" placeholder="请选择平台类型" style="width: 100%">
+            <el-option v-for="(name, key) in platformMap" :key="key" :label="name"
+                       :value="Number(key)"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Vector 配置">
+          <el-input
+            v-model="editForm.config"
+            type="textarea"
+            :rows="20"
+            placeholder="请输入 Vector 配置（YAML 格式）"
+            class="yaml-editor"
+          />
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input
+            v-model="editForm.remark"
+            type="textarea"
+            :rows="3"
+            placeholder="请输入备注"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="editDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitEdit">确定</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script lang="ts" setup>
-defineOptions({ name: 'ClientList' })
+import {dateFormatter} from "@/utils/formatTime";
+import {
+  type AgentCommandReqVO,
+  type AgentPageReqVO,
+  type AgentRespVO,
+  type AgentUpdateReqVO,
+  getAgent,
+  getAgentPage,
+  pushCommand,
+  pushConfig,
+  updateAgent,
+  updateAgentStatus
+} from '@/api/ubax/gather/agent'
 
-const appDialogVisible = ref(false)
-const appDialogTitle = ref('')
-const appForm = reactive({
-  id: null as number | null,
-  name: '',
-  description: '',
-  platform: ''
+defineOptions({name: 'AgentList'})
+
+const loading = ref(false)
+const agentList = ref<AgentRespVO[]>([])
+const total = ref(0)
+const detailDialogVisible = ref(false)
+const detailData = ref<AgentRespVO>({} as AgentRespVO)
+const commandDialogVisible = ref(false)
+const commandForm = ref<AgentCommandReqVO>({uuid: '', action: ''})
+const editDialogVisible = ref(false)
+const editForm = ref<AgentUpdateReqVO>({id: 0, platform: undefined, config: '', remark: ''})
+
+const queryParams = ref<AgentPageReqVO>({
+  pageNo: 1,
+  pageSize: 10,
+  hostname: undefined,
+  ip: undefined,
+  terminal: undefined,
+  platform: undefined,
+  status: undefined,
+  createTime: undefined
 })
 
-// 搜索筛选
-const searchText = ref('')
-const filterTerminal = ref('')
-const filterPlatform = ref('')
-const filterStatus = ref('')
+const terminalMap: Record<number, string> = {
+  10: 'Linux',
+  20: 'Windows'
+}
 
-const appList = ref([
-  {
-    id: 1,
-    name: 'UBA-X 官网',
-    appId: 'app_ubax_web_001',
-    terminal: 'Windows',
-    platform: 'Web',
-    sdkVersion: 'v2.1.0',
-    status: 'active',
-    healthStatus: '正常',
-    dailyEvents: 45230,
-    createdAt: '2025-01-15 09:30:00'
-  }
-])
+const platformMap: Record<number, string> = {
+  0: '未知',
+  1: '自动',
+  10: 'Web',
+  20: 'H5',
+  30: 'App',
+  40: '微信小程序',
+}
 
-const webApps = computed(() => appList.value.filter((a) => a.platform === 'Web').length)
-const h5Apps = computed(() => appList.value.filter((a) => a.platform === 'H5').length)
-const appApps = computed(() => appList.value.filter((a) => a.platform === 'App').length)
-const miniApps = computed(() => appList.value.filter((a) => a.platform === '微信小程序').length)
-const autoApps = computed(() => appList.value.filter((a) => a.platform === '自动').length)
-const windowsApps = computed(() => appList.value.filter((a) => a.terminal === 'Windows').length)
-const linuxApps = computed(() => appList.value.filter((a) => a.terminal === 'Linux').length)
+const collectorStatusMap: Record<string, string> = {
+  unknown: '未知',
+  running: '运行中',
+  stopped: '已停止'
+}
 
-const webCount = computed(() => webApps.value)
-const h5Count = computed(() => h5Apps.value)
-const appCount = computed(() => appApps.value)
-const miniCount = computed(() => miniApps.value)
-const autoCount = computed(() => autoApps.value)
-const windowsCount = computed(() => windowsApps.value)
-const linuxCount = computed(() => linuxApps.value)
+const windowsCount = computed(() => agentList.value.filter((a) => a.terminal === 20).length)
+const linuxCount = computed(() => agentList.value.filter((a) => a.terminal === 10).length)
+const autoCount = computed(() => agentList.value.filter((a) => a.platform === 1).length)
+const webCount = computed(() => agentList.value.filter((a) => a.platform === 10).length)
+const h5Count = computed(() => agentList.value.filter((a) => a.platform === 20).length)
+const appCount = computed(() => agentList.value.filter((a) => a.platform === 30).length)
+const miniCount = computed(() => agentList.value.filter((a) => a.platform === 40).length)
 
-// 筛选后的列表
-const filteredAppList = computed(() => {
-  let result = appList.value
-  if (searchText.value) {
-    const keyword = searchText.value.toLowerCase()
-    result = result.filter(
-      (a) => a.name.toLowerCase().includes(keyword) || a.appId.toLowerCase().includes(keyword)
-    )
+const getList = async () => {
+  loading.value = true
+  try {
+    const data = await getAgentPage(queryParams.value)
+    agentList.value = data.list
+    total.value = data.total
+  } finally {
+    loading.value = false
   }
-  if (filterTerminal.value) {
-    result = result.filter((a) => a.terminal === filterTerminal.value)
+}
+
+const handleQuery = () => {
+  queryParams.value.pageNo = 1
+  getList()
+}
+
+const resetQuery = () => {
+  queryParams.value = {
+    pageNo: 1,
+    pageSize: 10,
+    hostname: undefined,
+    ip: undefined,
+    terminal: undefined,
+    platform: undefined,
+    status: undefined,
+    createTime: undefined
   }
-  if (filterPlatform.value) {
-    result = result.filter((a) => a.platform === filterPlatform.value)
+  handleQuery()
+}
+
+const handleDetail = async (row: AgentRespVO) => {
+  detailData.value = await getAgent(row.id)
+  detailDialogVisible.value = true
+}
+
+const handlePushCommand = (row: AgentRespVO) => {
+  commandForm.value = {uuid: row.uuid, action: ''}
+  commandDialogVisible.value = true
+}
+
+const handlePushConfig = async (row: AgentRespVO) => {
+  try {
+    await ElMessageBox.confirm(`确定要向 Agent「${row.uuid}」推送 Vector 配置吗？`, '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+    await pushConfig(row.uuid)
+    ElMessage.success('配置已推送')
+  } catch {
   }
-  if (filterStatus.value) {
-    result = result.filter((a) => a.status === filterStatus.value)
+}
+
+const handleEdit = (row: AgentRespVO) => {
+  editForm.value = {
+    id: row.id,
+    platform: row.platform,
+    config: row.config || '',
+    remark: row.remark || ''
   }
-  return result
+  editDialogVisible.value = true
+}
+
+const submitEdit = async () => {
+  await updateAgent(editForm.value)
+  ElMessage.success('更新成功')
+  editDialogVisible.value = false
+  getList()
+}
+
+const handleStatusChange = async (row: AgentRespVO) => {
+  const actionText = row.status === 0 ? '开启' : '关闭'
+  try {
+    await ElMessageBox.confirm(`确定要${actionText}该 Agent 吗？`, '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+    await updateAgentStatus(row.id, row.status)
+    ElMessage.success(`${actionText}成功`)
+  } catch {
+    row.status = row.status === 0 ? 1 : 0
+  }
+}
+
+const submitCommand = async () => {
+  if (!commandForm.value.action) {
+    ElMessage.warning('请选择命令动作')
+    return
+  }
+  await pushCommand(commandForm.value)
+  ElMessage.success('命令已推送')
+  commandDialogVisible.value = false
+}
+
+const getTerminalName = (terminal: number) => {
+  return terminalMap[terminal] || '未知'
+}
+
+const getPlatformName = (platform: number) => {
+  return platformMap[platform] || '未知'
+}
+
+const getCollectorStatusName = (status: string) => {
+  return collectorStatusMap[status] || status
+}
+
+const formatDate = (date: Date | string | undefined) => {
+  if (!date) return '-'
+  return dateFormatter({ [date]: date }, '', date)
+}
+
+onMounted(() => {
+  getList()
 })
-
-// 分页
-const currentPage = ref(1)
-const pageSize = ref(10)
-
-const paginatedAppList = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value
-  return filteredAppList.value.slice(start, start + pageSize.value)
-})
-
-const handleSizeChange = () => {
-  currentPage.value = 1
-}
-
-const handleCurrentChange = () => {
-  // 页码变化时自动滚动到表格顶部（可选）
-}
-
-const getPlatformTag = (platform: string) => {
-  const map: Record<string, string> = {
-    Web: 'primary',
-    H5: 'success',
-    App: 'warning',
-    微信小程序: 'info',
-    自动: 'success'
-  }
-  return map[platform] || ''
-}
-
-const getPlatformIcon = (platform: string) => {
-  const map: Record<string, string> = {
-    Web: 'ep:monitor',
-    H5: 'ep:cellphone',
-    App: 'ep:iphone',
-    微信小程序: 'ep:chat-dot-round',
-    自动: 'ep:refresh'
-  }
-  return map[platform] || 'ep:platform'
-}
-
-const getPlatformIconClass = (platform: string) => {
-  const map: Record<string, string> = {
-    Web: 'web',
-    H5: 'h5',
-    App: 'app',
-    微信小程序: 'mini',
-    自动: 'auto'
-  }
-  return map[platform] || ''
-}
-
-const formatNumber = (num: number) => {
-  if (num >= 10000) {
-    return (num / 10000).toFixed(1) + 'w'
-  }
-  if (num >= 1000) {
-    return (num / 1000).toFixed(1) + 'k'
-  }
-  return num.toString()
-}
-
-const handleSearch = () => {
-  currentPage.value = 1
-}
-
-const handleStatusChange = (row: any) => {
-  const action = row.status === 'active' ? '启用' : '停用'
-  ElMessageBox.confirm(`确定要${action}客户端「${row.name}」吗？`, '确认操作', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-    .then(() => {
-      ElMessage.success(`已${action}客户端「${row.name}」`)
-    })
-    .catch(() => {
-      // 取消操作，恢复原状态
-      row.status = row.status === 'active' ? 'inactive' : 'active'
-    })
-}
-
-const handleEditApp = (row: any) => {
-  appDialogTitle.value = '编辑客户端'
-  appForm.id = row.id
-  appForm.name = row.name
-  appForm.description = ''
-  appForm.platform = row.platform
-  appDialogVisible.value = true
-}
-
-const handleViewConfig = (row: any) => {
-  ElMessage.info('配置功能开发中')
-}
-
-const handleDeleteApp = (row: any) => {
-  ElMessageBox.confirm(`确定要删除客户端「${row.name}」吗？`, '警告', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-    .then(() => {
-      const index = appList.value.findIndex((a) => a.id === row.id)
-      if (index > -1) {
-        appList.value.splice(index, 1)
-        ElMessage.success('客户端已删除，请前往客户端卸载 SDK')
-      }
-    })
-    .catch(() => {})
-}
-
-const handleSubmitApp = () => {
-  if (appForm.id) {
-    const index = appList.value.findIndex((a) => a.id === appForm.id)
-    if (index > -1) {
-      appList.value[index].name = appForm.name
-      appList.value[index].platform = appForm.platform
-    }
-  }
-  ElMessage.success('客户端信息已更新')
-  appDialogVisible.value = false
-}
 </script>
 
 <style lang="scss" scoped>
-@use '@/styles/variables.scss' as *;
-
 .app-list-container {
   padding: 16px;
-  background: var(--app-content-bg-color);
-  min-height: 100%;
 }
 
 .dashboard-card {
-  border-radius: var(--radius-lg) !important;
-  border: 1px solid var(--app-content-card-border) !important;
-  background: var(--app-content-card-bg) !important;
+  border-radius: 8px;
 
   :deep(.el-card__header) {
-    border-bottom: 1px solid var(--app-content-card-border);
+    border-bottom: 1px solid var(--el-border-color-light);
     padding: 14px 20px;
   }
+}
 
-  :deep(.el-card__body) {
-    padding: 20px;
+:deep(.el-dialog) {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+:deep(.agent-detail-dialog.el-dialog) {
+  border-radius: 1px;
+}
+
+:deep(.agent-detail-dialog .el-dialog__header) {
+  border-radius: 1px 1px 0 0;
+}
+
+.config-section {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: var(--el-fill-color-light);
+  border-radius: 4px;
+
+  .config-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--el-text-color-primary);
+  }
+}
+
+:deep(.el-table__fixed) {
+  background-color: var(--el-bg-color) !important;
+  z-index: 100 !important;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+
+  &::before {
+    background-color: transparent !important;
+  }
+}
+
+:deep(.el-table__fixed-right) {
+  background-color: var(--el-bg-color) !important;
+  z-index: 100 !important;
+  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.05);
+
+  &::before {
+    background-color: transparent !important;
+  }
+}
+
+:deep(.el-table__fixed-header-wrapper) {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  background-color: #ffffff !important;
+  overflow: hidden !important;
+
+  .el-table__header {
+    background-color: #ffffff !important;
   }
 
-  :deep(.el-table) {
-    width: 100% !important;
+  th.el-table__cell {
+    background-color: #ffffff !important;
   }
+}
+
+:deep(.el-table__fixed-right-header-wrapper) {
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  background-color: #ffffff !important;
+  overflow: hidden !important;
+
+  .el-table__header {
+    background-color: #ffffff !important;
+  }
+
+  th.el-table__cell {
+    background-color: #ffffff !important;
+  }
+}
+
+:deep(.el-table__header-wrapper) {
+  z-index: 1 !important;
+
+  .el-table__header {
+    background-color: var(--el-bg-color) !important;
+  }
+
+  th.el-table__cell {
+    background-color: var(--el-bg-color) !important;
+  }
+}
+
+:deep(.el-table__fixed .el-table__cell) {
+  background-color: var(--el-bg-color) !important;
+}
+
+:deep(.el-table__fixed-right .el-table__cell) {
+  background-color: var(--el-bg-color) !important;
 }
 
 .card-header {
@@ -497,53 +618,41 @@ const handleSubmitApp = () => {
 .card-title {
   font-size: 15px;
   font-weight: 600;
-  color: var(--app-content-text-color-primary);
-}
-
-.app-stats {
-  margin-bottom: 16px;
 }
 
 .stats-row {
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
-  width: 100%;
 }
 
 .stats-section.terminal-section {
   flex: 2;
-  min-width: 0;
 
   .section-title {
     font-size: 14px;
     font-weight: 600;
-    color: var(--app-content-text-color-primary);
     margin-bottom: 12px;
   }
 
   .stats-cards {
     display: flex;
     gap: 12px;
-    flex-wrap: nowrap;
   }
 }
 
 .stats-section.platform-section {
   flex: 5;
-  min-width: 0;
 
   .section-title {
     font-size: 14px;
     font-weight: 600;
-    color: var(--app-content-text-color-primary);
     margin-bottom: 12px;
   }
 
   .stats-cards {
     display: flex;
     gap: 12px;
-    flex-wrap: nowrap;
   }
 }
 
@@ -551,26 +660,18 @@ const handleSubmitApp = () => {
   display: flex;
   align-items: center;
   padding: 12px 16px;
-  border-radius: var(--radius-lg);
-  background: var(--app-content-card-bg);
-  border: 1px solid var(--app-content-card-border);
-  transition: all 0.3s ease;
+  border-radius: 8px;
+  border: 1px solid var(--el-border-color-light);
   flex: 1;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
 
   .stat-icon {
     width: 40px;
     height: 40px;
-    border-radius: var(--radius-md);
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 12px;
-    flex-shrink: 0;
 
     &.web {
       background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
@@ -609,27 +710,19 @@ const handleSubmitApp = () => {
   }
 
   .stat-content {
-    flex: 1;
-    min-width: 0;
-
     .stat-label {
       font-size: 12px;
-      color: var(--app-content-text-color-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      color: var(--el-text-color-secondary);
     }
 
     .stat-value {
       font-size: 18px;
       font-weight: 600;
-      color: var(--app-content-text-color-primary);
       margin-top: 2px;
     }
   }
 }
 
-// 搜索筛选栏
 .search-bar {
   display: flex;
   gap: 12px;
@@ -638,170 +731,31 @@ const handleSubmitApp = () => {
 }
 
 .search-input {
-  width: 280px;
+  width: 200px;
 }
 
 .filter-select {
   width: 130px;
 }
 
-// 表格样式
-.app-table {
-  :deep(.el-table__header) {
-    th {
-      background: var(--app-content-card-bg);
-      color: var(--app-content-text-color-secondary);
-      font-weight: 600;
-      font-size: 13px;
-    }
-  }
-
-  :deep(.el-table__row) {
-    &:hover {
-      background: rgba(102, 126, 234, 0.04);
-    }
-  }
-}
-
-// 客户端名称单元格
-.app-name-cell {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.app-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-
-  &.web {
-    background: linear-gradient(135deg, rgba(96, 165, 250, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
-    color: #3b82f6;
-  }
-
-  &.h5 {
-    background: linear-gradient(135deg, rgba(52, 211, 153, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%);
-    color: #10b981;
-  }
-
-  &.app {
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%);
-    color: #f59e0b;
-  }
-
-  &.mini {
-    background: linear-gradient(135deg, rgba(7, 193, 96, 0.15) 0%, rgba(6, 173, 86, 0.15) 100%);
-    color: #07c160;
-  }
-
-  &.windows {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.15) 100%);
-    color: #2563eb;
-  }
-
-  &.linux {
-    background: linear-gradient(135deg, rgba(251, 146, 60, 0.15) 0%, rgba(234, 88, 12, 0.15) 100%);
-    color: #ea580c;
-  }
-
-  &.auto {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
-    color: #059669;
-  }
-}
-
-.app-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.app-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--app-content-text-color-primary);
-}
-
-.app-id {
+.config-content {
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
   font-size: 12px;
-  color: var(--app-content-text-color-secondary);
-}
-
-// SDK 版本
-.sdk-version {
-  font-family: monospace;
-  font-size: 13px;
-  color: var(--app-content-text-color-primary);
-  background: rgba(102, 126, 234, 0.08);
-  padding: 2px 8px;
+  line-height: 1.5;
+  background-color: var(--el-fill-color-light);
+  padding: 12px;
   border-radius: 4px;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
-// 状态开关
-:deep(.el-switch) {
-  --el-switch-on-color: #10b981;
-  --el-switch-off-color: #9ca3af;
-}
-
-// 分页
-.pagination-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  padding: 16px 0 0;
-}
-
-// 健康状态标签
-.health-tag {
-  font-size: 12px;
-}
-
-// 事件数
-.events-value {
-  font-weight: 500;
-  font-size: 14px;
-
-  &.active {
-    color: var(--app-content-text-color-primary);
-  }
-
-  &.zero {
-    color: var(--app-content-text-color-secondary);
-  }
-}
-
-// 操作按钮样式
-.action-buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 4px 8px;
-  border: 1px solid var(--app-content-card-border);
-  border-radius: 6px;
-  background: var(--app-content-card-bg);
-  width: fit-content;
-  margin: 0 auto;
-
-  .el-button {
-    font-size: 12px;
-    padding: 4px 6px;
-  }
-}
-
-.time-text {
+:deep(.yaml-editor .el-textarea__inner) {
+  font-family: 'Courier New', Courier, monospace;
   font-size: 13px;
-  color: var(--app-content-text-color-secondary);
-  font-family: monospace;
-}
-
-// 对话框样式
-:deep(.el-dialog) {
-  border-radius: 8px;
-  overflow: hidden;
+  line-height: 1.5;
+  background-color: var(--el-fill-color-light);
 }
 </style>

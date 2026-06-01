@@ -134,7 +134,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       },
       {
         path: 'monitor',
-        component: () => import('@/views/ubax/gather/client-management/index.vue'),
+        component: () => import('@/views/ubax/gather/monitor/index.vue'),
         name: 'AppMonitor',
         meta: {
           title: '运行监控',
