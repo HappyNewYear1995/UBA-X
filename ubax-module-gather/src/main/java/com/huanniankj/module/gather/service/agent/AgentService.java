@@ -2,7 +2,6 @@ package com.huanniankj.module.gather.service.agent;
 
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.module.gather.controller.admin.agent.vo.*;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
  * Agent服务接口
@@ -19,14 +18,6 @@ public interface AgentService {
     void createAgent(AgentSaveReqVO saveReqVO);
 
     /**
-     * 注册 SSE 推送客户端
-     *
-     * @param uuid    agent uuid
-     * @param emitter SSE 推送器
-     */
-    void registerClient(String uuid, SseEmitter emitter);
-
-    /**
      * 接收心跳上报
      *
      * @param reqVO 心跳数据
@@ -34,19 +25,11 @@ public interface AgentService {
     void receiveHeartbeat(AgentHeartbeatReqVO reqVO);
 
     /**
-     * 移除客户端
-     *
-     * @param uuid Agent UUID
-     */
-    void removeClient(String uuid);
-
-    /**
      * 推送配置到指定客户端
      *
      * @param uuid    UUID
-     * @param rules   配置规则
      */
-    void pushConfig(String uuid, String rules);
+    void pushConfig(String uuid);
 
     /**
      * 推送命令到指定客户端

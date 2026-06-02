@@ -17,7 +17,9 @@ public enum EventTypeEnum implements ArrayValuable<String> {
 
     MESSAGE("message", "消息事件"),
 
-    CONNECTED("connected", "连接事件");
+    CONNECTED("connected", "连接事件"),
+
+    HEARTBEAT("heartbeat", "心跳事件");
 
     public static final String[] ARRAYS = Arrays.stream(values()).map(EventTypeEnum::getEventType).toArray(String[]::new);
 

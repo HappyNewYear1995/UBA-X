@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.util.Map;
+
 /**
  * Agent 命令推送 ReqVO
  *
@@ -20,5 +22,8 @@ public class AgentCommandReqVO {
     @Schema(description = "命令动作", requiredMode = Schema.RequiredMode.REQUIRED, example = "restart")
     @NotBlank(message = "命令动作不能为空")
     private String action;
+
+    @Schema(description = "命令参数", example = "{\"force\": true}")
+    private Map<String, Object> params;
 
 }

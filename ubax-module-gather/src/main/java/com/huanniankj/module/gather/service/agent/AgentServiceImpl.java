@@ -7,17 +7,22 @@ import com.huanniankj.module.gather.convert.agent.AgentConvert;
 import com.huanniankj.module.gather.dal.dataobject.agent.AgentDO;
 import com.huanniankj.module.gather.dal.mysql.agent.AgentMapper;
 import com.huanniankj.module.gather.enums.ErrorCodeConstants;
-import com.huanniankj.module.gather.enums.agent.*;
+import com.huanniankj.module.gather.enums.agent.AgentStatusEnum;
+import com.huanniankj.module.gather.enums.agent.CollectorStatusEnum;
+import com.huanniankj.module.gather.enums.agent.PlatformEnum;
+import com.huanniankj.module.gather.enums.agent.TerminalEnum;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
 
@@ -32,10 +37,7 @@ public class AgentServiceImpl implements AgentService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    /**
-     * 存储在线客户端的 SSE 连接
-     */
-    private final Map<String, SseEmitter> clients = new ConcurrentHashMap<>();
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @Resource
     private AgentMapper agentMapper;
@@ -83,6 +85,8 @@ public class AgentServiceImpl implements AgentService {
             agentInsert.setCollectorStatus(CollectorStatusEnum.UNKNOWN.getStatus());
             // 默认在线
             agentInsert.setOnline(true);
+            // 默认Vector配置
+            agentInsert.setConfig("sources:\n  dummy_logs:\n    type: \"demo_logs\"\n    format: \"syslog\"\n    interval: 600\n\ntransforms:\n  parse_logs:\n    type: \"remap\"\n    inputs: [\"dummy_logs\"]\n    source: |\n      . = parse_syslog!(string!(.message))\n\nsinks:\n  print:\n    type: \"console\"\n    inputs: [\"parse_logs\"]\n    encoding:\n      codec: \"json\"\n      json:\n        pretty: true");
             // 当前时间为最后心跳时间
             agentInsert.setLastHeartbeat(LocalDateTime.now());
             agentMapper.insert(agentInsert);
@@ -90,23 +94,9 @@ public class AgentServiceImpl implements AgentService {
     }
 
     @Override
-    public void registerClient(String uuid, SseEmitter emitter) {
-        clients.put(uuid, emitter);
-        log.info("客户端已连接: {}", uuid);
-
-        try {
-            emitter.send(SseEmitter.event()
-                    .name(EventTypeEnum.CONNECTED.getEventType())
-                    .data("欢迎连接 UBAX 推送服务"));
-        } catch (IOException e) {
-            log.error("发送欢迎消息失败: {}", e.getMessage());
-        }
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public void receiveHeartbeat(AgentHeartbeatReqVO reqVO) {
-        log.info("收到心跳: {}", reqVO);
+        log.debug("收到心跳: {}", reqVO);
 
         // 查询数据库中是否已存在该 Agent
         AgentDO agent = agentMapper.selectByUUid(reqVO.getUuid());
@@ -120,20 +110,7 @@ public class AgentServiceImpl implements AgentService {
     }
 
     @Override
-    public void removeClient(String uuid) {
-        clients.remove(uuid);
-        log.info("客户端已断开: {}", uuid);
-
-        // 更新数据库中的在线状态
-        AgentDO agent = agentMapper.selectByUUid(uuid);
-        if (agent != null) {
-            agent.setOnline(false);
-            agentMapper.updateById(agent);
-        }
-    }
-
-    @Override
-    public void pushConfig(String uuid, String rules) {
+    public void pushConfig(String uuid) {
         // 校验 Agent 是否存在
         AgentDO agent = agentMapper.selectByUUid(uuid);
         if (agent == null) {
@@ -143,28 +120,31 @@ public class AgentServiceImpl implements AgentService {
         if (!Boolean.TRUE.equals(agent.getOnline())) {
             throw exception(ErrorCodeConstants.AGENT_OFFLINE);
         }
-        SseEmitter emitter = clients.get(uuid);
-        if (emitter == null) {
-            throw exception(ErrorCodeConstants.AGENT_OFFLINE);
-        }
 
         try {
+            // 构建请求头
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            // 构建请求体
             Map<String, Object> payload = Map.of(
-                    "rules", rules
+                    "rules", agent.getConfig(),
+                    "version", System.currentTimeMillis() / 1000
             );
 
-            Map<String, Object> message = Map.of(
-                    "type", MessageTypeEnum.CONFIG.getType(),
-                    "payload", payload,
-                    "timestamp", System.currentTimeMillis() / 1000
-            );
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(payload, headers);
 
-            emitter.send(SseEmitter.event()
-                    .name(EventTypeEnum.MESSAGE.getEventType())
-                    .data(objectMapper.writeValueAsString(message)));
+            // 调用客户端 API 推送配置
+            String agentApiUrl = "http://" + agent.getIp() + ":19090/api/config";
+            ResponseEntity<String> response = restTemplate.postForEntity(agentApiUrl, request, String.class);
 
-            log.info("配置已推送到 {}: ", uuid);
-        } catch (IOException e) {
+            if (response.getStatusCode().is2xxSuccessful()) {
+                log.info("配置已推送到 {}: {}", uuid, agentApiUrl);
+            } else {
+                log.error("推送配置失败，响应码: {}", response.getStatusCode());
+                throw exception(ErrorCodeConstants.AGENT_PUSH_CONFIG_FAILED);
+            }
+        } catch (Exception e) {
             log.error("推送配置失败: {}", e.getMessage());
             throw exception(ErrorCodeConstants.AGENT_PUSH_CONFIG_FAILED);
         }
@@ -182,29 +162,31 @@ public class AgentServiceImpl implements AgentService {
         if (!Boolean.TRUE.equals(agent.getOnline())) {
             throw exception(ErrorCodeConstants.AGENT_OFFLINE);
         }
-        SseEmitter emitter = clients.get(uuid);
-        if (emitter == null) {
-            throw exception(ErrorCodeConstants.AGENT_OFFLINE);
-        }
 
         try {
+            // 构建请求头
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            // 构建请求体
             Map<String, Object> payload = Map.of(
                     "action", reqVO.getAction(),
-                    "params", Map.of()
+                    "params", reqVO.getParams() != null ? reqVO.getParams() : Map.of()
             );
 
-            Map<String, Object> message = Map.of(
-                    "type", MessageTypeEnum.COMMAND.getType(),
-                    "payload", payload,
-                    "timestamp", System.currentTimeMillis() / 1000
-            );
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(payload, headers);
 
-            emitter.send(SseEmitter.event()
-                    .name(EventTypeEnum.CONNECTED.getEventType())
-                    .data(objectMapper.writeValueAsString(message)));
+            // 调用客户端 API 推送命令
+            String agentApiUrl = "http://" + agent.getIp() + ":19090/api/command";
+            ResponseEntity<String> response = restTemplate.postForEntity(agentApiUrl, request, String.class);
 
-            log.info("命令已推送到 {}: action={}", uuid, reqVO.getAction());
-        } catch (IOException e) {
+            if (response.getStatusCode().is2xxSuccessful()) {
+                log.info("命令已推送到 {}: action={}", uuid, reqVO.getAction());
+            } else {
+                log.error("推送命令失败，响应码: {}", response.getStatusCode());
+                throw exception(ErrorCodeConstants.AGENT_PUSH_COMMAND_FAILED);
+            }
+        } catch (Exception e) {
             log.error("推送命令失败: {}", e.getMessage());
             throw exception(ErrorCodeConstants.AGENT_PUSH_COMMAND_FAILED);
         }

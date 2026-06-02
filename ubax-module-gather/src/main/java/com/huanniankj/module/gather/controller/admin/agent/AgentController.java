@@ -10,10 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
@@ -60,7 +58,15 @@ public class AgentController {
     @Parameter(name = "uuid", description = "Agent UUID", required = true, example = "agent-uuid-001")
     @PermitAll
     public CommonResult<Boolean> pushConfig(@RequestParam("uuid") String uuid) {
-        agentService.pushConfig(uuid, "");
+        agentService.pushConfig(uuid);
+        return success(true);
+    }
+
+    @PostMapping("/register")
+    @Operation(summary = "Agent 注册", description = "客户端启动时调用，注册 Agent 信息并上送操作系统、版本等")
+    @PermitAll
+    public CommonResult<Boolean> register(@Validated @RequestBody AgentSaveReqVO reqVO) {
+        agentService.createAgent(reqVO);
         return success(true);
     }
 
@@ -70,24 +76,6 @@ public class AgentController {
     public CommonResult<Boolean> heartbeat(@RequestBody AgentHeartbeatReqVO reqVO) {
         agentService.receiveHeartbeat(reqVO);
         return success(true);
-    }
-
-    @PostMapping(path = "/content", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    @Operation(summary = "连接 SSE 推送流", description = "Agent 建立长连接接收配置和命令")
-    @PermitAll
-    public SseEmitter content(@RequestHeader(value = "X-Agent-UUID", defaultValue = "unknown") String agentUuid,
-                              @RequestBody AgentSaveReqVO reqVO) {
-
-        agentService.createAgent(reqVO);
-        SseEmitter emitter = new SseEmitter(120_000L); // 60 秒超时
-        // 注册客户端
-        agentService.registerClient(agentUuid, emitter);
-        // 客户端断开时清理
-        emitter.onCompletion(() -> agentService.removeClient(agentUuid));
-        emitter.onTimeout(() -> agentService.removeClient(agentUuid));
-        emitter.onError((e) -> agentService.removeClient(agentUuid));
-
-        return emitter;
     }
 
     @PutMapping("/update-status")
