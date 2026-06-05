@@ -3,7 +3,7 @@ package com.huanniankj.module.system.dal.mysql.dept;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.system.controller.admin.dept.vo.post.PostPageReqVO;
+import com.huanniankj.module.system.controller.dept.vo.post.PostPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.dept.PostDO;
 import org.apache.ibatis.annotations.Mapper;
 

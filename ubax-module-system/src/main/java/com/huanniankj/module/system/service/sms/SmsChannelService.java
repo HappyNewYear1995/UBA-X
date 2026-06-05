@@ -1,8 +1,8 @@
 package com.huanniankj.module.system.service.sms;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
-import com.huanniankj.module.system.controller.admin.sms.vo.channel.SmsChannelSaveReqVO;
+import com.huanniankj.module.system.controller.sms.vo.channel.SmsChannelPageReqVO;
+import com.huanniankj.module.system.controller.sms.vo.channel.SmsChannelSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.sms.SmsChannelDO;
 import com.huanniankj.module.system.framework.sms.core.client.SmsClient;
 import jakarta.validation.Valid;

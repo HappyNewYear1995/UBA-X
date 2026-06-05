@@ -2,7 +2,7 @@ package com.huanniankj.module.system.service.logger;
 
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.module.system.api.logger.dto.LoginLogCreateReqDTO;
-import com.huanniankj.module.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
+import com.huanniankj.module.system.controller.logger.vo.loginlog.LoginLogPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.logger.LoginLogDO;
 import jakarta.validation.Valid;
 

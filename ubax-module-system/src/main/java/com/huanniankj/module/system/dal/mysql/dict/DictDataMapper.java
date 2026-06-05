@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.system.controller.admin.dict.vo.data.DictDataPageReqVO;
+import com.huanniankj.module.system.controller.dict.vo.data.DictDataPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.dict.DictDataDO;
 import org.apache.ibatis.annotations.Mapper;
 

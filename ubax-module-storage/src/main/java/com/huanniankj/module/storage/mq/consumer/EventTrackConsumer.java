@@ -24,7 +24,7 @@ public class EventTrackConsumer {
     private static final String TOPIC_EVENT_TRACK = "ubax.user.behavior.clean";
 
     // TODO: 目前是单条消费。建议开启 Spring Kafka 的批量消费 (batch-listener=true) 并按 List<ConsumerRecord> 接收，以大幅提高吞吐量
-    @KafkaListener(topics = TOPIC_EVENT_TRACK, groupId = "ubax-storage-group")
+   // @KafkaListener(topics = TOPIC_EVENT_TRACK, groupId = "ubax-storage-group")
     public void onMessage(ConsumerRecord<String, String> record) {
         if (record == null || record.value() == null) {
             return;

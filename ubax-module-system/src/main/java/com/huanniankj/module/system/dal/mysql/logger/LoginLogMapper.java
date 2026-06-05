@@ -3,7 +3,7 @@ package com.huanniankj.module.system.dal.mysql.logger;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
+import com.huanniankj.module.system.controller.logger.vo.loginlog.LoginLogPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.logger.LoginLogDO;
 import com.huanniankj.module.system.enums.logger.LoginResultEnum;
 import org.apache.ibatis.annotations.Mapper;

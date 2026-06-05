@@ -1,8 +1,8 @@
 package com.huanniankj.module.gather.convert.event;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.gather.controller.admin.event.vo.EventConfigRespVO;
-import com.huanniankj.module.gather.controller.admin.event.vo.EventConfigSaveReqVO;
+import com.huanniankj.module.gather.controller.event.vo.EventConfigRespVO;
+import com.huanniankj.module.gather.controller.event.vo.EventConfigSaveReqVO;
 import com.huanniankj.module.gather.dal.dataobject.event.EventConfigDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

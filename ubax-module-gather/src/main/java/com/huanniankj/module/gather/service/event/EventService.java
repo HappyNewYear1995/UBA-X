@@ -1,10 +1,10 @@
 package com.huanniankj.module.gather.service.event;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.gather.controller.admin.event.vo.EventHandleReqVO;
-import com.huanniankj.module.gather.controller.admin.event.vo.EventPageReqVO;
-import com.huanniankj.module.gather.controller.admin.event.vo.EventRespVO;
-import com.huanniankj.module.gather.controller.admin.event.vo.EventSaveReqVO;
+import com.huanniankj.module.gather.controller.event.vo.EventHandleReqVO;
+import com.huanniankj.module.gather.controller.event.vo.EventPageReqVO;
+import com.huanniankj.module.gather.controller.event.vo.EventRespVO;
+import com.huanniankj.module.gather.controller.event.vo.EventSaveReqVO;
 
 /**
  * 事件管理服务接口

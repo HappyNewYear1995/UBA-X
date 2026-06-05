@@ -3,7 +3,7 @@ package com.huanniankj.module.system.dal.mysql.notify;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.system.controller.admin.notify.vo.template.NotifyTemplatePageReqVO;
+import com.huanniankj.module.system.controller.notify.vo.template.NotifyTemplatePageReqVO;
 import com.huanniankj.module.system.dal.dataobject.notify.NotifyTemplateDO;
 import org.apache.ibatis.annotations.Mapper;
 

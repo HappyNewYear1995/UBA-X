@@ -1,8 +1,8 @@
 package com.huanniankj.module.system.service.dept;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.dept.vo.post.PostPageReqVO;
-import com.huanniankj.module.system.controller.admin.dept.vo.post.PostSaveReqVO;
+import com.huanniankj.module.system.controller.dept.vo.post.PostPageReqVO;
+import com.huanniankj.module.system.controller.dept.vo.post.PostSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.dept.PostDO;
 import org.springframework.lang.Nullable;
 

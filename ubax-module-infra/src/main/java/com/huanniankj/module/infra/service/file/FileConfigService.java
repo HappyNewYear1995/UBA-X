@@ -1,8 +1,8 @@
 package com.huanniankj.module.infra.service.file;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.infra.controller.admin.file.vo.config.FileConfigPageReqVO;
-import com.huanniankj.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
+import com.huanniankj.module.infra.controller.file.vo.config.FileConfigPageReqVO;
+import com.huanniankj.module.infra.controller.file.vo.config.FileConfigSaveReqVO;
 import com.huanniankj.module.infra.dal.dataobject.file.FileConfigDO;
 import com.huanniankj.module.infra.framework.file.core.client.FileClient;
 import jakarta.validation.Valid;

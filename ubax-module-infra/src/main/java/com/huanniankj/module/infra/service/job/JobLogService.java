@@ -2,7 +2,7 @@ package com.huanniankj.module.infra.service.job;
 
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.quartz.core.service.JobLogFrameworkService;
-import com.huanniankj.module.infra.controller.admin.job.vo.log.JobLogPageReqVO;
+import com.huanniankj.module.infra.controller.job.vo.log.JobLogPageReqVO;
 import com.huanniankj.module.infra.dal.dataobject.job.JobLogDO;
 
 /**

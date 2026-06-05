@@ -5,7 +5,7 @@ import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.huanniankj.framework.mybatis.core.util.MyBatisUtils;
-import com.huanniankj.module.system.controller.admin.mail.vo.log.MailLogPageReqVO;
+import com.huanniankj.module.system.controller.mail.vo.log.MailLogPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.mail.MailLogDO;
 import org.apache.ibatis.annotations.Mapper;
 

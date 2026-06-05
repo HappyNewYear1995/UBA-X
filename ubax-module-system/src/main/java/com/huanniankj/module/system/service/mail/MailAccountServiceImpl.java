@@ -2,8 +2,8 @@ package com.huanniankj.module.system.service.mail;
 
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.common.util.object.BeanUtils;
-import com.huanniankj.module.system.controller.admin.mail.vo.account.MailAccountPageReqVO;
-import com.huanniankj.module.system.controller.admin.mail.vo.account.MailAccountSaveReqVO;
+import com.huanniankj.module.system.controller.mail.vo.account.MailAccountPageReqVO;
+import com.huanniankj.module.system.controller.mail.vo.account.MailAccountSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.mail.MailAccountDO;
 import com.huanniankj.module.system.dal.mysql.mail.MailAccountMapper;
 import com.huanniankj.module.system.dal.redis.RedisKeyConstants;

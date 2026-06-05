@@ -2,8 +2,8 @@ package com.huanniankj.module.infra.service.config;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.infra.controller.admin.config.vo.ConfigPageReqVO;
-import com.huanniankj.module.infra.controller.admin.config.vo.ConfigSaveReqVO;
+import com.huanniankj.module.infra.controller.config.vo.ConfigPageReqVO;
+import com.huanniankj.module.infra.controller.config.vo.ConfigSaveReqVO;
 import com.huanniankj.module.infra.convert.config.ConfigConvert;
 import com.huanniankj.module.infra.dal.dataobject.config.ConfigDO;
 import com.huanniankj.module.infra.dal.mysql.config.ConfigMapper;

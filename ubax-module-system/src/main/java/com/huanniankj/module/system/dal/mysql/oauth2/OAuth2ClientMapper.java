@@ -3,7 +3,7 @@ package com.huanniankj.module.system.dal.mysql.oauth2;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.system.controller.admin.oauth2.vo.client.OAuth2ClientPageReqVO;
+import com.huanniankj.module.system.controller.oauth2.vo.client.OAuth2ClientPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.oauth2.OAuth2ClientDO;
 import org.apache.ibatis.annotations.Mapper;
 

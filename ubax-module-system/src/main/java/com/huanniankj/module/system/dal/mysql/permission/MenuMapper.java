@@ -2,7 +2,7 @@ package com.huanniankj.module.system.dal.mysql.permission;
 
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
+import com.huanniankj.module.system.controller.permission.vo.menu.MenuListReqVO;
 import com.huanniankj.module.system.dal.dataobject.permission.MenuDO;
 import org.apache.ibatis.annotations.Mapper;
 

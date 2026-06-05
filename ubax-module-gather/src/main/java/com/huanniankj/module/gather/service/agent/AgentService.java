@@ -1,7 +1,7 @@
 package com.huanniankj.module.gather.service.agent;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.gather.controller.admin.agent.vo.*;
+import com.huanniankj.module.gather.controller.agent.vo.*;
 
 /**
  * Agent服务接口

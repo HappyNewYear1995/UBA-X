@@ -1,7 +1,7 @@
 package com.huanniankj.module.system.service.sms;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
+import com.huanniankj.module.system.controller.sms.vo.log.SmsLogPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.sms.SmsLogDO;
 import com.huanniankj.module.system.dal.dataobject.sms.SmsTemplateDO;
 import com.huanniankj.module.system.dal.mysql.sms.SmsLogMapper;

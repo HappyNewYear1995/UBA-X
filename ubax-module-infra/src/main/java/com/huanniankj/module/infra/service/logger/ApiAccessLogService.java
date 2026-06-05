@@ -2,7 +2,7 @@ package com.huanniankj.module.infra.service.logger;
 
 import com.huanniankj.framework.common.biz.infra.logger.dto.ApiAccessLogCreateReqDTO;
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.infra.controller.admin.logger.vo.apiaccesslog.ApiAccessLogPageReqVO;
+import com.huanniankj.module.infra.controller.logger.vo.apiaccesslog.ApiAccessLogPageReqVO;
 import com.huanniankj.module.infra.dal.dataobject.logger.ApiAccessLogDO;
 
 /**

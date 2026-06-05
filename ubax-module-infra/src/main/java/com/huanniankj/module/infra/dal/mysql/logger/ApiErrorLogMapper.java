@@ -3,7 +3,7 @@ package com.huanniankj.module.infra.dal.mysql.logger;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
+import com.huanniankj.module.infra.controller.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
 import com.huanniankj.module.infra.dal.dataobject.logger.ApiErrorLogDO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;

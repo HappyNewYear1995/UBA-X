@@ -6,7 +6,7 @@ import com.huanniankj.framework.common.util.object.BeanUtils;
 import com.huanniankj.framework.common.util.string.StrUtils;
 import com.huanniankj.framework.tenant.core.context.TenantContextHolder;
 import com.huanniankj.framework.tenant.core.util.TenantUtils;
-import com.huanniankj.module.infra.controller.admin.logger.vo.apiaccesslog.ApiAccessLogPageReqVO;
+import com.huanniankj.module.infra.controller.logger.vo.apiaccesslog.ApiAccessLogPageReqVO;
 import com.huanniankj.module.infra.dal.dataobject.logger.ApiAccessLogDO;
 import com.huanniankj.module.infra.dal.mysql.logger.ApiAccessLogMapper;
 import jakarta.annotation.Resource;

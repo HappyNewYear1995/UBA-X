@@ -1,9 +1,9 @@
 package com.huanniankj.module.gather.service.event;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.gather.controller.admin.event.vo.EventConfigPageReqVO;
-import com.huanniankj.module.gather.controller.admin.event.vo.EventConfigRespVO;
-import com.huanniankj.module.gather.controller.admin.event.vo.EventConfigSaveReqVO;
+import com.huanniankj.module.gather.controller.event.vo.EventConfigPageReqVO;
+import com.huanniankj.module.gather.controller.event.vo.EventConfigRespVO;
+import com.huanniankj.module.gather.controller.event.vo.EventConfigSaveReqVO;
 import com.huanniankj.module.gather.convert.event.EventConfigConvert;
 import com.huanniankj.module.gather.dal.dataobject.event.EventConfigDO;
 import com.huanniankj.module.gather.dal.mysql.event.EventConfigMapper;

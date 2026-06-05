@@ -3,7 +3,7 @@ package com.huanniankj.module.gather.dal.mysql.agent;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.gather.controller.admin.agent.vo.AgentPageReqVO;
+import com.huanniankj.module.gather.controller.agent.vo.AgentPageReqVO;
 import com.huanniankj.module.gather.dal.dataobject.agent.AgentDO;
 import org.apache.ibatis.annotations.Mapper;
 

@@ -2,7 +2,7 @@ package com.huanniankj.module.system.dal.mysql.dept;
 
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.system.controller.admin.dept.vo.dept.DeptListReqVO;
+import com.huanniankj.module.system.controller.dept.vo.dept.DeptListReqVO;
 import com.huanniankj.module.system.dal.dataobject.dept.DeptDO;
 import org.apache.ibatis.annotations.Mapper;
 

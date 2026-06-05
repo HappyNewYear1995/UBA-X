@@ -1,8 +1,8 @@
 package com.huanniankj.module.system.service.tenant;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.tenant.vo.packages.TenantPackagePageReqVO;
-import com.huanniankj.module.system.controller.admin.tenant.vo.packages.TenantPackageSaveReqVO;
+import com.huanniankj.module.system.controller.tenant.vo.packages.TenantPackagePageReqVO;
+import com.huanniankj.module.system.controller.tenant.vo.packages.TenantPackageSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.tenant.TenantPackageDO;
 import jakarta.validation.Valid;
 

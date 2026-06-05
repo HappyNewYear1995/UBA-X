@@ -263,8 +263,8 @@ ubax:
       - ${management.endpoints.web.base-path}/** # 不处理 Actuator 的请求
   security:
     permit-all-urls:
-      - /admin-api/mp/open/** # 微信公众号开放平台，微信回调接口，不需要登录
-      - /app-api/collect/** # 数据采集网关，不需要登录
+      - /api/mp/open/** # 微信公众号开放平台，微信回调接口，不需要登录
+      - /api/collect/** # 数据采集网关，不需要登录
   api-encrypt:
     enable: true # 是否开启 API 加密
     algorithm: AES # 加密算法，支持 AES、RSA 等
@@ -296,8 +296,8 @@ ubax:
     ignore-urls:
       - /jmreport/* # 积木报表，无法携带租户编号
     ignore-visit-urls:
-      - /admin-api/system/user/profile/**
-      - /admin-api/system/auth/**
+      - /api/system/user/profile/**
+      - /api/system/auth/**
     ignore-tables:
     ignore-caches:
       - user_role_ids

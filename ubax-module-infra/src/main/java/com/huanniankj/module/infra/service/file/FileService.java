@@ -1,9 +1,9 @@
 package com.huanniankj.module.infra.service.file;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.infra.controller.admin.file.vo.file.FileCreateReqVO;
-import com.huanniankj.module.infra.controller.admin.file.vo.file.FilePageReqVO;
-import com.huanniankj.module.infra.controller.admin.file.vo.file.FilePresignedUrlRespVO;
+import com.huanniankj.module.infra.controller.file.vo.file.FileCreateReqVO;
+import com.huanniankj.module.infra.controller.file.vo.file.FilePageReqVO;
+import com.huanniankj.module.infra.controller.file.vo.file.FilePresignedUrlRespVO;
 import com.huanniankj.module.infra.dal.dataobject.file.FileDO;
 import jakarta.validation.constraints.NotEmpty;
 

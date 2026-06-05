@@ -4,8 +4,8 @@ import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.huanniankj.framework.mybatis.core.query.QueryWrapperX;
-import com.huanniankj.module.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
-import com.huanniankj.module.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
+import com.huanniankj.module.system.controller.notify.vo.message.NotifyMessageMyPageReqVO;
+import com.huanniankj.module.system.controller.notify.vo.message.NotifyMessagePageReqVO;
 import com.huanniankj.module.system.dal.dataobject.notify.NotifyMessageDO;
 import org.apache.ibatis.annotations.Mapper;
 

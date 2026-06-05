@@ -1,7 +1,7 @@
 package com.huanniankj.module.system.service.oauth2;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
+import com.huanniankj.module.system.controller.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 
 import java.util.List;

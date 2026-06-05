@@ -1,8 +1,8 @@
 package com.huanniankj.module.system.service.permission;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.permission.vo.role.RolePageReqVO;
-import com.huanniankj.module.system.controller.admin.permission.vo.role.RoleSaveReqVO;
+import com.huanniankj.module.system.controller.permission.vo.role.RolePageReqVO;
+import com.huanniankj.module.system.controller.permission.vo.role.RoleSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.permission.RoleDO;
 import jakarta.validation.Valid;
 

@@ -1,8 +1,8 @@
 package com.huanniankj.module.system.service.sms;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.sms.vo.template.SmsTemplatePageReqVO;
-import com.huanniankj.module.system.controller.admin.sms.vo.template.SmsTemplateSaveReqVO;
+import com.huanniankj.module.system.controller.sms.vo.template.SmsTemplatePageReqVO;
+import com.huanniankj.module.system.controller.sms.vo.template.SmsTemplateSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.sms.SmsTemplateDO;
 import jakarta.validation.Valid;
 

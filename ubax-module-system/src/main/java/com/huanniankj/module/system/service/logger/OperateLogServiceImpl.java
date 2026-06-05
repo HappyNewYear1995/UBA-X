@@ -4,7 +4,7 @@ import com.huanniankj.framework.common.biz.system.logger.dto.OperateLogCreateReq
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.common.util.object.BeanUtils;
 import com.huanniankj.module.system.api.logger.dto.OperateLogPageReqDTO;
-import com.huanniankj.module.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
+import com.huanniankj.module.system.controller.logger.vo.operatelog.OperateLogPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.logger.OperateLogDO;
 import com.huanniankj.module.system.dal.mysql.logger.OperateLogMapper;
 import jakarta.annotation.Resource;

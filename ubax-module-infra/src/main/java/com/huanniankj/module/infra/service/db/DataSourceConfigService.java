@@ -1,6 +1,6 @@
 package com.huanniankj.module.infra.service.db;
 
-import com.huanniankj.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
+import com.huanniankj.module.infra.controller.db.vo.DataSourceConfigSaveReqVO;
 import com.huanniankj.module.infra.dal.dataobject.db.DataSourceConfigDO;
 import jakarta.validation.Valid;
 

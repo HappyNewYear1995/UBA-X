@@ -1,6 +1,6 @@
 package com.huanniankj.module.infra.convert.file;
 
-import com.huanniankj.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
+import com.huanniankj.module.infra.controller.file.vo.config.FileConfigSaveReqVO;
 import com.huanniankj.module.infra.dal.dataobject.file.FileConfigDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

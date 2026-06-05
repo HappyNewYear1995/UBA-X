@@ -3,7 +3,7 @@ package com.huanniankj.module.system.service.logger;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.common.util.object.BeanUtils;
 import com.huanniankj.module.system.api.logger.dto.LoginLogCreateReqDTO;
-import com.huanniankj.module.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
+import com.huanniankj.module.system.controller.logger.vo.loginlog.LoginLogPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.logger.LoginLogDO;
 import com.huanniankj.module.system.dal.mysql.logger.LoginLogMapper;
 import jakarta.annotation.Resource;

@@ -1,8 +1,8 @@
 package com.huanniankj.module.system.service.notify;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
-import com.huanniankj.module.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
+import com.huanniankj.module.system.controller.notify.vo.message.NotifyMessageMyPageReqVO;
+import com.huanniankj.module.system.controller.notify.vo.message.NotifyMessagePageReqVO;
 import com.huanniankj.module.system.dal.dataobject.notify.NotifyMessageDO;
 import com.huanniankj.module.system.dal.dataobject.notify.NotifyTemplateDO;
 import com.huanniankj.module.system.dal.mysql.notify.NotifyMessageMapper;

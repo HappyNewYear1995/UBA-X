@@ -3,7 +3,7 @@ package com.huanniankj.module.gather.dal.mysql.monitor;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.gather.controller.admin.monitor.vo.MonitorMetricPageReqVO;
+import com.huanniankj.module.gather.controller.monitor.vo.MonitorMetricPageReqVO;
 import com.huanniankj.module.gather.dal.dataobject.monitor.MonitorMetricDO;
 import org.apache.ibatis.annotations.Mapper;
 

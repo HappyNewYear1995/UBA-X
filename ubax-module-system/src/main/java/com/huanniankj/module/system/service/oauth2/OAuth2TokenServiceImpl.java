@@ -14,7 +14,7 @@ import com.huanniankj.framework.common.util.object.BeanUtils;
 import com.huanniankj.framework.security.core.LoginUser;
 import com.huanniankj.framework.tenant.core.context.TenantContextHolder;
 import com.huanniankj.framework.tenant.core.util.TenantUtils;
-import com.huanniankj.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
+import com.huanniankj.module.system.controller.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import com.huanniankj.module.system.dal.dataobject.oauth2.OAuth2ClientDO;
 import com.huanniankj.module.system.dal.dataobject.oauth2.OAuth2RefreshTokenDO;

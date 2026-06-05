@@ -1,0 +1,109 @@
+package com.huanniankj.module.system.controller.notice;
+
+import cn.hutool.core.lang.Assert;
+import com.huanniankj.framework.common.enums.UserTypeEnum;
+import com.huanniankj.framework.common.pojo.CommonResult;
+import com.huanniankj.framework.common.pojo.PageResult;
+import com.huanniankj.framework.common.util.object.BeanUtils;
+import com.huanniankj.module.infra.api.websocket.WebSocketSenderApi;
+import com.huanniankj.module.system.controller.notice.vo.NoticePageReqVO;
+import com.huanniankj.module.system.controller.notice.vo.NoticeRespVO;
+import com.huanniankj.module.system.controller.notice.vo.NoticeSaveReqVO;
+import com.huanniankj.module.system.dal.dataobject.notice.NoticeDO;
+import com.huanniankj.module.system.service.notice.NoticeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+import static com.huanniankj.framework.common.pojo.CommonResult.success;
+
+@Tag(name = "管理后台 - 通知公告")
+@RestController
+@RequestMapping("/system/notice")
+@Validated
+public class NoticeController {
+
+    @Resource
+    private NoticeService noticeService;
+
+    @Resource
+    private WebSocketSenderApi webSocketSenderApi;
+
+    @PostMapping("/create")
+    @Operation(summary = "创建通知公告")
+    @PreAuthorize("@ss.hasPermission('system:notice:create')")
+    public CommonResult<Long> createNotice(@Valid @RequestBody NoticeSaveReqVO createReqVO) {
+        Long noticeId = noticeService.createNotice(createReqVO);
+        return success(noticeId);
+    }
+
+    @PutMapping("/update")
+    @Operation(summary = "修改通知公告")
+    @PreAuthorize("@ss.hasPermission('system:notice:update')")
+    public CommonResult<Boolean> updateNotice(@Valid @RequestBody NoticeSaveReqVO updateReqVO) {
+        noticeService.updateNotice(updateReqVO);
+        return success(true);
+    }
+
+    @DeleteMapping("/delete")
+    @Operation(summary = "删除通知公告")
+    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @PreAuthorize("@ss.hasPermission('system:notice:delete')")
+    public CommonResult<Boolean> deleteNotice(@RequestParam("id") Long id) {
+        noticeService.deleteNotice(id);
+        return success(true);
+    }
+
+    @DeleteMapping("/delete-list")
+    @Operation(summary = "批量删除通知公告")
+    @Parameter(name = "ids", description = "编号列表", required = true)
+    @PreAuthorize("@ss.hasPermission('system:notice:delete')")
+    public CommonResult<Boolean> deleteNoticeList(@RequestParam("ids") List<Long> ids) {
+        noticeService.deleteNoticeList(ids);
+        return success(true);
+    }
+
+    @GetMapping("/page")
+    @Operation(summary = "获取通知公告列表")
+    @PreAuthorize("@ss.hasPermission('system:notice:query')")
+    public CommonResult<PageResult<NoticeRespVO>> getNoticePage(@Validated NoticePageReqVO pageReqVO) {
+        PageResult<NoticeDO> pageResult = noticeService.getNoticePage(pageReqVO);
+        return success(BeanUtils.toBean(pageResult, NoticeRespVO.class));
+    }
+
+    @GetMapping("/get")
+    @Operation(summary = "获得通知公告")
+    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @PreAuthorize("@ss.hasPermission('system:notice:query')")
+    public CommonResult<NoticeRespVO> getNotice(@RequestParam("id") Long id) {
+        NoticeDO notice = noticeService.getNotice(id);
+        return success(BeanUtils.toBean(notice, NoticeRespVO.class));
+    }
+
+    @PostMapping("/push")
+    @Operation(summary = "推送通知公告", description = "只发送给 websocket 连接在线的用户")
+    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @PreAuthorize("@ss.hasPermission('system:notice:update')")
+    public CommonResult<Boolean> push(@RequestParam("id") Long id) {
+        NoticeDO notice = noticeService.getNotice(id);
+        Assert.notNull(notice, "公告不能为空");
+        // 通过 websocket 推送给在线的用户
+        webSocketSenderApi.sendObject(UserTypeEnum.ADMIN.getValue(), "notice-push", notice);
+        return success(true);
+    }
+
+}

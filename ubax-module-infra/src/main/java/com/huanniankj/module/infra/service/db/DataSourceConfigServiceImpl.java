@@ -4,7 +4,7 @@ import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import com.huanniankj.framework.common.util.object.BeanUtils;
 import com.huanniankj.framework.mybatis.core.util.JdbcUtils;
-import com.huanniankj.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
+import com.huanniankj.module.infra.controller.db.vo.DataSourceConfigSaveReqVO;
 import com.huanniankj.module.infra.dal.dataobject.db.DataSourceConfigDO;
 import com.huanniankj.module.infra.dal.mysql.db.DataSourceConfigMapper;
 import jakarta.annotation.Resource;

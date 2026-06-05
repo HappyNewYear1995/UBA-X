@@ -4,7 +4,7 @@ import com.huanniankj.framework.common.exception.ServiceException;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.huanniankj.module.system.api.social.dto.SocialUserRespDTO;
-import com.huanniankj.module.system.controller.admin.socail.vo.user.SocialUserPageReqVO;
+import com.huanniankj.module.system.controller.socail.vo.user.SocialUserPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.social.SocialUserDO;
 import com.huanniankj.module.system.enums.social.SocialTypeEnum;
 import jakarta.validation.Valid;

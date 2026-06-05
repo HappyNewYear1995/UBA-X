@@ -1,8 +1,8 @@
 package com.huanniankj.module.system.service.notice;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.notice.vo.NoticePageReqVO;
-import com.huanniankj.module.system.controller.admin.notice.vo.NoticeSaveReqVO;
+import com.huanniankj.module.system.controller.notice.vo.NoticePageReqVO;
+import com.huanniankj.module.system.controller.notice.vo.NoticeSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.notice.NoticeDO;
 
 import java.util.List;

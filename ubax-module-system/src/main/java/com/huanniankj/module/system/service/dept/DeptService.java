@@ -1,8 +1,8 @@
 package com.huanniankj.module.system.service.dept;
 
 import com.huanniankj.framework.common.util.collection.CollectionUtils;
-import com.huanniankj.module.system.controller.admin.dept.vo.dept.DeptListReqVO;
-import com.huanniankj.module.system.controller.admin.dept.vo.dept.DeptSaveReqVO;
+import com.huanniankj.module.system.controller.dept.vo.dept.DeptListReqVO;
+import com.huanniankj.module.system.controller.dept.vo.dept.DeptSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.dept.DeptDO;
 
 import java.util.Collection;

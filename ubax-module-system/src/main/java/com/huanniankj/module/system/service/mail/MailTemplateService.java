@@ -1,8 +1,8 @@
 package com.huanniankj.module.system.service.mail;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.mail.vo.template.MailTemplatePageReqVO;
-import com.huanniankj.module.system.controller.admin.mail.vo.template.MailTemplateSaveReqVO;
+import com.huanniankj.module.system.controller.mail.vo.template.MailTemplatePageReqVO;
+import com.huanniankj.module.system.controller.mail.vo.template.MailTemplateSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.mail.MailTemplateDO;
 import jakarta.validation.Valid;
 

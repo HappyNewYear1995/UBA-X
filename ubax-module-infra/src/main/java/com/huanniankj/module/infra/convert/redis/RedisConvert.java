@@ -1,7 +1,7 @@
 package com.huanniankj.module.infra.convert.redis;
 
 import cn.hutool.core.util.StrUtil;
-import com.huanniankj.module.infra.controller.admin.redis.vo.RedisMonitorRespVO;
+import com.huanniankj.module.infra.controller.redis.vo.RedisMonitorRespVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -1,12 +1,12 @@
 package com.huanniankj.module.system.service.auth;
 
-import com.huanniankj.module.system.controller.admin.auth.vo.AuthLoginReqVO;
-import com.huanniankj.module.system.controller.admin.auth.vo.AuthLoginRespVO;
-import com.huanniankj.module.system.controller.admin.auth.vo.AuthRegisterReqVO;
-import com.huanniankj.module.system.controller.admin.auth.vo.AuthResetPasswordReqVO;
-import com.huanniankj.module.system.controller.admin.auth.vo.AuthSmsLoginReqVO;
-import com.huanniankj.module.system.controller.admin.auth.vo.AuthSmsSendReqVO;
-import com.huanniankj.module.system.controller.admin.auth.vo.AuthSocialLoginReqVO;
+import com.huanniankj.module.system.controller.auth.vo.AuthLoginReqVO;
+import com.huanniankj.module.system.controller.auth.vo.AuthLoginRespVO;
+import com.huanniankj.module.system.controller.auth.vo.AuthRegisterReqVO;
+import com.huanniankj.module.system.controller.auth.vo.AuthResetPasswordReqVO;
+import com.huanniankj.module.system.controller.auth.vo.AuthSmsLoginReqVO;
+import com.huanniankj.module.system.controller.auth.vo.AuthSmsSendReqVO;
+import com.huanniankj.module.system.controller.auth.vo.AuthSocialLoginReqVO;
 import com.huanniankj.module.system.dal.dataobject.user.AdminUserDO;
 import jakarta.validation.Valid;
 

@@ -1,7 +1,7 @@
 package com.huanniankj.module.system.service.mail;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.mail.vo.log.MailLogPageReqVO;
+import com.huanniankj.module.system.controller.mail.vo.log.MailLogPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.mail.MailAccountDO;
 import com.huanniankj.module.system.dal.dataobject.mail.MailLogDO;
 import com.huanniankj.module.system.dal.dataobject.mail.MailTemplateDO;

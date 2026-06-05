@@ -1,8 +1,8 @@
 package com.huanniankj.module.system.service.dict;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.dict.vo.data.DictDataPageReqVO;
-import com.huanniankj.module.system.controller.admin.dict.vo.data.DictDataSaveReqVO;
+import com.huanniankj.module.system.controller.dict.vo.data.DictDataPageReqVO;
+import com.huanniankj.module.system.controller.dict.vo.data.DictDataSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.dict.DictDataDO;
 import org.springframework.lang.Nullable;
 

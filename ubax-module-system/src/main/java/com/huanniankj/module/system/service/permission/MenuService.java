@@ -1,7 +1,7 @@
 package com.huanniankj.module.system.service.permission;
 
-import com.huanniankj.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
-import com.huanniankj.module.system.controller.admin.permission.vo.menu.MenuSaveVO;
+import com.huanniankj.module.system.controller.permission.vo.menu.MenuListReqVO;
+import com.huanniankj.module.system.controller.permission.vo.menu.MenuSaveVO;
 import com.huanniankj.module.system.dal.dataobject.permission.MenuDO;
 
 import java.util.Collection;

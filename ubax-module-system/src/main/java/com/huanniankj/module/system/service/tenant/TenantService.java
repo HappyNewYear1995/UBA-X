@@ -2,8 +2,8 @@ package com.huanniankj.module.system.service.tenant;
 
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.tenant.core.context.TenantContextHolder;
-import com.huanniankj.module.system.controller.admin.tenant.vo.tenant.TenantPageReqVO;
-import com.huanniankj.module.system.controller.admin.tenant.vo.tenant.TenantSaveReqVO;
+import com.huanniankj.module.system.controller.tenant.vo.tenant.TenantPageReqVO;
+import com.huanniankj.module.system.controller.tenant.vo.tenant.TenantSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.tenant.TenantDO;
 import com.huanniankj.module.system.service.tenant.handler.TenantInfoHandler;
 import com.huanniankj.module.system.service.tenant.handler.TenantMenuHandler;

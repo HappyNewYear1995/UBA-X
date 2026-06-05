@@ -3,7 +3,7 @@ package com.huanniankj.module.system.dal.mysql.tenant;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.system.controller.admin.tenant.vo.packages.TenantPackagePageReqVO;
+import com.huanniankj.module.system.controller.tenant.vo.packages.TenantPackagePageReqVO;
 import com.huanniankj.module.system.dal.dataobject.tenant.TenantPackageDO;
 import org.apache.ibatis.annotations.Mapper;
 

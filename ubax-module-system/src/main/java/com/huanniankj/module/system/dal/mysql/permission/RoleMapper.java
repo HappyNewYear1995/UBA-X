@@ -4,7 +4,7 @@ import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.dataobject.BaseDO;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.system.controller.admin.permission.vo.role.RolePageReqVO;
+import com.huanniankj.module.system.controller.permission.vo.role.RolePageReqVO;
 import com.huanniankj.module.system.dal.dataobject.permission.RoleDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.lang.Nullable;

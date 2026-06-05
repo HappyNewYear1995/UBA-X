@@ -4,7 +4,7 @@ import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.huanniankj.framework.tenant.core.aop.TenantIgnore;
-import com.huanniankj.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
+import com.huanniankj.module.system.controller.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import org.apache.ibatis.annotations.Mapper;
 

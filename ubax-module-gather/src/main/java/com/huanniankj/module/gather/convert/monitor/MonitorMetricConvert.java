@@ -1,8 +1,8 @@
 package com.huanniankj.module.gather.convert.monitor;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.gather.controller.admin.monitor.vo.MonitorMetricRespVO;
-import com.huanniankj.module.gather.controller.admin.monitor.vo.MonitorMetricSaveReqVO;
+import com.huanniankj.module.gather.controller.monitor.vo.MonitorMetricRespVO;
+import com.huanniankj.module.gather.controller.monitor.vo.MonitorMetricSaveReqVO;
 import com.huanniankj.module.gather.dal.dataobject.monitor.MonitorMetricDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

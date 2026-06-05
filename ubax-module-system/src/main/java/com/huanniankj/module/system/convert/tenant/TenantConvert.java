@@ -1,7 +1,7 @@
 package com.huanniankj.module.system.convert.tenant;
 
-import com.huanniankj.module.system.controller.admin.tenant.vo.tenant.TenantSaveReqVO;
-import com.huanniankj.module.system.controller.admin.user.vo.user.UserSaveReqVO;
+import com.huanniankj.module.system.controller.tenant.vo.tenant.TenantSaveReqVO;
+import com.huanniankj.module.system.controller.user.vo.user.UserSaveReqVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

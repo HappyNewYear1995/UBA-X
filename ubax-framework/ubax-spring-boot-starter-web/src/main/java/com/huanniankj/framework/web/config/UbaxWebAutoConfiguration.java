@@ -60,8 +60,7 @@ public class UbaxWebAutoConfiguration {
             private Map<String, Predicate<Class<?>>> buildPathPrefixes(WebProperties webProperties) {
                 AntPathMatcher antPathMatcher = new AntPathMatcher(".");
                 Map<String, Predicate<Class<?>>> pathPrefixes = Maps.newLinkedHashMapWithExpectedSize(2);
-                putPathPrefix(pathPrefixes, webProperties.getAdminApi(), antPathMatcher);
-                putPathPrefix(pathPrefixes, webProperties.getAppApi(), antPathMatcher);
+                putPathPrefix(pathPrefixes, webProperties.getApi(), antPathMatcher);
                 return pathPrefixes;
             }
 

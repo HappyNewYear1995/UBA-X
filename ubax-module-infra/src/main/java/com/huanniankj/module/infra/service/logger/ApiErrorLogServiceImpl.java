@@ -6,7 +6,7 @@ import com.huanniankj.framework.common.util.object.BeanUtils;
 import com.huanniankj.framework.common.util.string.StrUtils;
 import com.huanniankj.framework.tenant.core.context.TenantContextHolder;
 import com.huanniankj.framework.tenant.core.util.TenantUtils;
-import com.huanniankj.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
+import com.huanniankj.module.infra.controller.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
 import com.huanniankj.module.infra.dal.dataobject.logger.ApiErrorLogDO;
 import com.huanniankj.module.infra.dal.mysql.logger.ApiErrorLogMapper;
 import com.huanniankj.module.infra.enums.logger.ApiErrorLogProcessStatusEnum;

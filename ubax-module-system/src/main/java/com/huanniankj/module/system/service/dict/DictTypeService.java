@@ -1,8 +1,8 @@
 package com.huanniankj.module.system.service.dict;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.controller.admin.dict.vo.type.DictTypePageReqVO;
-import com.huanniankj.module.system.controller.admin.dict.vo.type.DictTypeSaveReqVO;
+import com.huanniankj.module.system.controller.dict.vo.type.DictTypePageReqVO;
+import com.huanniankj.module.system.controller.dict.vo.type.DictTypeSaveReqVO;
 import com.huanniankj.module.system.dal.dataobject.dict.DictTypeDO;
 
 import java.util.List;

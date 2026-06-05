@@ -1,10 +1,10 @@
 package com.huanniankj.module.gather.service.monitor;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.gather.controller.admin.monitor.vo.MonitorMetricPageReqVO;
-import com.huanniankj.module.gather.controller.admin.monitor.vo.MonitorMetricRespVO;
-import com.huanniankj.module.gather.controller.admin.monitor.vo.MonitorMetricSaveReqVO;
-import com.huanniankj.module.gather.controller.admin.monitor.vo.MonitorStatisticsRespVO;
+import com.huanniankj.module.gather.controller.monitor.vo.MonitorMetricPageReqVO;
+import com.huanniankj.module.gather.controller.monitor.vo.MonitorMetricRespVO;
+import com.huanniankj.module.gather.controller.monitor.vo.MonitorMetricSaveReqVO;
+import com.huanniankj.module.gather.controller.monitor.vo.MonitorStatisticsRespVO;
 import com.huanniankj.module.gather.convert.monitor.MonitorMetricConvert;
 import com.huanniankj.module.gather.dal.dataobject.monitor.MonitorMetricDO;
 import com.huanniankj.module.gather.dal.mysql.event.EventMapper;

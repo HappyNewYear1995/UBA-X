@@ -3,7 +3,7 @@ package com.huanniankj.module.gather.dal.mysql.event;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.gather.controller.admin.event.vo.EventConfigPageReqVO;
+import com.huanniankj.module.gather.controller.event.vo.EventConfigPageReqVO;
 import com.huanniankj.module.gather.dal.dataobject.event.EventConfigDO;
 import org.apache.ibatis.annotations.Mapper;
 

@@ -1,8 +1,8 @@
 package com.huanniankj.module.infra.service.job;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.infra.controller.admin.job.vo.job.JobPageReqVO;
-import com.huanniankj.module.infra.controller.admin.job.vo.job.JobSaveReqVO;
+import com.huanniankj.module.infra.controller.job.vo.job.JobPageReqVO;
+import com.huanniankj.module.infra.controller.job.vo.job.JobSaveReqVO;
 import com.huanniankj.module.infra.dal.dataobject.job.JobDO;
 import jakarta.validation.Valid;
 import org.quartz.SchedulerException;
