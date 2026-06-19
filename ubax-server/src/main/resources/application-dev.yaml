@@ -47,9 +47,9 @@ spring:
       primary: master
       datasource:
         master:
-          url: jdbc:mysql://42.192.54.170:3306/test?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
-          username: root
-          password: uba@2026_!
+          url: jdbc:mysql://192.168.10.10:3306/uba?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
+          username: uba
+          password: uba
         # slave: # 模拟从库，可根据自己需要修改
         #   lazy: true # 开启懒加载，保证启动速度
         #   url: jdbc:mysql://42.192.54.170:3306/ubax?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
@@ -63,10 +63,10 @@ spring:
   # Redis 配置
   data:
     redis:
-      host: 42.192.54.170
+      host: 192.168.10.10
       port: 6379
       database: 1 # 数据库索引
-      password: uba@2026_!
+      password: Huannian@2026_
   # Liquibase 配置
   liquibase:
     enabled: true # 开发环境启用 Liquibase

@@ -2,7 +2,7 @@ package com.huanniankj.module.gather.controller.agent;
 
 import com.huanniankj.framework.common.pojo.CommonResult;
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.gather.controller.admin.agent.vo.*;
+import com.huanniankj.module.gather.controller.agent.vo.*;
 import com.huanniankj.module.gather.controller.agent.vo.*;
 import com.huanniankj.module.gather.service.agent.AgentService;
 import io.swagger.v3.oas.annotations.Operation;

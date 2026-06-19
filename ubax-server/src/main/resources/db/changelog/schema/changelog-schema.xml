@@ -1095,7 +1095,7 @@
         <comment>Agent 探针表</comment>
         <sql>
             <![CDATA[
-            CREATE TABLE IF NOT EXISTS `pilot_agent`
+            CREATE TABLE IF NOT EXISTS `gather_agent`
             (
                 `id`               BIGINT       NOT NULL AUTO_INCREMENT COMMENT 'Agent ID',
                 `uuid`             VARCHAR(255) NOT NULL COMMENT 'UUID',
@@ -1118,9 +1118,263 @@
                 `deleted`          BIT          NOT NULL DEFAULT 0 COMMENT '是否删除',
                 PRIMARY KEY (`id`),
                 UNIQUE KEY `uk_uuid` (`uuid`)
-                ) ENGINE = InnoDB
+            ) ENGINE = InnoDB
                 DEFAULT CHARSET = utf8mb4
                 COLLATE = utf8mb4_unicode_ci COMMENT ='Agent 探针表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260524-002" author="zhaoff">
+        <comment>事件管理表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE IF NOT EXISTS `gather_event`
+            (
+                `id`            BIGINT       NOT NULL AUTO_INCREMENT COMMENT '事件 ID',
+                `agent_uuid`    VARCHAR(128) DEFAULT NULL COMMENT 'Agent UUID',
+                `event_type`    VARCHAR(128) NOT NULL COMMENT '事件类型',
+                `event_level`   INT          NOT NULL DEFAULT 1 COMMENT '事件级别 (1: 信息, 2: 警告, 3: 错误, 4: 严重)',
+                `event_source`  VARCHAR(64)  DEFAULT NULL COMMENT '事件来源 (agent/system/user)',
+                `title`         VARCHAR(255) NOT NULL COMMENT '事件标题',
+                `content`       TEXT         DEFAULT NULL COMMENT '事件详情',
+                `tags`          VARCHAR(500) DEFAULT NULL COMMENT '事件标签，逗号分隔',
+                `event_time`    DATETIME     NOT NULL COMMENT '事件发生时间',
+                `handled`       BIT          NOT NULL DEFAULT 0 COMMENT '是否已处理 (true: 已处理, false: 未处理)',
+                `handler`       VARCHAR(64)  DEFAULT NULL COMMENT '处理人',
+                `handle_time`   DATETIME     DEFAULT NULL COMMENT '处理时间',
+                `handle_remark` VARCHAR(500) DEFAULT NULL COMMENT '处理备注',
+                `creator`       VARCHAR(64)  DEFAULT '' COMMENT '创建者',
+                `create_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater`       VARCHAR(64)  DEFAULT '' COMMENT '更新者',
+                `update_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted`       BIT          NOT NULL DEFAULT 0 COMMENT '是否删除',
+                PRIMARY KEY (`id`),
+                KEY `idx_agent_uuid` (`agent_uuid`),
+                KEY `idx_event_type` (`event_type`),
+                KEY `idx_event_level` (`event_level`),
+                KEY `idx_event_source` (`event_source`),
+                KEY `idx_handled` (`handled`),
+                KEY `idx_event_time` (`event_time`)
+            ) ENGINE = InnoDB
+                DEFAULT CHARSET = utf8mb4
+                COLLATE = utf8mb4_unicode_ci COMMENT ='事件管理表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260524-003" author="zhaoff">
+        <comment>运行监控指标表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE IF NOT EXISTS `gather_monitor_metric`
+            (
+                `id`               BIGINT        NOT NULL AUTO_INCREMENT COMMENT '指标 ID',
+                `agent_uuid`       VARCHAR(128)  DEFAULT NULL COMMENT 'Agent UUID',
+                `metric_type`      VARCHAR(64)   NOT NULL COMMENT '指标类型 (event_count/success_rate/throughput/latency/error_rate/bandwidth)',
+                `metric_name`      VARCHAR(128)  NOT NULL COMMENT '指标名称',
+                `metric_value`     DOUBLE        NOT NULL COMMENT '指标值',
+                `metric_unit`      VARCHAR(32)   DEFAULT NULL COMMENT '指标单位',
+                `time_granularity` VARCHAR(32)   DEFAULT NULL COMMENT '时间粒度 (minute/hour/day)',
+                `start_time`       DATETIME      DEFAULT NULL COMMENT '统计开始时间',
+                `end_time`         DATETIME      DEFAULT NULL COMMENT '统计结束时间',
+                `metric_time`      DATETIME      NOT NULL COMMENT '指标数据时间',
+                `extra_data`       TEXT          DEFAULT NULL COMMENT '额外属性，JSON 格式',
+                `creator`          VARCHAR(64)   DEFAULT '' COMMENT '创建者',
+                `create_time`      DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater`          VARCHAR(64)   DEFAULT '' COMMENT '更新者',
+                `update_time`      DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted`          BIT           NOT NULL DEFAULT 0 COMMENT '是否删除',
+                PRIMARY KEY (`id`),
+                KEY `idx_agent_uuid` (`agent_uuid`),
+                KEY `idx_metric_type` (`metric_type`),
+                KEY `idx_metric_name` (`metric_name`),
+                KEY `idx_time_granularity` (`time_granularity`),
+                KEY `idx_metric_time` (`metric_time`)
+            ) ENGINE = InnoDB
+                DEFAULT CHARSET = utf8mb4
+                COLLATE = utf8mb4_unicode_ci COMMENT ='运行监控指标表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260524-004" author="zhaoff">
+        <comment>事件配置表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE IF NOT EXISTS `gather_event_config`
+            (
+                `id`                   BIGINT       NOT NULL AUTO_INCREMENT COMMENT '配置 ID',
+                `config_name`          VARCHAR(128) NOT NULL COMMENT '配置名称',
+                `config_desc`          VARCHAR(500) DEFAULT NULL COMMENT '配置描述',
+                `match_position`       VARCHAR(64)  NOT NULL COMMENT '匹配位置 (http_body/http_header/http_url/http_method/http_status/custom_field)',
+                `match_type`           VARCHAR(64)  NOT NULL COMMENT '匹配类型 (contains/equals/starts_with/ends_with/regex/not_contains)',
+                `match_value`          VARCHAR(500) NOT NULL COMMENT '匹配规则值',
+                `match_logic`          VARCHAR(32)  DEFAULT NULL COMMENT '匹配逻辑 (and/or)',
+                `event_type`           VARCHAR(128) DEFAULT NULL COMMENT '匹配后事件类型',
+                `event_level`          INT          DEFAULT NULL COMMENT '匹配后事件级别',
+                `event_title_template` VARCHAR(255) DEFAULT NULL COMMENT '匹配后事件标题模板',
+                `enabled`              BIT          NOT NULL DEFAULT 1 COMMENT '是否启用 (true: 启用, false: 禁用)',
+                `sort`                 INT          NOT NULL DEFAULT 0 COMMENT '排序',
+                `remark`               VARCHAR(500) DEFAULT NULL COMMENT '备注',
+                `creator`              VARCHAR(64)  DEFAULT '' COMMENT '创建者',
+                `create_time`          DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater`              VARCHAR(64)  DEFAULT '' COMMENT '更新者',
+                `update_time`          DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted`              BIT          NOT NULL DEFAULT 0 COMMENT '是否删除',
+                PRIMARY KEY (`id`),
+                KEY `idx_match_position` (`match_position`),
+                KEY `idx_match_type` (`match_type`),
+                KEY `idx_enabled` (`enabled`),
+                KEY `idx_event_type` (`event_type`),
+                KEY `idx_sort` (`sort`)
+            ) ENGINE = InnoDB
+                DEFAULT CHARSET = utf8mb4
+                COLLATE = utf8mb4_unicode_ci COMMENT ='事件配置表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260609-001" author="zhaoff">
+        <comment>数据源配置表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE IF NOT EXISTS `source_database`
+            (
+                `id`                    BIGINT       NOT NULL AUTO_INCREMENT COMMENT '数据源 ID',
+                `name`                  VARCHAR(128) NOT NULL COMMENT '数据源名称',
+                `db_type`               VARCHAR(32)  NOT NULL COMMENT '数据库类型编码 (mysql/postgresql/oracle/sqlserver)',
+                `host`                  VARCHAR(128) NOT NULL COMMENT '主机地址',
+                `port`                  INT          NOT NULL COMMENT '端口号',
+                `database`              VARCHAR(128) NOT NULL COMMENT '数据库名',
+                `username`              VARCHAR(128) NOT NULL COMMENT '用户名',
+                `password`              VARCHAR(256) NOT NULL COMMENT '密码 (加密存储)',
+                `url`                   VARCHAR(512) DEFAULT NULL COMMENT 'JDBC URL (可选，为空时根据模板自动生成)',
+                `protocol`              VARCHAR(32)  DEFAULT 'tcp' COMMENT '连接协议 (tcp/ssl/ssl-verify)',
+                `ssl_cert_path`         VARCHAR(512) DEFAULT NULL COMMENT 'SSL 客户端证书路径',
+                `ssl_key_path`          VARCHAR(512) DEFAULT NULL COMMENT 'SSL 私钥路径',
+                `ssl_ca_path`           VARCHAR(512) DEFAULT NULL COMMENT 'SSL CA 证书路径',
+                `password_encrypt_type` VARCHAR(32)  DEFAULT 'plain' COMMENT '密码加密方式 (plain/aes/rsa)',
+                `connection_params`     TEXT         DEFAULT NULL COMMENT '额外连接参数 (JSON 格式)',
+                `max_pool_size`         INT          DEFAULT 20 COMMENT '连接池最大连接数',
+                `connection_timeout`    BIGINT       DEFAULT 30000 COMMENT '连接超时时间 (毫秒)',
+                `status`                TINYINT      NOT NULL DEFAULT 0 COMMENT '状态 (0-正常 1-禁用)',
+                `remark`                VARCHAR(500) DEFAULT NULL COMMENT '备注',
+                `creator`               VARCHAR(64)  DEFAULT '' COMMENT '创建者',
+                `create_time`           DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater`               VARCHAR(64)  DEFAULT '' COMMENT '更新者',
+                `update_time`           DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted`               BIT          NOT NULL DEFAULT 0 COMMENT '是否删除',
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `uk_name` (`name`),
+                KEY `idx_db_type` (`db_type`),
+                KEY `idx_status` (`status`)
+            ) ENGINE = InnoDB
+                DEFAULT CHARSET = utf8mb4
+                COLLATE = utf8mb4_unicode_ci COMMENT ='数据源配置表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260616-001" author="zhaoff">
+        <comment>脚本配置表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE IF NOT EXISTS `source_database`
+            (
+                `id`                    BIGINT       NOT NULL AUTO_INCREMENT COMMENT '数据源 ID',
+                `name`                  VARCHAR(128) NOT NULL COMMENT '数据源名称',
+                `db_type`               VARCHAR(32)  NOT NULL COMMENT '数据库类型编码 (mysql/postgresql/oracle/sqlserver)',
+                `host`                  VARCHAR(128) NOT NULL COMMENT '主机地址',
+                `port`                  INT          NOT NULL COMMENT '端口号',
+                `database`              VARCHAR(128) NOT NULL COMMENT '数据库名',
+                `username`              VARCHAR(128) NOT NULL COMMENT '用户名',
+                `password`              VARCHAR(256) NOT NULL COMMENT '密码 (加密存储)',
+                `url`                   VARCHAR(512) DEFAULT NULL COMMENT 'JDBC URL (可选，为空时根据模板自动生成)',
+                `protocol`              VARCHAR(32)  DEFAULT 'tcp' COMMENT '连接协议 (tcp/ssl/ssl-verify)',
+                `ssl_cert_path`         VARCHAR(512) DEFAULT NULL COMMENT 'SSL 客户端证书路径',
+                `ssl_key_path`          VARCHAR(512) DEFAULT NULL COMMENT 'SSL 私钥路径',
+                `ssl_ca_path`           VARCHAR(512) DEFAULT NULL COMMENT 'SSL CA 证书路径',
+                `password_encrypt_type` VARCHAR(32)  DEFAULT 'plain' COMMENT '密码加密方式 (plain/aes/rsa)',
+                `connection_params`     TEXT         DEFAULT NULL COMMENT '额外连接参数 (JSON 格式)',
+                `max_pool_size`         INT          DEFAULT 20 COMMENT '连接池最大连接数',
+                `connection_timeout`    BIGINT       DEFAULT 30000 COMMENT '连接超时时间 (毫秒)',
+                `status`                TINYINT      NOT NULL DEFAULT 0 COMMENT '状态 (0-正常 1-禁用)',
+                `remark`                VARCHAR(500) DEFAULT NULL COMMENT '备注',
+                `creator`               VARCHAR(64)  DEFAULT '' COMMENT '创建者',
+                `create_time`           DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater`               VARCHAR(64)  DEFAULT '' COMMENT '更新者',
+                `update_time`           DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted`               BIT          NOT NULL DEFAULT 0 COMMENT '是否删除',
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `uk_name` (`name`),
+                KEY `idx_db_type` (`db_type`),
+                KEY `idx_status` (`status`)
+            ) ENGINE = InnoDB
+                DEFAULT CHARSET = utf8mb4
+                COLLATE = utf8mb4_unicode_ci COMMENT ='数据库数据源表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260616-002" author="zhaoff">
+        <comment>脚本配置表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE IF NOT EXISTS `source_database_script` (
+                `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+                `name` VARCHAR(100) NOT NULL COMMENT '脚本名称',
+                `code` VARCHAR(64) NOT NULL COMMENT '脚本编码',
+                `database_id` BIGINT NOT NULL COMMENT '数据源ID',
+                `script_type` VARCHAR(32) NOT NULL COMMENT '脚本类型(sql/procedure/view)',
+                `script_content` LONGTEXT NOT NULL COMMENT '脚本内容',
+                `description` VARCHAR(500) COMMENT '脚本描述',
+                `result_table_name` VARCHAR(100) COMMENT '结果映射表名',
+                `result_field_mapping` TEXT COMMENT '结果字段映射(JSON)',
+                `cron_expression` VARCHAR(100) COMMENT 'Cron表达式',
+                `execute_count` INT DEFAULT 0 COMMENT '执行次数',
+                `last_execute_time` DATETIME COMMENT '最后执行时间',
+                `last_execute_status` TINYINT COMMENT '最后执行状态',
+                `status` TINYINT DEFAULT 0 COMMENT '状态',
+                `remark` VARCHAR(500) COMMENT '备注',
+                `create_time` DATETIME,
+                `update_time` DATETIME,
+                `creator` VARCHAR(64),
+                `updater` VARCHAR(64),
+                `deleted` TINYINT DEFAULT 0,
+                UNIQUE KEY `uk_code` (`code`),
+                KEY `idx_database_id` (`database_id`),
+                KEY `idx_script_type` (`script_type`),
+                KEY `idx_status` (`status`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='数据库脚本表';
+
+            CREATE TABLE IF NOT EXISTS `source_database_script_log` (
+                `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+                `script_id` BIGINT NOT NULL COMMENT '脚本ID',
+                `script_name` VARCHAR(100) NOT NULL COMMENT '脚本名称',
+                `script_code` VARCHAR(64) NOT NULL COMMENT '脚本编码',
+                `database_id` BIGINT NOT NULL COMMENT '数据源ID',
+                `execute_type` VARCHAR(32) NOT NULL COMMENT '执行类型(manual/scheduled)',
+                `script_content` LONGTEXT COMMENT '执行的脚本内容',
+                `execute_result` TEXT COMMENT '执行结果(JSON)',
+                `affected_rows` BIGINT COMMENT '影响行数',
+                `output_params` TEXT COMMENT '输出参数(JSON)',
+                `status` TINYINT NOT NULL COMMENT '执行状态',
+                `error_message` TEXT COMMENT '错误信息',
+                `cost_time` BIGINT COMMENT '执行耗时(ms)',
+                `result_record_count` BIGINT COMMENT '结果记录数',
+                `persisted` TINYINT DEFAULT 0 COMMENT '是否已持久化',
+                `persist_error` TEXT COMMENT '持久化错误',
+                `create_time` DATETIME,
+                `update_time` DATETIME,
+                `creator` VARCHAR(64),
+                `updater` VARCHAR(64),
+                `deleted` TINYINT DEFAULT 0,
+                KEY `idx_script_id` (`script_id`),
+                KEY `idx_database_id` (`database_id`),
+                KEY `idx_status` (`status`),
+                KEY `idx_create_time` (`create_time`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='脚本执行日志表';
             ]]>
         </sql>
     </changeSet>

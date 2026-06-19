@@ -45,6 +45,27 @@
             <version>5.8.25</version>
         </dependency>
 
+        <!-- JSqlParser SQL 解析 -->
+        <dependency>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>4.9</version>
+        </dependency>
+
+        <!-- 数据库驱动 - 动态数据源支持多数据库类型 -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+        </dependency>
+
         <!-- 基础依赖 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
