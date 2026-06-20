@@ -54,7 +54,7 @@
 
         <dependency>
             <groupId>com.huanniankj</groupId>
-            <artifactId>ubax-module-gather</artifactId>
+            <artifactId>ubax-module-source</artifactId>
             <version>${revision}</version>
         </dependency>
 

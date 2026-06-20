@@ -25,7 +25,7 @@ public class BannerApplicationRunner implements ApplicationRunner {
                     "----------------------------------------------------------");
 
             // gather 模块
-            if (isNotPresent("com.huanniankj.module.gather.framework.security.config.SecurityConfiguration")) {
+            if (isNotPresent("com.huanniankj.module.source.framework.security.config.SecurityConfiguration")) {
                 System.out.println("[采集模块 ubax-module-gather - 已禁用]");
             }
         });
