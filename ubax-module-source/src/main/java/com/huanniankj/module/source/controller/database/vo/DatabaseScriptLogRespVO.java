@@ -44,6 +44,9 @@ public class DatabaseScriptLogRespVO {
     @Schema(description = "输出参数 (JSON格式)")
     private String outputParams;
 
+    @Schema(description = "执行入参 (JSON格式)")
+    private String inputParams;
+
     @Schema(description = "执行状态 (0-成功 1-失败)", example = "0")
     private Integer status;
 

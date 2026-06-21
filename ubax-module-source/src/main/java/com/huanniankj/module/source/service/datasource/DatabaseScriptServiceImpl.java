@@ -22,7 +22,6 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -52,6 +51,9 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
 
     @Resource
     private DataSourceManager dataSourceManager;
+
+    @Resource
+    private DataSource businessDataSource;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -109,7 +111,6 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
         if (script == null) {
             throw exception(DATABASE_SCRIPT_NOT_EXISTS);
         }
-
         // 校验必填入参
         validateInputParams(script.getInputParams(), reqVO.getInputParams());
 
@@ -121,6 +122,9 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
         logDO.setDatabaseId(script.getDatabaseId());
         logDO.setExecuteType("manual");
         logDO.setScriptContent(script.getScriptContent());
+        if (reqVO.getInputParams() != null && !reqVO.getInputParams().isEmpty()) {
+            logDO.setInputParams(JSON.toJSONString(reqVO.getInputParams()));
+        }
 
         long startTime = System.currentTimeMillis();
 
@@ -132,7 +136,6 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
             List<Map<String, Object>> results = executeResult.getResults();
             List<List<Map<String, Object>>> resultSetList = executeResult.getResultSetList();
             Integer affectedRows = executeResult.getAffectedRows();
-
             // 持久化结果
             boolean persistResult = reqVO.getPersistResult() != null && reqVO.getPersistResult() == 1;
             long persistRecordCount = 0;
@@ -160,6 +163,12 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
             }
             respVO.setPersisted(persistResult);
             respVO.setPersistRecordCount(persistRecordCount);
+
+            // 存储过程输出参数
+            if (executeResult.getOutputParams() != null && !executeResult.getOutputParams().isEmpty()) {
+                respVO.setOutputParams(executeResult.getOutputParams());
+                logDO.setOutputParams(JSON.toJSONString(executeResult.getOutputParams()));
+            }
 
             // 记录日志
             logDO.setStatus(0);
@@ -238,9 +247,14 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
                 if (paramList != null && !paramList.isEmpty()) {
                     reqVO.setInputParams(paramList);
                 }
+                // 解析输出参数定义
+                List<String> outputParamNames = parseOutputParamNames(script.getOutputParams());
+                if (outputParamNames != null && !outputParamNames.isEmpty()) {
+                    reqVO.setOutputParamNames(outputParamNames);
+                }
                 yield databaseScriptExecutionService.executeProcedure(reqVO);
             }
-            case "view" -> databaseScriptExecutionService.executeViewQuery(databaseId, scriptContent, paramList);
+            case "view" -> databaseScriptExecutionService.executeSql(databaseId, scriptContent, paramList);
             default -> throw exception(DATABASE_SCRIPT_TYPE_NOT_SUPPORTED);
         };
     }
@@ -269,6 +283,7 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
             throw e;
         } catch (Exception e) {
             log.warn("解析入参定义失败: {}", e.getMessage());
+            throw e;
         }
     }
 
@@ -304,11 +319,30 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
     }
 
     /**
+     * 解析输出参数定义
+     *
+     * @param outputParamsDef 输出参数定义（JSON格式，如["out_code","out_msg"]）
+     * @return 输出参数名称列表
+     */
+    @SuppressWarnings("unchecked")
+    private List<String> parseOutputParamNames(String outputParamsDef) {
+        if (outputParamsDef == null || outputParamsDef.isEmpty()) {
+            return null;
+        }
+        try {
+            return JSON.parseObject(outputParamsDef, List.class);
+        } catch (Exception e) {
+            log.warn("解析输出参数定义失败: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * 持久化结果集
      *
      * @param script  数据库脚本
      * @param results 结果集
-     * @return
+     * @return 持久化记录数
      */
     private long persistExecuteResult(DatabaseScriptDO script, List<?> results) {
         if (script.getResultTableName() == null || script.getResultTableName().isEmpty()) {
@@ -319,11 +353,10 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
         Map<String, String> fieldMapping = parseFieldMapping(script.getResultFieldMapping());
 
         try {
-            DataSource dataSource = dataSourceManager.getDataSource(script.getDatabaseId());
-            JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-
-            ensureTableExists(jdbcTemplate, tableName, results, fieldMapping);
-
+            // 使用业务数据库持久化结果
+            JdbcTemplate jdbcTemplate = new JdbcTemplate(businessDataSource);
+            // 校验目标表是否存在
+            validateTableExists(jdbcTemplate, tableName);
             int count = 0;
             for (Object result : results) {
                 Map<String, Object> row = (Map<String, Object>) result;
@@ -334,12 +367,20 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
 
             log.info("脚本执行结果已持久化: table={}, count={}", tableName, count);
             return count;
+        } catch (ServiceException e) {
+            throw e;
         } catch (Exception e) {
             log.error("脚本执行结果持久化失败: table={}, error={}", tableName, e.getMessage(), e);
             throw exception(DATABASE_SCRIPT_RESULT_PERSIST_ERROR, e.getMessage());
         }
     }
 
+    /**
+     * 解析字段映射
+     *
+     * @param fieldMappingJson 字段映射字符串
+     * @return 字段映射字典
+     */
     private Map<String, String> parseFieldMapping(String fieldMappingJson) {
         if (fieldMappingJson == null || fieldMappingJson.isEmpty()) {
             return new HashMap<>();
@@ -351,52 +392,42 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
         }
     }
 
-    private void ensureTableExists(JdbcTemplate jdbcTemplate, String tableName, List<?> results, Map<String, String> fieldMapping) throws SQLException {
+    /**
+     * 校验目标表是否存在，不存在则抛出异常
+     *
+     * @param jdbcTemplate JdbcTemplate
+     * @param tableName    表名
+     */
+    private void validateTableExists(JdbcTemplate jdbcTemplate, String tableName) {
         DataSource dataSource = jdbcTemplate.getDataSource();
         try (Connection conn = dataSource.getConnection()) {
             DatabaseMetaData metaData = conn.getMetaData();
-            try (ResultSet rs = metaData.getTables(null, null, tableName.toUpperCase(), new String[]{"TABLE"})) {
+            try (ResultSet rs = metaData.getTables(null, null, tableName, new String[]{"TABLE"})) {
                 if (!rs.next()) {
-                    String createSql = buildCreateTableSql(tableName, (Map<String, Object>) results.get(0), fieldMapping);
-                    jdbcTemplate.execute(createSql);
-                    log.info("自动创建结果表: {}", tableName);
+                    // 同时尝试大写表名
+                    try (ResultSet rsUpper = metaData.getTables(null, null, tableName.toUpperCase(), new String[]{"TABLE"})) {
+                        if (!rsUpper.next()) {
+                            throw exception(DATABASE_SCRIPT_RESULT_TABLE_NOT_EXISTS, tableName);
+                        }
+                    }
                 }
             }
+        } catch (ServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("校验结果表是否存在失败: table={}, error={}", tableName, e.getMessage(), e);
+            throw exception(DATABASE_SCRIPT_RESULT_PERSIST_ERROR, "校验结果表失败: " + e.getMessage());
         }
     }
 
-    private String buildCreateTableSql(String tableName, Map<String, Object> sampleRow, Map<String, String> fieldMapping) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("CREATE TABLE IF NOT EXISTS `").append(tableName).append("` (\n");
-        sb.append("    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,\n");
-
-        for (Map.Entry<String, Object> entry : sampleRow.entrySet()) {
-            String sourceField = entry.getKey();
-            String targetField = fieldMapping.getOrDefault(sourceField, sourceField);
-            String sqlType = getSqlType(entry.getValue());
-            sb.append("    `").append(targetField).append("` ").append(sqlType).append(",\n");
-        }
-
-        sb.append("    `create_time` DATETIME\n");
-        sb.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
-
-        return sb.toString();
-    }
-
-    private String getSqlType(Object value) {
-        if (value instanceof Number) {
-            if (value instanceof Long || value instanceof Integer) {
-                return "BIGINT";
-            }
-            return "DECIMAL(18,4)";
-        } else if (value instanceof String) {
-            return "VARCHAR(255)";
-        } else if (value instanceof Date) {
-            return "DATETIME";
-        }
-        return "TEXT";
-    }
-
+    /**
+     * 构建插入SQL
+     *
+     * @param tableName    表名
+     * @param row          执行结果
+     * @param fieldMapping 字段映射
+     * @return 插入SQL语句
+     */
     private String buildInsertSql(String tableName, Map<String, Object> row, Map<String, String> fieldMapping) {
         StringBuilder columns = new StringBuilder();
         StringBuilder values = new StringBuilder();
@@ -406,11 +437,22 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
 
         boolean first = true;
         for (Map.Entry<String, Object> entry : row.entrySet()) {
+            String sourceField = entry.getKey();
+            String targetField;
+            if (fieldMapping.isEmpty()) {
+                // 未配置字段映射时，全部字段持久化，源字段名即目标字段名
+                targetField = sourceField;
+            } else if (fieldMapping.containsKey(sourceField)) {
+                // 配置了字段映射时，只持久化映射中定义的字段
+                targetField = fieldMapping.get(sourceField);
+            } else {
+                // 不在映射中的字段跳过
+                continue;
+            }
             if (!first) {
                 columns.append(", ");
                 values.append(", ");
             }
-            String targetField = fieldMapping.getOrDefault(entry.getKey(), entry.getKey());
             columns.append("`").append(targetField).append("`");
             values.append(formatValue(entry.getValue()));
             first = false;
@@ -422,9 +464,15 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
         columns.append(") ");
         values.append(")");
 
-        return columns.toString() + values.toString();
+        return columns + values.toString();
     }
 
+    /**
+     * 格式化SQL字段值
+     *
+     * @param value SQL字段值
+     * @return 格式化后的SQL字段值
+     */
     private String formatValue(Object value) {
         if (value == null) {
             return "NULL";
@@ -436,6 +484,12 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
         return value.toString();
     }
 
+    /**
+     * SQL转义
+     *
+     * @param value SQL字符串
+     * @return 转义后的SQL字符串
+     */
     private String escapeSql(String value) {
         return value.replace("'", "''");
     }

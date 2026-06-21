@@ -225,10 +225,23 @@ public class DatabaseScriptExecutionServiceImpl implements DatabaseScriptExecuti
             }
             respVO.setResultSetList(resultSetList);
             respVO.setResultSetColumns(resultSetColumns);
+
+            // 读取输出参数值
+            if (reqVO.getOutputParamNames() != null && !reqVO.getOutputParamNames().isEmpty()) {
+                Map<String, Object> outputParamValues = new HashMap<>();
+                for (int i = 0; i < reqVO.getOutputParamNames().size(); i++) {
+                    String paramName = reqVO.getOutputParamNames().get(i);
+                    Object paramValue = cstmt.getObject(inputParamCount + i + 1);
+                    outputParamValues.put(paramName, paramValue);
+                }
+                respVO.setOutputParams(outputParamValues);
+            }
+
             respVO.setSuccess(true);
             respVO.setCostTime(System.currentTimeMillis() - startTime);
-            log.info("存储过程执行成功: databaseId={}, procedure={}, resultSets={}",
-                    reqVO.getDatabaseId(), reqVO.getProcedureName(), resultSetList.size());
+            log.info("存储过程执行成功: databaseId={}, procedure={}, resultSets={}, outputParams={}",
+                    reqVO.getDatabaseId(), reqVO.getProcedureName(), resultSetList.size(),
+                    respVO.getOutputParams());
         } catch (SQLException e) {
             log.error("存储过程执行失败: databaseId={}, procedure={}, error={}",
                     reqVO.getDatabaseId(), reqVO.getProcedureName(), e.getMessage(), e);

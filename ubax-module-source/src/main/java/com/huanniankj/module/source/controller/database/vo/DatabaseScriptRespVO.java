@@ -56,7 +56,7 @@ public class DatabaseScriptRespVO {
     @Schema(description = "最后执行时间")
     private LocalDateTime lastExecuteTime;
 
-    @Schema(description = "最后执行状态 (0-成功 1-失败)", example = "0")
+    @Schema(description = "最后执行状态 (null-未执行 0-成功 1-失败)", example = "0")
     private Integer lastExecuteStatus;
 
     @Schema(description = "状态 (0-启用 1-禁用)", example = "0")
@@ -64,6 +64,9 @@ public class DatabaseScriptRespVO {
 
     @Schema(description = "入参定义 (JSON格式)")
     private String inputParams;
+
+    @Schema(description = "输出参数定义 (JSON格式，存储过程用)")
+    private String outputParams;
 
     @Schema(description = "备注")
     private String remark;

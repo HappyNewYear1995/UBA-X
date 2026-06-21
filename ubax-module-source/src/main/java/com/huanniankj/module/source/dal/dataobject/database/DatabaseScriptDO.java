@@ -84,7 +84,7 @@ public class DatabaseScriptDO extends BaseDO {
     private LocalDateTime lastExecuteTime;
 
     /**
-     * 最后执行状态（0-成功 1-失败）
+     * 最后执行状态（null-未执行 0-成功 1-失败）
      */
     private Integer lastExecuteStatus;
 
@@ -97,6 +97,11 @@ public class DatabaseScriptDO extends BaseDO {
      * 入参定义（JSON格式，如[{"name":"userId","type":"Long","required":true,"defaultValue":null}]）
      */
     private String inputParams;
+
+    /**
+     * 输出参数定义（JSON格式，存储过程用，如["out_code","out_msg"]）
+     */
+    private String outputParams;
 
     /**
      * 备注

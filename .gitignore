@@ -33,4 +33,6 @@ target/
 ./dependency-reduced-pom.xml
 
 # frontend #
-ubax-ui/*
+ubax-ui/.idea/*
+ubax-ui/node_modules/*
+ubax-ui/pnpm-lock.yaml

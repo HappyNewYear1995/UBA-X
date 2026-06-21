@@ -55,6 +55,9 @@ public class DatabaseScriptSaveReqVO {
     @Schema(description = "入参定义 (JSON格式)", example = "[{\"name\":\"userId\",\"type\":\"Long\",\"required\":true}]")
     private String inputParams;
 
+    @Schema(description = "输出参数定义 (JSON格式，存储过程用)", example = "[\"out_code\",\"out_msg\"]")
+    private String outputParams;
+
     @Schema(description = "备注")
     private String remark;
 

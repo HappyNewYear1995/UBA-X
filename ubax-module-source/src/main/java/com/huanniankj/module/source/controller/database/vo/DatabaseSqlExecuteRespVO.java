@@ -33,6 +33,9 @@ public class DatabaseSqlExecuteRespVO {
     @Schema(description = "影响的行数 (INSERT/UPDATE/DELETE)")
     private Integer affectedRows;
 
+    @Schema(description = "输出参数 (存储过程用)")
+    private Map<String, Object> outputParams;
+
     @Schema(description = "错误信息")
     private String errorMessage;
 

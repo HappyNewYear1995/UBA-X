@@ -41,5 +41,6 @@ public interface ErrorCodeConstants {
     ErrorCode DATABASE_SCRIPT_RESULT_PERSIST_ERROR = new ErrorCode(1_101_004_004, "脚本结果持久化失败");
     ErrorCode DATABASE_SCRIPT_LOG_NOT_EXISTS = new ErrorCode(1_101_004_005, "脚本执行日志不存在");
     ErrorCode DATABASE_SCRIPT_INPUT_PARAM_REQUIRED = new ErrorCode(1_101_004_006, "脚本必填入参缺失：{}");
+    ErrorCode DATABASE_SCRIPT_RESULT_TABLE_NOT_EXISTS = new ErrorCode(1_101_004_007, "结果持久化表不存在：{}");
 
 }

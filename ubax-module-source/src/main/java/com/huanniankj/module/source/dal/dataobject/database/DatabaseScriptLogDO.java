@@ -67,9 +67,15 @@ public class DatabaseScriptLogDO extends BaseDO {
     private Long affectedRows;
 
     /**
+     * 执行入参（JSON格式）
+     */
+    private String inputParams;
+
+    /**
      * 输出参数（存储过程用，JSON格式）
      */
     private String outputParams;
+
 
     /**
      * 执行状态（0-成功 1-失败）
