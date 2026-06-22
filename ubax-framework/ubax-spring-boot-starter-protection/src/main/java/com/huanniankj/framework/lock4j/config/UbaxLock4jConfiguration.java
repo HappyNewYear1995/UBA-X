@@ -6,6 +6,11 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * Lock4j配置类
+ *
+ * @author zhaoff
+ */
 @AutoConfiguration(before = LockAutoConfiguration.class)
 @ConditionalOnClass(name = "com.baomidou.lock.annotation.Lock4j")
 public class UbaxLock4jConfiguration {

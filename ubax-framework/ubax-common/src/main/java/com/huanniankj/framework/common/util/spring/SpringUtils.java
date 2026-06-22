@@ -18,7 +18,7 @@ public class SpringUtils extends SpringUtil {
      */
     public static boolean isProd() {
         String activeProfile = getActiveProfile();
-        return Objects.equals("prod", activeProfile);
+        return !Objects.equals("prod", activeProfile);
     }
 
 }

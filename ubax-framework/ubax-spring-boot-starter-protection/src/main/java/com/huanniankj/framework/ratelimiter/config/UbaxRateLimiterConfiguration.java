@@ -15,6 +15,11 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
+/**
+ * 限流配置配置类
+ *
+ * @author zhaoff
+ */
 @AutoConfiguration(after = UbaxRedisAutoConfiguration.class)
 public class UbaxRateLimiterConfiguration {
 

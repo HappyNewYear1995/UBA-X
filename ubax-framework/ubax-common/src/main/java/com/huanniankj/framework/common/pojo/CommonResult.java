@@ -1,11 +1,11 @@
 package com.huanniankj.framework.common.pojo;
 
 import cn.hutool.core.lang.Assert;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.huanniankj.framework.common.exception.ErrorCode;
 import com.huanniankj.framework.common.exception.ServiceException;
 import com.huanniankj.framework.common.exception.enums.GlobalErrorCodeConstants;
 import com.huanniankj.framework.common.exception.util.ServiceExceptionUtil;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,6 +15,7 @@ import java.util.Objects;
  * 通用返回
  *
  * @param <T> 数据泛型
+ * @author zhaoff
  */
 @Data
 public class CommonResult<T> implements Serializable {

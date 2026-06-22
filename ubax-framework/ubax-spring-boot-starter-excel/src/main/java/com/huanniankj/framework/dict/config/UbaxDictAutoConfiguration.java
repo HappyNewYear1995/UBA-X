@@ -5,6 +5,11 @@ import com.huanniankj.framework.dict.core.DictFrameworkUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * 字典自动配置类
+ *
+ * @author zhaofgf
+ */
 @AutoConfiguration
 public class UbaxDictAutoConfiguration {
 

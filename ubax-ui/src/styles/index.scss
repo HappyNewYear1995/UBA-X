@@ -158,8 +158,78 @@
   background-color: var(--app-content-card-bg) !important;
 
   th.el-table__cell {
-    background-color: rgba(255, 255, 255, 0.03) !important;
+    background-color: var(--border-color-light) !important;
     font-weight: 600 !important;
+  }
+
+  // 固定列表头背景不透明，右侧固定列不被滚动栏表头覆盖
+  .el-table__header-wrapper {
+    z-index: 2 !important;
+  }
+
+  .el-table__fixed,
+  .el-table__fixed-right {
+    z-index: 3 !important;
+
+    .el-table__fixed-header-wrapper,
+    .el-table__fixed-right-header-wrapper {
+      z-index: 4 !important;
+
+      th.el-table__cell {
+        background-color: var(--border-color-light) !important;
+      }
+    }
+
+    .el-table__fixed-body-wrapper,
+    .el-table__fixed-right-body-wrapper {
+      .el-table__cell {
+        background-color: var(--app-content-card-bg) !important;
+      }
+    }
+  }
+
+  // 操作列按钮保持文字链接样式，不要标签样式
+  .el-table__cell {
+    .el-button--primary.is-link,
+    .el-button--success.is-link,
+    .el-button--warning.is-link,
+    .el-button--danger.is-link,
+    .el-button--info.is-link {
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 4px 6px !important;
+      font-size: 12px !important;
+      color: var(--el-color-primary) !important;
+
+      &:hover {
+        color: var(--el-color-primary-light-3) !important;
+      }
+    }
+
+    .el-button--danger.is-link {
+      color: var(--el-color-danger) !important;
+
+      &:hover {
+        color: var(--el-color-danger-light-3) !important;
+      }
+    }
+
+    .el-button--success.is-link {
+      color: var(--el-color-success) !important;
+
+      &:hover {
+        color: var(--el-color-success-light-3) !important;
+      }
+    }
+
+    .el-button--warning.is-link {
+      color: var(--el-color-warning) !important;
+
+      &:hover {
+        color: var(--el-color-warning-light-3) !important;
+      }
+    }
   }
 
   tr {

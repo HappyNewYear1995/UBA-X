@@ -5,6 +5,11 @@ import cn.hutool.core.util.PhoneUtil;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+/**
+ * 电话号校验器
+ *
+ * @author zhaoff
+ */
 public class TelephoneValidator implements ConstraintValidator<Telephone, String> {
 
     @Override

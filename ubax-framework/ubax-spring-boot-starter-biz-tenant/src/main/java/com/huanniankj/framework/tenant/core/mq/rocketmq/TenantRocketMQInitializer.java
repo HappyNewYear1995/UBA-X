@@ -6,6 +6,7 @@ import org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.DefaultRocketMQListenerContainer;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
@@ -18,7 +19,7 @@ public class TenantRocketMQInitializer implements BeanPostProcessor {
 
     @Override
     @SuppressWarnings("PatternVariableCanBeUsed")
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessAfterInitialization(@NonNull Object bean, @NonNull String beanName) throws BeansException {
         if (bean instanceof DefaultRocketMQListenerContainer) {
             DefaultRocketMQListenerContainer container = (DefaultRocketMQListenerContainer) bean;
             initTenantConsumer(container.getConsumer());

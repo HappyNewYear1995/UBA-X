@@ -33,6 +33,11 @@ public interface ErrorCodeConstants {
     ErrorCode DATASOURCE_SQL_EXECUTION_FAILED = new ErrorCode(1_101_003_004, "SQL 执行失败");
     ErrorCode DATASOURCE_NOT_INITIALIZED = new ErrorCode(1_101_003_005, "数据源未初始化");
 
+    // ========== WebService 数据源管理模块 1-101-006-000 ==========
+    ErrorCode WEBSERVICE_DATASOURCE_NOT_EXISTS = new ErrorCode(1_101_006_000, "WebService 数据源不存在");
+    ErrorCode WEBSERVICE_DATASOURCE_NAME_DUPLICATE = new ErrorCode(1_101_006_001, "WebService 数据源名称已存在");
+    ErrorCode WEBSERVICE_URL_INVALID = new ErrorCode(1_101_006_002, "WebService 地址格式无效");
+
     // ========== 脚本管理模块 1-101-004-000 ==========
     ErrorCode DATABASE_SCRIPT_NOT_EXISTS = new ErrorCode(1_101_004_000, "数据库脚本不存在");
     ErrorCode DATABASE_SCRIPT_CODE_DUPLICATE = new ErrorCode(1_101_004_001, "脚本编码已存在");

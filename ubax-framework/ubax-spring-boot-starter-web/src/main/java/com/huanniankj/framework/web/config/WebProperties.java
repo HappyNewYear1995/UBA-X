@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+/**
+ * Web配置属性
+ *
+ * @author zhaoff
+ */
 @ConfigurationProperties(prefix = "ubax.web")
 @Validated
 @Data

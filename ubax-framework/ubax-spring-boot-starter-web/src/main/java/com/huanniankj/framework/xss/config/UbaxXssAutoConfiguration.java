@@ -18,6 +18,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static com.huanniankj.framework.web.config.UbaxWebAutoConfiguration.createFilterBean;
 
+/**
+ * Xss自动配置类
+ *
+ * @author zhaoff
+ */
 @AutoConfiguration
 @EnableConfigurationProperties(XssProperties.class)
 @ConditionalOnProperty(prefix = "ubax.xss", name = "enable", havingValue = "true", matchIfMissing = true)

@@ -2,6 +2,7 @@ package com.huanniankj.framework.redis.core;
 
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.NonNull;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -27,7 +28,7 @@ public class TimeoutRedisCacheManager extends RedisCacheManager {
     }
 
     @Override
-    protected RedisCache createRedisCache(String name, RedisCacheConfiguration cacheConfig) {
+    protected RedisCache createRedisCache(@NonNull String name, RedisCacheConfiguration cacheConfig) {
         if (StrUtil.isEmpty(name)) {
             return super.createRedisCache(name, cacheConfig);
         }

@@ -50,14 +50,6 @@ public interface SocialClientApi {
     SocialWxPhoneNumberInfoRespDTO getWxMaPhoneNumberInfo(Integer userType, String phoneCode);
 
     /**
-     * 获得小程序二维码
-     *
-     * @param reqVO 请求信息
-     * @return 小程序二维码
-     */
-    byte[] getWxaQrcode(@Valid SocialWxQrcodeReqDTO reqVO);
-
-    /**
      * 获得微信小程订阅模板
      *
      * @return 小程序订阅消息模版

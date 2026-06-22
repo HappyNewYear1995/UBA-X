@@ -32,6 +32,11 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.util.Map;
 import java.util.function.Predicate;
 
+/**
+ * Web自动配置类
+ *
+ * @author zhaoff
+ */
 @AutoConfiguration
 @EnableConfigurationProperties(WebProperties.class)
 public class UbaxWebAutoConfiguration {

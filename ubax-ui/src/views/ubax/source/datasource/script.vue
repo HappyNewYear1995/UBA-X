@@ -38,6 +38,7 @@
           <el-option label="SQL脚本" value="sql" />
           <el-option label="存储过程" value="procedure" />
           <el-option label="视图查询" value="view" />
+          <el-option label="WebService" value="webservice" />
         </el-select>
         <el-select
           v-model="queryParams.status"
@@ -126,6 +127,7 @@
             <el-option label="SQL脚本" value="sql" />
             <el-option label="存储过程" value="procedure" />
             <el-option label="视图查询" value="view" />
+            <el-option label="WebService" value="webservice" />
           </el-select>
         </el-form-item>
         <el-form-item label="脚本内容" prop="scriptContent">
@@ -133,13 +135,13 @@
             v-model="formData.scriptContent"
             type="textarea"
             :rows="6"
-            :placeholder="formData.scriptType === 'procedure' ? '请输入存储过程名称' : '请输入SQL语句（视图查询请输入完整SQL，如 SELECT * FROM view_name WHERE id = ?）'"
+            :placeholder="formData.scriptType === 'procedure' ? '请输入存储过程名称' : formData.scriptType === 'webservice' ? '请输入请求体（JSON/XML），支持 {{参数名}} 模板替换' : '请输入SQL语句（视图查询请输入完整SQL，如 SELECT * FROM view_name WHERE id = ?）'"
           />
         </el-form-item>
         <el-form-item label="脚本描述">
           <el-input v-model="formData.description" placeholder="请输入脚本描述" />
         </el-form-item>
-        <el-divider content-position="left">入参配置（可选，用于SQL/视图的WHERE条件）</el-divider>
+        <el-divider content-position="left">入参配置（可选，用于SQL/视图的WHERE条件或WebService模板参数）</el-divider>
         <el-form-item label="入参定义">
           <div class="param-config">
             <div v-for="(param, index) in paramDefs" :key="index" class="param-row">

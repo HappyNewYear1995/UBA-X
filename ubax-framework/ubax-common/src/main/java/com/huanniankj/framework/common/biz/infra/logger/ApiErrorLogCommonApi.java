@@ -1,7 +1,6 @@
 package com.huanniankj.framework.common.biz.infra.logger;
 
 import com.huanniankj.framework.common.biz.infra.logger.dto.ApiErrorLogCreateReqDTO;
-
 import jakarta.validation.Valid;
 import org.springframework.scheduling.annotation.Async;
 

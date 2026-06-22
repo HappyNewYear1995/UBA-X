@@ -1,8 +1,8 @@
 package com.huanniankj.framework.desensitize.core.slider.annotation;
 
+import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.huanniankj.framework.desensitize.core.base.annotation.DesensitizeBy;
 import com.huanniankj.framework.desensitize.core.slider.handler.IdCardDesensitization;
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

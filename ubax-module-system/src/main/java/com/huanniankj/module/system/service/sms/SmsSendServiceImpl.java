@@ -72,16 +72,6 @@ public class SmsSendServiceImpl implements SmsSendService {
     }
 
     @Override
-    public Long sendSingleSmsToMember(String mobile, Long userId, String templateCode, Map<String, Object> templateParams) {
-        // 如果 mobile 为空，则加载用户编号对应的手机号
-        if (StrUtil.isEmpty(mobile)) {
-            mobile = memberService.getMemberUserMobile(userId);
-        }
-        // 执行发送
-        return sendSingleSms(mobile, userId, UserTypeEnum.MEMBER.getValue(), templateCode, templateParams);
-    }
-
-    @Override
     public Long sendSingleSms(String mobile, Long userId, Integer userType,
                               String templateCode, Map<String, Object> templateParams) {
         // 校验短信模板是否合法

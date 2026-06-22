@@ -10,7 +10,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
-
 /**
  * HTTP API 签名注解
  *

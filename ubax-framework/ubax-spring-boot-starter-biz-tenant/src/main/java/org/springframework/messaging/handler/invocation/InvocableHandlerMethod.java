@@ -2,6 +2,7 @@ package org.springframework.messaging.handler.invocation;
 
 import com.huanniankj.framework.tenant.core.context.TenantContextHolder;
 import com.huanniankj.framework.tenant.core.util.TenantUtils;
+import lombok.Setter;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ParameterNameDiscoverer;
@@ -29,6 +30,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 
     private HandlerMethodArgumentResolverComposite resolvers = new HandlerMethodArgumentResolverComposite();
 
+    @Setter
     private ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
     public InvocableHandlerMethod(HandlerMethod handlerMethod) {
@@ -47,10 +49,6 @@ public class InvocableHandlerMethod extends HandlerMethod {
 
     public void setMessageMethodArgumentResolvers(HandlerMethodArgumentResolverComposite argumentResolvers) {
         this.resolvers = argumentResolvers;
-    }
-
-    public void setParameterNameDiscoverer(ParameterNameDiscoverer parameterNameDiscoverer) {
-        this.parameterNameDiscoverer = parameterNameDiscoverer;
     }
 
     @Nullable

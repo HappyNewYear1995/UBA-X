@@ -15,6 +15,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * API日志自动配置类
+ *
+ * @author zhaoff
+ */
 @AutoConfiguration(after = UbaxWebAutoConfiguration.class)
 public class UbaxApiLogAutoConfiguration implements WebMvcConfigurer {
 

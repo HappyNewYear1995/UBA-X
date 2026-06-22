@@ -1382,4 +1382,109 @@
         </sql>
     </changeSet>
 
+    <changeSet id="schema-20260622-001" author="zhaoff">
+        <comment>数据分析</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE `analysis_funnel_config` (
+                                                      `id` bigint NOT NULL COMMENT '配置ID',
+                                                      `name` varchar(100) NOT NULL COMMENT '漏斗名称',
+                                                      `steps` text NOT NULL COMMENT '漏斗步骤事件列表（JSON数组，如 ["app_open","home_view","product_detail"]）',
+                                                      `window_time` int DEFAULT 86400 COMMENT '窗口时间（秒，0表示不限）',
+                                                      `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                                                      `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                                                      `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                                      `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                                                      `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                                      `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                                                      PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='漏斗分析配置表';
+
+            CREATE TABLE `analysis_retention_config` (
+                                                         `id` bigint NOT NULL COMMENT '配置ID',
+                                                         `name` varchar(100) NOT NULL COMMENT '配置名称',
+                                                         `retention_type` varchar(20) NOT NULL COMMENT '留存类型 (next_day/7_days/30_days)',
+                                                         `dimension` varchar(20) DEFAULT 'day' COMMENT '统计维度 (day/week/month)',
+                                                         `start_event` varchar(100) DEFAULT NULL COMMENT '起始事件（为空则统计所有新用户）',
+                                                         `return_event` varchar(100) DEFAULT NULL COMMENT '回访事件（为空则统计所有活跃用户）',
+                                                         `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                                                         `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                                                         `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                                         `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                                                         `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                                         `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                                                         PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='留存分析配置表';
+
+            CREATE TABLE `analysis_path_config` (
+                                                    `id` bigint NOT NULL COMMENT '配置ID',
+                                                    `name` varchar(100) NOT NULL COMMENT '配置名称',
+                                                    `start_event` varchar(100) DEFAULT NULL COMMENT '起始事件（为空则从所有事件开始）',
+                                                    `max_depth` int DEFAULT 7 COMMENT '最大路径深度',
+                                                    `window_time` int DEFAULT 1800 COMMENT '路径窗口时间（秒）',
+                                                    `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                                                    `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                                                    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                                    `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                                                    `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                                    `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                                                    PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='路径分析配置表';
+
+            CREATE TABLE `analysis_funnel_result` (
+                                                      `id` bigint NOT NULL COMMENT '结果ID',
+                                                      `config_id` bigint NOT NULL COMMENT '漏斗配置ID',
+                                                      `stat_date` date NOT NULL COMMENT '统计日期',
+                                                      `total_users` bigint DEFAULT 0 COMMENT '总用户数',
+                                                      `final_conversion_rate` double DEFAULT 0 COMMENT '最终转化率(%)',
+                                                      `avg_conversion_rate` double DEFAULT 0 COMMENT '平均转化率(%)',
+                                                      `avg_duration` double DEFAULT 0 COMMENT '平均耗时(秒)',
+                                                      `steps` text COMMENT '漏斗步骤结果列表（JSON格式）',
+                                                      `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                                                      `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                                      `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                                                      `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                                      `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                                                      PRIMARY KEY (`id`),
+                                                      KEY `idx_config_id` (`config_id`),
+                                                      KEY `idx_stat_date` (`stat_date`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='漏斗分析结果表';
+
+            CREATE TABLE `analysis_retention_result` (
+                                                         `id` bigint NOT NULL COMMENT '结果ID',
+                                                         `config_id` bigint NOT NULL COMMENT '留存配置ID',
+                                                         `stat_date` date NOT NULL COMMENT '统计日期',
+                                                         `new_users` bigint DEFAULT 0 COMMENT '新增用户数',
+                                                         `retention_users` text COMMENT '各天留存用户数（JSON格式）',
+                                                         `retention_rates` text COMMENT '各天留存率（JSON格式）',
+                                                         `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                                                         `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                                         `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                                                         `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                                         `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                                                         PRIMARY KEY (`id`),
+                                                         KEY `idx_config_id` (`config_id`),
+                                                         KEY `idx_stat_date` (`stat_date`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='留存分析结果表';
+
+            CREATE TABLE `analysis_path_result` (
+                                                    `id` bigint NOT NULL COMMENT '结果ID',
+                                                    `config_id` bigint NOT NULL COMMENT '路径配置ID',
+                                                    `stat_date` date NOT NULL COMMENT '统计日期',
+                                                    `nodes` text COMMENT '桑基图节点列表（JSON格式）',
+                                                    `links` text COMMENT '桑基图链接列表（JSON格式）',
+                                                    `path_stats` text COMMENT '路径统计列表（JSON格式）',
+                                                    `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                                                    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                                    `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                                                    `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                                    `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                                                    PRIMARY KEY (`id`),
+                                                    KEY `idx_config_id` (`config_id`),
+                                                    KEY `idx_stat_date` (`stat_date`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='路径分析结果表';
+            ]]>
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

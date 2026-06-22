@@ -22,8 +22,7 @@ import java.util.List;
 public class UbaxDeptDataPermissionAutoConfiguration {
 
     @Bean
-    public DeptDataPermissionRule deptDataPermissionRule(PermissionCommonApi permissionApi,
-                                                         List<DeptDataPermissionRuleCustomizer> customizers) {
+    public DeptDataPermissionRule deptDataPermissionRule(PermissionCommonApi permissionApi, List<DeptDataPermissionRuleCustomizer> customizers) {
         // 创建 DeptDataPermissionRule 对象
         DeptDataPermissionRule rule = new DeptDataPermissionRule(permissionApi);
         // 补全表配置

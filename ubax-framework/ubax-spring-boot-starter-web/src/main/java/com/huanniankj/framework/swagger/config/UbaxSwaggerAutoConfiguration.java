@@ -44,8 +44,7 @@ import static com.huanniankj.framework.web.core.util.WebFrameworkUtils.HEADER_TE
 @AutoConfiguration(before = Knife4jAutoConfiguration.class)
 @ConditionalOnClass({OpenAPI.class})
 @EnableConfigurationProperties(SwaggerProperties.class)
-@ConditionalOnProperty(prefix = "springdoc.api-docs", name = "enabled", havingValue = "true", matchIfMissing = true)
-// 设置为 false 时，禁用
+@ConditionalOnProperty(prefix = "springdoc.api-docs", name = "enabled", havingValue = "true", matchIfMissing = true)// 设置为 false 时，禁用
 @Import(Knife4jOpenApiCustomizer.class)
 public class UbaxSwaggerAutoConfiguration {
 

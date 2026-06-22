@@ -20,14 +20,4 @@ public interface MailSendApi {
      */
     Long sendSingleMailToAdmin(@Valid MailSendSingleToUserReqDTO reqDTO);
 
-    /**
-     * 发送单条邮箱给 Member 用户
-     * <p>
-     * 在 mail 为空时，使用 userId 加载对应 Member 的邮箱
-     *
-     * @param reqDTO 发送请求
-     * @return 发送日志编号
-     */
-    Long sendSingleMailToMember(@Valid MailSendSingleToUserReqDTO reqDTO);
-
 }

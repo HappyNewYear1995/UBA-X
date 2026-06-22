@@ -1,5 +1,7 @@
 package com.huanniankj.framework.tenant.config;
 
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import com.huanniankj.framework.common.biz.system.tenant.TenantCommonApi;
 import com.huanniankj.framework.common.enums.WebFilterOrderEnum;
 import com.huanniankj.framework.mybatis.core.util.MyBatisUtils;
@@ -20,9 +22,8 @@ import com.huanniankj.framework.tenant.core.web.TenantContextWebFilter;
 import com.huanniankj.framework.tenant.core.web.TenantVisitContextInterceptor;
 import com.huanniankj.framework.web.config.WebProperties;
 import com.huanniankj.framework.web.core.handler.GlobalExceptionHandler;
-import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import jakarta.annotation.Resource;
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -44,10 +45,18 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.pattern.PathPattern;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertList;
 
+/**
+ * 多租户配置
+ *
+ * @author zhaoff
+ */
 @AutoConfiguration
 @ConditionalOnProperty(prefix = "ubax.tenant", value = "enable", matchIfMissing = true)
 @EnableConfigurationProperties(TenantProperties.class)
@@ -102,7 +111,7 @@ public class UbaxTenantAutoConfiguration {
         return new WebMvcConfigurer() {
 
             @Override
-            public void addInterceptors(InterceptorRegistry registry) {
+            public void addInterceptors(@NonNull InterceptorRegistry registry) {
                 registry.addInterceptor(tenantVisitContextInterceptor)
                         .excludePathPatterns(tenantProperties.getIgnoreVisitUrls().toArray(new String[0]));
             }

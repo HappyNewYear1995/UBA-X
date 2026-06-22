@@ -45,7 +45,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.huanniankj.framework.common.exception.enums.GlobalErrorCodeConstants.*;
+import static com.huanniankj.framework.common.exception.enums.GlobalErrorCodeConstants.BAD_REQUEST;
+import static com.huanniankj.framework.common.exception.enums.GlobalErrorCodeConstants.FORBIDDEN;
+import static com.huanniankj.framework.common.exception.enums.GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR;
+import static com.huanniankj.framework.common.exception.enums.GlobalErrorCodeConstants.METHOD_NOT_ALLOWED;
+import static com.huanniankj.framework.common.exception.enums.GlobalErrorCodeConstants.NOT_FOUND;
 
 /**
  * 全局异常处理器，将 Exception 翻译成 CommonResult + 对应的异常编号

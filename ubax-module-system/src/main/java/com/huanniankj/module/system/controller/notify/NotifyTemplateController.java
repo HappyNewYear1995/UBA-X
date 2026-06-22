@@ -1,6 +1,5 @@
 package com.huanniankj.module.system.controller.notify;
 
-import com.huanniankj.framework.common.enums.UserTypeEnum;
 import com.huanniankj.framework.common.pojo.CommonResult;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.common.util.object.BeanUtils;
@@ -18,14 +17,7 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -97,12 +89,8 @@ public class NotifyTemplateController {
     @Operation(summary = "发送站内信")
     @PreAuthorize("@ss.hasPermission('system:notify-template:send-notify')")
     public CommonResult<Long> sendNotify(@Valid @RequestBody NotifyTemplateSendReqVO sendReqVO) {
-        if (UserTypeEnum.MEMBER.getValue().equals(sendReqVO.getUserType())) {
-            return success(notifySendService.sendSingleNotifyToMember(sendReqVO.getUserId(),
-                    sendReqVO.getTemplateCode(), sendReqVO.getTemplateParams()));
-        } else {
-            return success(notifySendService.sendSingleNotifyToAdmin(sendReqVO.getUserId(),
-                    sendReqVO.getTemplateCode(), sendReqVO.getTemplateParams()));
-        }
+        return success(notifySendService.sendSingleNotifyToAdmin(sendReqVO.getUserId(),
+                sendReqVO.getTemplateCode(), sendReqVO.getTemplateParams()));
+
     }
 }

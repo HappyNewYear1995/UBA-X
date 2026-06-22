@@ -24,9 +24,11 @@ public class BannerApplicationRunner implements ApplicationRunner {
                     "项目启动成功！\n\t" +
                     "----------------------------------------------------------");
 
-            // gather 模块
+            // source 模块
             if (isNotPresent("com.huanniankj.module.source.framework.security.config.SecurityConfiguration")) {
-                System.out.println("[采集模块 ubax-module-gather - 已禁用]");
+                System.out.println("[采集模块 ubax-module-source - 已禁用]");
+            } else if (isNotPresent("com.huanniankj.module.analysis.framework.security.config.SecurityConfiguration")) {
+                System.out.println("[采集模块 ubax-module-analysis - 已禁用]");
             }
         });
     }

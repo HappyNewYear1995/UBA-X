@@ -1,7 +1,7 @@
 package com.huanniankj.module.analysis.service;
 
-import com.huanniankj.module.analysis.controller.admin.vo.EventAnalysisReqVO;
-import com.huanniankj.module.analysis.controller.admin.vo.EventAnalysisRespVO;
+import com.huanniankj.module.analysis.controller.vo.EventAnalysisReqVO;
+import com.huanniankj.module.analysis.controller.vo.EventAnalysisRespVO;
 
 import java.util.List;
 

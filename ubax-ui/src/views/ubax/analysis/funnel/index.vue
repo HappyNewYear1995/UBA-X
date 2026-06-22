@@ -1,13 +1,11 @@
 <template>
-  <div class="funnel-analysis">
+  <div class="funnel-analysis" v-loading="loading">
     <!-- 筛选栏 -->
     <el-card shadow="never" class="filter-card">
       <div class="filter-bar">
         <div class="filter-left">
           <el-select v-model="selectedFunnel" placeholder="选择漏斗" class="filter-select" @change="handleQuery">
-            <el-option label="注册到支付" value="register_payment" />
-            <el-option label="浏览到购买" value="view_purchase" />
-            <el-option label="登录到活跃" value="login_active" />
+            <el-option v-for="config in funnelConfigs" :key="config.id" :label="config.name" :value="String(config.id)" />
           </el-select>
           <el-date-picker
             v-model="dateRange"
@@ -19,9 +17,14 @@
             @change="handleQuery"
           />
         </div>
-        <el-button type="primary" @click="handleQuery">
-          <Icon icon="ep:search" /> 查询
-        </el-button>
+        <div style="display: flex; gap: 8px">
+          <el-button type="primary" @click="handleQuery">
+            <Icon icon="ep:search" /> 查询
+          </el-button>
+          <el-button @click="openConfigDialog">
+            <Icon icon="ep:setting" /> 配置管理
+          </el-button>
+        </div>
       </div>
     </el-card>
 
@@ -118,11 +121,11 @@
         </div>
       </template>
       <el-table :data="funnelSteps" class="funnel-table" stripe>
-        <el-table-column prop="step" label="步骤" min-width="150">
+        <el-table-column prop="stepName" label="步骤" min-width="150">
           <template #default="{ row, $index }">
             <div class="step-cell">
               <div class="step-badge" :style="{ background: stepColors[$index] }">{{ $index + 1 }}</div>
-              <span class="step-name">{{ row.step }}</span>
+              <span class="step-name">{{ row.stepName }}</span>
             </div>
           </template>
         </el-table-column>
@@ -153,7 +156,7 @@
         </el-table-column>
         <el-table-column prop="avgTime" label="平均耗时" min-width="120" align="center">
           <template #default="{ row }">
-            <span class="time-text">{{ row.avgTime }}</span>
+            <span class="time-text">{{ formatDuration(row.avgTime) }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" min-width="100" fixed="right" align="center">
@@ -163,89 +166,359 @@
         </el-table-column>
       </el-table>
     </el-card>
+
+    <!-- 漏斗配置管理 -->
+    <el-dialog v-model="configDialogVisible" title="漏斗配置管理" width="900px" append-to-body destroy-on-close>
+      <div class="config-dialog-content">
+      <!-- 搜索栏 -->
+      <div class="config-search-bar">
+        <el-input
+          v-model="configQueryParams.name"
+          placeholder="搜索漏斗名称"
+          prefix-icon="ep:search"
+          clearable
+          class="search-input"
+          @keyup.enter="handleConfigQuery"
+        />
+        <el-button type="primary" @click="handleConfigQuery">
+          <Icon icon="ep:search" /> 搜索
+        </el-button>
+        <el-button @click="resetConfigQuery">
+          <Icon icon="ep:refresh" /> 重置
+        </el-button>
+        <el-button type="primary" @click="handleConfigCreate">
+          <Icon icon="ep:plus" /> 新增
+        </el-button>
+      </div>
+
+      <!-- 配置列表 -->
+      <el-table v-loading="configLoading" :data="configList" stripe max-height="360">
+        <el-table-column prop="name" label="漏斗名称" min-width="160" show-overflow-tooltip />
+        <el-table-column prop="steps" label="步骤事件" min-width="250" show-overflow-tooltip />
+        <el-table-column prop="windowTime" label="窗口时间(秒)" width="140" align="center" />
+        <el-table-column prop="remark" label="备注" min-width="160" show-overflow-tooltip />
+        <el-table-column prop="createTime" label="创建时间" width="180" align="center">
+          <template #default="{ row }">
+            <span>{{ formatDateTime(row.createTime) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="160" fixed="right" align="center">
+          <template #default="{ row }">
+            <el-button type="primary" link @click="handleConfigEdit(row)">
+              <Icon icon="ep:edit" /> 编辑
+            </el-button>
+            <el-button type="danger" link @click="handleConfigDelete(row)">
+              <Icon icon="ep:delete" /> 删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <!-- 分页 -->
+      <Pagination
+        v-model:page="configQueryParams.pageNo"
+        v-model:limit="configQueryParams.pageSize"
+        :total="configTotal"
+        @pagination="getConfigList"
+      />
+      </div>
+
+      <!-- 新增/编辑对话框 -->
+      <el-dialog v-model="configFormDialogVisible" :title="configFormDialogTitle" width="600px" append-to-body destroy-on-close>
+        <el-form ref="configFormRef" :model="configFormData" :rules="configFormRules" label-width="110px">
+          <el-form-item label="漏斗名称" prop="name">
+            <el-input v-model="configFormData.name" placeholder="请输入漏斗名称" />
+          </el-form-item>
+          <el-form-item label="步骤事件" prop="steps">
+            <el-input
+              v-model="configFormData.steps"
+              type="textarea"
+              :rows="4"
+              placeholder='请输入步骤事件JSON数组，如 ["app_open","home_view","product_detail"]'
+            />
+          </el-form-item>
+          <el-form-item label="窗口时间(秒)" prop="windowTime">
+            <el-input-number v-model="configFormData.windowTime" :min="0" :step="3600" />
+          </el-form-item>
+          <el-form-item label="备注" prop="remark">
+            <el-input v-model="configFormData.remark" type="textarea" :rows="2" placeholder="请输入备注" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <el-button @click="configFormDialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="submitConfigForm">确定</el-button>
+        </template>
+      </el-dialog>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { EChartsOption } from 'echarts'
+import {
+  analyzeFunnel,
+  type FunnelAnalysisRespVO,
+  type FunnelStep,
+  getFunnelConfigPage,
+  type FunnelConfigRespVO,
+  type FunnelConfigPageReqVO,
+  type FunnelConfigSaveReqVO,
+  createFunnelConfig,
+  updateFunnelConfig,
+  deleteFunnelConfig
+} from '@/api/ubax/analysis'
 
 defineOptions({ name: 'FunnelAnalysis' })
 
-const selectedFunnel = ref('register_payment')
+const message = useMessage()
+
+const loading = ref(false)
+const selectedFunnel = ref('')
 const dateRange = ref<[Date, Date]>([new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), new Date()])
 const chartView = ref('funnel')
 
 const stepColors = ['#667eea', '#764ba2', '#4facfe', '#43e97b', '#fa709a']
 
-const totalUsers = computed(() => funnelSteps.value[0]?.users || 0)
-const finalConversion = computed(() => {
-  const steps = funnelSteps.value
-  if (steps.length < 2) return 0
-  const last = steps[steps.length - 1]
-  return Math.round((last.users / steps[0].users) * 100)
+const funnelSteps = ref<FunnelStep[]>([])
+const funnelData = ref<FunnelAnalysisRespVO | null>(null)
+
+const funnelConfigs = ref<FunnelConfigRespVO[]>([])
+
+const loadFunnelConfigs = async () => {
+  try {
+    const data = await getFunnelConfigPage({ pageNo: 1, pageSize: 100 })
+    funnelConfigs.value = data.list || []
+  } catch { /* ignore */ }
+}
+
+const funnelStepMap = computed(() => {
+  const map: Record<string, string[]> = {}
+  funnelConfigs.value.forEach(config => {
+    try {
+      map[String(config.id)] = JSON.parse(config.steps)
+    } catch { /* ignore parse error */ }
+  })
+  return map
 })
-const avgConversion = computed(() => {
-  const steps = funnelSteps.value
-  if (steps.length < 2) return 0
-  const rates = steps.slice(1).map(s => s.conversionRate)
-  return Math.round(rates.reduce((a, b) => a + b, 0) / rates.length)
-})
-const avgTime = computed(() => '15m 47s')
+
+const totalUsers = computed(() => funnelData.value?.totalUsers || 0)
+const finalConversion = computed(() => funnelData.value?.finalConversionRate || 0)
+const avgConversion = computed(() => funnelData.value?.avgConversionRate || 0)
+const avgTime = computed(() => formatDuration(funnelData.value?.avgDuration || 0))
+
+const formatDate = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+
+const formatDateTime = (date: Date) => {
+  if (!date) return ''
+  const d = new Date(date)
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
+}
+
+const formatDuration = (seconds: number) => {
+  const m = Math.floor(seconds / 60)
+  const s = Math.floor(seconds % 60)
+  return m > 0 ? `${m}m ${s}s` : `${s}s`
+}
 
 const funnelOptions = reactive<EChartsOption>({
   tooltip: { trigger: 'item', formatter: '{b} : {c}人 ({d}%)' },
   series: [
-        {
-          name: '转化漏斗',
-          type: 'funnel',
-          left: '20%',
-          top: 20,
-          bottom: 20,
-          width: '60%',
-          min: 0,
-          max: 100,
-          minSize: '15%',
-          maxSize: '85%',
-          sort: 'descending',
-          gap: 6,
-          label: {
-            show: true,
-            position: 'inside',
-            formatter: '{b}\n{c}人',
-            fontSize: 12,
-            color: '#fff'
-          },
-          labelLine: { length: 8, lineStyle: { width: 1, type: 'solid' } },
-          itemStyle: { borderColor: '#fff', borderWidth: 1, shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.1)' },
-          emphasis: {
-            itemStyle: { shadowBlur: 15, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.2)' }
-          },
-          data: [
-            { value: 100, name: '访问用户', itemStyle: { color: '#667eea' } },
-            { value: 80, name: '浏览商品', itemStyle: { color: '#764ba2' } },
-            { value: 60, name: '加入购物车', itemStyle: { color: '#4facfe' } },
-            { value: 40, name: '生成订单', itemStyle: { color: '#43e97b' } },
-            { value: 20, name: '完成支付', itemStyle: { color: '#fa709a' } }
-          ]
-        }
-      ]
+    {
+      name: '转化漏斗',
+      type: 'funnel',
+      left: '20%',
+      top: 20,
+      bottom: 20,
+      width: '60%',
+      min: 0,
+      max: 100,
+      minSize: '15%',
+      maxSize: '85%',
+      sort: 'descending',
+      gap: 6,
+      label: {
+        show: true,
+        position: 'inside',
+        formatter: '{b}\n{c}人',
+        fontSize: 12,
+        color: '#fff'
+      },
+      labelLine: { length: 8, lineStyle: { width: 1, type: 'solid' } },
+      itemStyle: { borderColor: '#fff', borderWidth: 1, shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.1)' },
+      emphasis: {
+        itemStyle: { shadowBlur: 15, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.2)' }
+      },
+      data: []
+    }
+  ]
 })
 
-const funnelSteps = ref([
-  { step: '访问用户', users: 12846, conversionRate: 100, overallRate: 100, lossRate: 0, avgTime: '-' },
-  { step: '浏览商品', users: 10277, conversionRate: 80, overallRate: 80, lossRate: 20, avgTime: '2m 15s' },
-  { step: '加入购物车', users: 7708, conversionRate: 75, overallRate: 60, lossRate: 25, avgTime: '5m 32s' },
-  { step: '生成订单', users: 5139, conversionRate: 67, overallRate: 40, lossRate: 33, avgTime: '3m 48s' },
-  { step: '完成支付', users: 2570, conversionRate: 50, overallRate: 20, lossRate: 50, avgTime: '4m 12s' }
-])
+const updateChart = () => {
+  const data = funnelSteps.value.map((step, index) => ({
+    value: step.users,
+    name: step.stepName,
+    itemStyle: { color: stepColors[index % stepColors.length] }
+  }))
+  funnelOptions.series = [{
+    name: '转化漏斗',
+    type: chartView.value === 'funnel' ? 'funnel' : 'bar',
+    left: '20%',
+    top: 20,
+    bottom: 20,
+    width: '60%',
+    min: 0,
+    max: 100,
+    minSize: '15%',
+    maxSize: '85%',
+    sort: 'descending',
+    gap: 6,
+    label: { show: true, position: 'inside', formatter: '{b}\n{c}人', fontSize: 12, color: '#fff' },
+    labelLine: { length: 8, lineStyle: { width: 1, type: 'solid' } },
+    itemStyle: { borderColor: '#fff', borderWidth: 1, shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.1)' },
+    emphasis: { itemStyle: { shadowBlur: 15, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.2)' } },
+    data
+  }]
+}
 
 const formatNumber = (num: number) => {
   return num.toLocaleString()
 }
 
-const handleQuery = () => {
-  ElMessage.success('查询成功')
+const handleQuery = async () => {
+  loading.value = true
+  try {
+    const steps = funnelStepMap.value[selectedFunnel.value]
+    if (!steps || steps.length === 0) {
+      ElMessage.warning('请先配置漏斗步骤')
+      loading.value = false
+      return
+    }
+    const data = await analyzeFunnel({
+      steps,
+      startTime: `${formatDate(dateRange.value[0])} 00:00:00`,
+      endTime: `${formatDate(dateRange.value[1])} 23:59:59`
+    })
+    funnelData.value = data
+    funnelSteps.value = data.steps || []
+    updateChart()
+  } catch {
+    ElMessage.error('查询失败')
+  } finally {
+    loading.value = false
+  }
 }
+
+// ===== 漏斗配置管理 =====
+const configDialogVisible = ref(false)
+const configLoading = ref(false)
+const configList = ref<FunnelConfigRespVO[]>([])
+const configTotal = ref(0)
+const configQueryParams = ref<FunnelConfigPageReqVO>({
+  pageNo: 1,
+  pageSize: 10,
+  name: undefined
+})
+
+const configFormDialogVisible = ref(false)
+const configFormDialogTitle = ref('')
+const configFormRef = ref()
+const configFormData = ref<FunnelConfigSaveReqVO>({
+  name: '',
+  steps: '',
+  windowTime: 86400,
+  remark: ''
+})
+
+const configFormRules = {
+  name: [{ required: true, message: '漏斗名称不能为空', trigger: 'blur' }],
+  steps: [{ required: true, message: '步骤事件不能为空', trigger: 'blur' }]
+}
+
+const openConfigDialog = () => {
+  configDialogVisible.value = true
+  getConfigList()
+}
+
+/** 获取配置列表 */
+const getConfigList = async () => {
+  configLoading.value = true
+  try {
+    const data = await getFunnelConfigPage(configQueryParams.value)
+    configList.value = data.list
+    configTotal.value = data.total
+  } finally {
+    configLoading.value = false
+  }
+}
+
+/** 搜索配置 */
+const handleConfigQuery = () => {
+  configQueryParams.value.pageNo = 1
+  getConfigList()
+}
+
+/** 重置搜索 */
+const resetConfigQuery = () => {
+  configQueryParams.value = { pageNo: 1, pageSize: 10, name: undefined }
+  getConfigList()
+}
+
+/** 新增配置 */
+const handleConfigCreate = () => {
+  configFormDialogTitle.value = '新增漏斗配置'
+  configFormData.value = { name: '', steps: '', windowTime: 86400, remark: '' }
+  configFormDialogVisible.value = true
+}
+
+/** 编辑配置 */
+const handleConfigEdit = (row: FunnelConfigRespVO) => {
+  configFormDialogTitle.value = '编辑漏斗配置'
+  configFormData.value = {
+    id: row.id,
+    name: row.name,
+    steps: row.steps,
+    windowTime: row.windowTime || 86400,
+    remark: row.remark || ''
+  }
+  configFormDialogVisible.value = true
+}
+
+/** 删除配置 */
+const handleConfigDelete = async (row: FunnelConfigRespVO) => {
+  await message.delConfirm(`确定要删除漏斗配置「${row.name}」吗？`)
+  await deleteFunnelConfig(row.id)
+  message.success('删除成功')
+  getConfigList()
+  await loadFunnelConfigs()
+}
+
+/** 提交配置表单 */
+const submitConfigForm = async () => {
+  await configFormRef.value?.validate()
+  if (configFormData.value.id) {
+    await updateFunnelConfig(configFormData.value)
+    message.success('更新成功')
+  } else {
+    await createFunnelConfig(configFormData.value)
+    message.success('创建成功')
+  }
+  configFormDialogVisible.value = false
+  getConfigList()
+  await loadFunnelConfigs()
+}
+
+watch(chartView, () => {
+  updateChart()
+})
+
+onMounted(async () => {
+  await loadFunnelConfigs()
+  if (funnelConfigs.value.length > 0) {
+    selectedFunnel.value = String(funnelConfigs.value[0].id)
+  }
+  handleQuery()
+})
 </script>
 
 <style lang="scss" scoped>
@@ -495,5 +768,23 @@ const handleQuery = () => {
 
 .text-success {
   color: #10b981;
+}
+
+// 配置弹窗内容区
+.config-dialog-content {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+// 配置管理搜索栏
+.config-search-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+
+  .search-input {
+    width: 200px;
+  }
 }
 </style>

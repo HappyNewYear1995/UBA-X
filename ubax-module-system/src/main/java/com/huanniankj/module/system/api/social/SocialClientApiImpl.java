@@ -64,11 +64,6 @@ public class SocialClientApiImpl implements SocialClientApi {
     }
 
     @Override
-    public byte[] getWxaQrcode(SocialWxQrcodeReqDTO reqVO) {
-        return socialClientService.getWxaQrcode(reqVO);
-    }
-
-    @Override
     public List<SocialWxaSubscribeTemplateRespDTO> getWxaSubscribeTemplateList(Integer userType) {
         List<TemplateInfo> list = socialClientService.getSubscribeTemplateList(userType);
         return convertList(list, item -> BeanUtils.toBean(item, SocialWxaSubscribeTemplateRespDTO.class).setId(item.getPriTmplId()));

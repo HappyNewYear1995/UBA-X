@@ -29,11 +29,9 @@ import static com.huanniankj.framework.common.exception.enums.GlobalErrorCodeCon
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e)
-            throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
         // 打印 warn 的原因是，不定期合并 warn，看看有没恶意破坏
-        log.warn("[commence][访问 URL({}) 时，用户({}) 权限不够]", request.getRequestURI(),
-                SecurityFrameworkUtils.getLoginUserId(), e);
+        log.warn("[commence][访问 URL({}) 时，用户({}) 权限不够]", request.getRequestURI(), SecurityFrameworkUtils.getLoginUserId(), e);
         // 返回 403
         ServletUtils.writeJSON(response, CommonResult.error(FORBIDDEN));
     }

@@ -17,6 +17,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
@@ -44,6 +45,7 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
     private final AntPathMatcher pathMatcher;
 
     private final GlobalExceptionHandler globalExceptionHandler;
+
     private final TenantFrameworkService tenantFrameworkService;
 
     public TenantSecurityWebFilter(WebProperties webProperties,
@@ -60,7 +62,7 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain chain)
             throws ServletException, IOException {
         Long tenantId = TenantContextHolder.getTenantId();
         // 1. 登陆的用户，校验是否有权限访问该租户，避免越权问题。

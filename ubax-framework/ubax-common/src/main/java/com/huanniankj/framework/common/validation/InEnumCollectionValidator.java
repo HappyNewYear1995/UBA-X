@@ -10,6 +10,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 范围（集合）校验器
+ *
+ * @author zhaoff
+ */
 public class InEnumCollectionValidator implements ConstraintValidator<InEnum, Collection<?>> {
 
     private List<?> values;

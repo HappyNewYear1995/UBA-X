@@ -31,7 +31,7 @@ public interface DesensitizationHandler<T extends Annotation> {
     default String getDisable(T annotation) {
         // 约定：默认就是 enable() 属性。如果不符合，子类重写
         try {
-            return (String) ReflectUtil.invoke(annotation, "disable");
+            return ReflectUtil.invoke(annotation, "disable");
         } catch (Exception ex) {
             return "";
         }

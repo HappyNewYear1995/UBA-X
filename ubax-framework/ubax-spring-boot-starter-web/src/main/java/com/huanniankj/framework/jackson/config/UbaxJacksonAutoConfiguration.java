@@ -21,6 +21,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Jackson自动配置类
+ *
+ * @author zhaoff
+ */
 @AutoConfiguration(after = JacksonAutoConfiguration.class)
 @Slf4j
 public class UbaxJacksonAutoConfiguration {

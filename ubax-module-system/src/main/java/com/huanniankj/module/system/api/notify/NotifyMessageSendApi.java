@@ -18,12 +18,4 @@ public interface NotifyMessageSendApi {
      */
     Long sendSingleMessageToAdmin(@Valid NotifySendSingleToUserReqDTO reqDTO);
 
-    /**
-     * 发送单条站内信给 Member 用户
-     *
-     * @param reqDTO 发送请求
-     * @return 发送消息 ID
-     */
-    Long sendSingleMessageToMember(@Valid NotifySendSingleToUserReqDTO reqDTO);
-
 }

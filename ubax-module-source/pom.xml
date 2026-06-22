@@ -13,7 +13,7 @@
 
     <name>${project.artifactId}</name>
     <description>
-        数据源模块，包括Agent管理、事件管理、运行监控等。
+        数据源模块，包括数据库数据源、web service数据源、Agent管理、事件管理、运行监控等。
     </description>
 
     <dependencies>
@@ -38,6 +38,7 @@
             <groupId>com.huanniankj</groupId>
             <artifactId>ubax-spring-boot-starter-mybatis</artifactId>
         </dependency>
+
         <!-- Hutool 等工具类 -->
         <dependency>
             <groupId>cn.hutool</groupId>

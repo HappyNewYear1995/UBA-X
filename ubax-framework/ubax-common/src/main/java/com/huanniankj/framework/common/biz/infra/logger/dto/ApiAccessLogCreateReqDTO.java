@@ -108,7 +108,7 @@ public class ApiAccessLogCreateReqDTO {
      */
     @NotNull(message = "错误码不能为空")
     private Integer resultCode;
-    
+
     /**
      * 结果提示
      */

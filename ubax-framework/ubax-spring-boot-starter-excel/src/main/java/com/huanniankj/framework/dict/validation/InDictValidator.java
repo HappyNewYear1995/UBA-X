@@ -7,6 +7,11 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.List;
 
+/**
+ * Int字典校验器
+ *
+ * @author zhaoff
+ */
 public class InDictValidator implements ConstraintValidator<InDict, Object> {
 
     private String dictType;

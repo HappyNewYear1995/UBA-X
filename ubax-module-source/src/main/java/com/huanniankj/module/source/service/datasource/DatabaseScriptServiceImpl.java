@@ -50,6 +50,9 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
     private DatabaseScriptExecutionService databaseScriptExecutionService;
 
     @Resource
+    private WebServiceExecutionService webServiceExecutionService;
+
+    @Resource
     private DataSourceManager dataSourceManager;
 
     @Resource
@@ -255,6 +258,19 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
                 yield databaseScriptExecutionService.executeProcedure(reqVO);
             }
             case "view" -> databaseScriptExecutionService.executeSql(databaseId, scriptContent, paramList);
+            case "webservice" -> {
+                // WebService 脚本：scriptContent 为请求体，入参作为模板参数
+                WebServiceExecuteReqVO wsReqVO = new WebServiceExecuteReqVO();
+                wsReqVO.setDatabaseId(databaseId);
+                wsReqVO.setBody(scriptContent);
+                // 将入参转为 String Map 用于模板替换
+                if (inputParams != null && !inputParams.isEmpty()) {
+                    Map<String, String> params = new LinkedHashMap<>();
+                    inputParams.forEach((k, v) -> params.put(k, v != null ? v.toString() : ""));
+                    wsReqVO.setParams(params);
+                }
+                yield webServiceExecutionService.executeWebService(wsReqVO);
+            }
             default -> throw exception(DATABASE_SCRIPT_TYPE_NOT_SUPPORTED);
         };
     }
@@ -565,6 +581,7 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
             case "sql" -> "SQL脚本";
             case "procedure" -> "存储过程";
             case "view" -> "视图查询";
+            case "webservice" -> "WebService";
             default -> script.getScriptType();
         };
         respVO.setScriptTypeName(scriptTypeName);

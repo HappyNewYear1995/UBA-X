@@ -68,14 +68,6 @@ public interface SocialClientService {
     WxMaPhoneNumberInfo getWxMaPhoneNumberInfo(Integer userType, String phoneCode);
 
     /**
-     * 获得小程序二维码
-     *
-     * @param reqVO 请求信息
-     * @return 小程序二维码
-     */
-    byte[] getWxaQrcode(SocialWxQrcodeReqDTO reqVO);
-
-    /**
      * 获得微信小程订阅模板
      * <p>
      * 缓存的目的：考虑到微信小程序订阅消息选择好模版后几乎不会变动，缓存增加查询效率

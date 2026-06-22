@@ -113,9 +113,6 @@ public class MailSendServiceImpl implements MailSendService {
                 return user.getEmail();
             }
         }
-        if (UserTypeEnum.MEMBER.getValue().equals(userType)) {
-            return memberService.getMemberUserEmail(userId);
-        }
         return null;
     }
 

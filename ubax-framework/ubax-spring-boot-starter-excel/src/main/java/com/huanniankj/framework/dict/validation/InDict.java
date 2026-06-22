@@ -9,6 +9,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Int字典注解
+ *
+ * @author zhaoff
+ */
 @Target({
         ElementType.METHOD,
         ElementType.FIELD,

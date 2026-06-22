@@ -418,14 +418,14 @@ const handleViewDetail = (row: any) => {
 .log-table {
   :deep(.el-table__header) {
     th {
-      background: rgba(255, 255, 255, 0.03);
+      background: var(--border-color-light);
       font-weight: 600;
     }
   }
 
   :deep(.el-table__row) {
     &:hover {
-      background: rgba(255, 255, 255, 0.02);
+      background: var(--border-color-light);
     }
   }
 }

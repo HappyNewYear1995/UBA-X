@@ -1,14 +1,18 @@
 package com.huanniankj.framework.common.pojo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 分页参数
+ *
+ * @author zhaoff
+ */
 @Schema(description = "分页参数")
 @Data
 public class PageParam implements Serializable {

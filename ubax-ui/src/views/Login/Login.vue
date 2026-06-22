@@ -1299,35 +1299,35 @@ $prefix-cls: #{$namespace}-login;
   }
 }
 
-// 浅色模式登录表单适配（右侧为深色背景）
+// 浅色模式登录表单适配（右侧为浅色背景）
 .light .login-form {
   .el-divider__text {
     background-color: transparent;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(0, 0, 0, 0.6);
   }
 
   .el-card {
-    background-color: transparent;
-    border-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.6) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
   }
 
   .el-input__wrapper {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
     box-shadow: none !important;
 
     &:hover,
     &.is-focus {
-      background-color: rgba(255, 255, 255, 0.08) !important;
+      background-color: #fff !important;
       border-color: var(--el-color-primary) !important;
       box-shadow: 0 0 0 1px var(--el-color-primary) inset !important;
     }
 
     .el-input__inner {
-      color: #fff !important;
+      color: #333 !important;
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.4) !important;
+        color: rgba(0, 0, 0, 0.4) !important;
       }
     }
   }
@@ -1353,24 +1353,58 @@ $prefix-cls: #{$namespace}-login;
 
     &--primary {
       color: #fff !important;
+      background: var(--primary-gradient) !important;
+      border: none !important;
 
       &:hover {
         background: var(--primary-gradient) !important;
         box-shadow: none !important;
+        color: #fff !important;
       }
     }
   }
 
   .el-link {
-    color: rgba(255, 255, 255, 0.6) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
 
     &:hover {
       color: var(--el-color-primary) !important;
     }
   }
 
+  .el-checkbox__label {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .el-checkbox__inner {
+    background-color: #fff !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+  }
+
   h2 {
-    color: #fff !important;
+    color: #333 !important;
+  }
+
+  // 其他登录方式分割线文字
+  .other-login-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 16px 0;
+
+    &::before,
+    &::after {
+      flex: 1;
+      content: '';
+      border-top: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    span {
+      padding: 0 12px;
+      color: rgba(0, 0, 0, 0.5);
+      font-size: 13px;
+      white-space: nowrap;
+    }
   }
 }
 
@@ -1386,15 +1420,15 @@ $prefix-cls: #{$namespace}-login;
   }
 }
 
-// 登录卡片全局样式 - 浅色模式（右侧为深色背景）
+// 登录卡片全局样式 - 浅色模式（右侧为浅色背景）
 .light .login-card {
-  background: rgba(17, 22, 40, 0.6) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3) !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1) !important;
 
   &:hover {
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4) !important;
-    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+    border-color: rgba(102, 126, 234, 0.2) !important;
   }
 }
 </style>

@@ -2,14 +2,15 @@ package com.huanniankj.framework.common.util.validation;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
-import org.springframework.util.StringUtils;
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import org.springframework.util.StringUtils;
+
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import static jakarta.validation.Validation.buildDefaultValidatorFactory;
 
 /**
  * 校验工具类
@@ -40,7 +41,7 @@ public class ValidationUtils {
     }
 
     public static void validate(Object object, Class<?>... groups) {
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Validator validator = buildDefaultValidatorFactory().getValidator();
         Assert.notNull(validator);
         validate(validator, object, groups);
     }

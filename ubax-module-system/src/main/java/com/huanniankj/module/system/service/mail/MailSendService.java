@@ -35,26 +35,6 @@ public interface MailSendService {
     }
 
     /**
-     * 发送单条邮件给用户 APP 的用户
-     *
-     * @param userId         用户编码
-     * @param toMails        收件邮箱
-     * @param ccMails        抄送邮箱
-     * @param bccMails       密送邮箱
-     * @param templateCode   邮件模版编码
-     * @param templateParams 邮件模版参数
-     * @param attachments    附件
-     * @return 发送日志编号
-     */
-    default Long sendSingleMailToMember(Long userId,
-                                        Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
-                                        String templateCode, Map<String, Object> templateParams,
-                                        File... attachments) {
-        return sendSingleMail(toMails, ccMails, bccMails, userId, UserTypeEnum.MEMBER.getValue(),
-                templateCode, templateParams, attachments);
-    }
-
-    /**
      * 发送单条邮件
      *
      * @param toMails        收件邮箱

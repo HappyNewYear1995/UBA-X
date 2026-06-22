@@ -25,11 +25,4 @@ public class MailSendApiImpl implements MailSendApi {
                 reqDTO.getTemplateCode(), reqDTO.getTemplateParams(), reqDTO.getAttachments());
     }
 
-    @Override
-    public Long sendSingleMailToMember(MailSendSingleToUserReqDTO reqDTO) {
-        return mailSendService.sendSingleMailToMember(reqDTO.getUserId(),
-                reqDTO.getToMails(), reqDTO.getCcMails(), reqDTO.getBccMails(),
-                reqDTO.getTemplateCode(), reqDTO.getTemplateParams(), reqDTO.getAttachments());
-    }
-
 }

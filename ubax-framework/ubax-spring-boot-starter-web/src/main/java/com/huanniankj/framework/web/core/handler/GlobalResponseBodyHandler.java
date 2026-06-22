@@ -20,6 +20,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * <p>
  * 目前，GlobalResponseBodyHandler 的主要作用是，记录 Controller 的返回结果，
  * 方便 {@link ApiAccessLogFilter} 记录访问日志
+ *
+ * @author zhaoff
  */
 @ControllerAdvice
 public class GlobalResponseBodyHandler implements ResponseBodyAdvice {

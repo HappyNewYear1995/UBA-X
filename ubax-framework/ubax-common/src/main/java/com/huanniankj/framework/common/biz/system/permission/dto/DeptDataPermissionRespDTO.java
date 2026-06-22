@@ -22,7 +22,7 @@ public class DeptDataPermissionRespDTO {
      * 是否可查看自己的数据
      */
     private Boolean self;
-    
+
     /**
      * 可查看的部门编号数组
      */

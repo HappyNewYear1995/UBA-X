@@ -2,7 +2,11 @@ package com.huanniankj.framework.tenant.core.aop;
 
 import com.huanniankj.framework.tenant.config.TenantProperties;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 忽略租户，标记指定方法不进行租户的自动过滤

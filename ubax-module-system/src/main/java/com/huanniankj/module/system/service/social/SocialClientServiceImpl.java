@@ -26,12 +26,10 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.huanniankj.framework.common.enums.CommonStatusEnum;
-import com.huanniankj.framework.common.enums.UserTypeEnum;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.common.util.cache.CacheUtils;
 import com.huanniankj.framework.common.util.http.HttpUtils;
 import com.huanniankj.framework.common.util.object.BeanUtils;
-import com.huanniankj.module.system.api.social.dto.SocialWxQrcodeReqDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxaOrderNotifyConfirmReceiveReqDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxaOrderUploadShippingInfoReqDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
@@ -76,7 +74,14 @@ import static com.huanniankj.framework.common.util.collection.MapUtils.findAndTh
 import static com.huanniankj.framework.common.util.date.LocalDateTimeUtils.UTC_MS_WITH_XXX_OFFSET_FORMATTER;
 import static com.huanniankj.framework.common.util.date.LocalDateTimeUtils.toEpochSecond;
 import static com.huanniankj.framework.common.util.json.JsonUtils.toJsonString;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SOCIAL_CLIENT_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SOCIAL_CLIENT_UNIQUE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SOCIAL_CLIENT_WEIXIN_MINI_APP_ORDER_NOTIFY_CONFIRM_RECEIVE_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SOCIAL_CLIENT_WEIXIN_MINI_APP_ORDER_UPLOAD_SHIPPING_INFO_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SOCIAL_CLIENT_WEIXIN_MINI_APP_PHONE_CODE_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SOCIAL_CLIENT_WEIXIN_MINI_APP_SUBSCRIBE_MESSAGE_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SOCIAL_CLIENT_WEIXIN_MINI_APP_SUBSCRIBE_TEMPLATE_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SOCIAL_USER_AUTH_FAILURE;
 import static java.util.Collections.singletonList;
 
 /**
@@ -295,25 +300,6 @@ public class SocialClientServiceImpl implements SocialClientService {
         } catch (WxErrorException e) {
             log.error("[getPhoneNumber][userType({}) phoneCode({}) 获得手机号失败]", userType, phoneCode, e);
             throw exception(SOCIAL_CLIENT_WEIXIN_MINI_APP_PHONE_CODE_ERROR);
-        }
-    }
-
-    @Override
-    public byte[] getWxaQrcode(SocialWxQrcodeReqDTO reqVO) {
-        WxMaService service = getWxMaService(UserTypeEnum.MEMBER.getValue());
-        try {
-            return service.getQrcodeService().createWxaCodeUnlimitBytes(
-                    ObjUtil.defaultIfEmpty(reqVO.getScene(), SocialWxQrcodeReqDTO.SCENE),
-                    reqVO.getPath(),
-                    ObjUtil.defaultIfNull(reqVO.getCheckPath(), SocialWxQrcodeReqDTO.CHECK_PATH),
-                    envVersion,
-                    ObjUtil.defaultIfNull(reqVO.getWidth(), SocialWxQrcodeReqDTO.WIDTH),
-                    ObjUtil.defaultIfNull(reqVO.getAutoColor(), SocialWxQrcodeReqDTO.AUTO_COLOR),
-                    null,
-                    ObjUtil.defaultIfNull(reqVO.getHyaline(), SocialWxQrcodeReqDTO.HYALINE));
-        } catch (WxErrorException e) {
-            log.error("[getWxQrcode][reqVO({}) 获得小程序码失败]", reqVO, e);
-            throw exception(SOCIAL_CLIENT_WEIXIN_MINI_APP_QRCODE_ERROR);
         }
     }
 

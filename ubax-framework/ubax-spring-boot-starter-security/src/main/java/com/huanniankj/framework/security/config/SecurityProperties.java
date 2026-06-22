@@ -9,6 +9,11 @@ import org.springframework.validation.annotation.Validated;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Spring Security配置属性
+ *
+ * @author zhaoff
+ */
 @ConfigurationProperties(prefix = "ubax.security")
 @Validated
 @Data

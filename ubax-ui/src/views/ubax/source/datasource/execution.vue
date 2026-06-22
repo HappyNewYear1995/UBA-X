@@ -217,6 +217,115 @@
             </div>
           </div>
         </el-tab-pane>
+
+        <!-- WebService Tab -->
+        <el-tab-pane label="WebService" name="webservice">
+          <div class="webservice-section">
+            <el-form :model="wsForm" label-width="120px">
+              <el-form-item label="请求 URL">
+                <el-input v-model="wsForm.url" placeholder="覆盖数据源默认 URL（留空使用默认）" />
+              </el-form-item>
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="请求方法">
+                    <el-select v-model="wsForm.method" style="width: 100%">
+                      <el-option label="GET" value="GET" />
+                      <el-option label="POST" value="POST" />
+                      <el-option label="PUT" value="PUT" />
+                      <el-option label="DELETE" value="DELETE" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="认证类型">
+                    <el-select v-model="wsForm.authType" style="width: 100%">
+                      <el-option label="使用默认" value="" />
+                      <el-option label="无需认证" value="none" />
+                      <el-option label="Basic Auth" value="basic" />
+                      <el-option label="Bearer Token" value="bearer" />
+                      <el-option label="API Key" value="apikey" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-form-item v-if="wsForm.authType && wsForm.authType !== 'none'" label="认证凭据">
+                <el-input v-model="wsForm.authToken" placeholder="覆盖数据源默认凭据" />
+              </el-form-item>
+              <el-form-item label="请求头">
+                <el-input
+                  v-model="wsForm.headers"
+                  type="textarea"
+                  :rows="2"
+                  placeholder='覆盖数据源默认请求头，JSON 格式'
+                />
+              </el-form-item>
+              <el-form-item label="请求体">
+                <el-input
+                  v-model="wsForm.body"
+                  type="textarea"
+                  :rows="4"
+                  placeholder="JSON 格式请求体（POST/PUT 时使用）"
+                />
+              </el-form-item>
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="SOAP 操作名">
+                    <el-input v-model="wsForm.soapAction" placeholder="覆盖数据源默认 SOAP 操作" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="响应数据路径">
+                    <el-input v-model="wsForm.responsePath" placeholder="JSONPath，如 $.data.list" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-form-item>
+                <el-button type="primary" @click="handleExecuteWebService" :disabled="!executeForm.databaseId">
+                  <Icon icon="ep:caret-right" /> 执行请求
+                </el-button>
+                <el-button @click="handleClearWs">
+                  <Icon icon="ep:delete" /> 清空
+                </el-button>
+              </el-form-item>
+            </el-form>
+
+            <!-- WebService 执行结果 -->
+            <div v-if="wsResult" class="sql-result">
+              <div class="result-header">
+                <span class="result-title">执行结果</span>
+                <el-tag :type="wsResult.success ? 'success' : 'danger'" size="small">
+                  {{ wsResult.success ? '成功' : '失败' }}
+                </el-tag>
+                <span v-if="wsResult.costTime" class="result-cost">耗时: {{ wsResult.costTime }}ms</span>
+                <span v-if="wsResult.affectedRows !== undefined" class="result-rows">
+                  数据行数: {{ wsResult.affectedRows }}
+                </span>
+              </div>
+
+              <el-alert
+                v-if="!wsResult.success && wsResult.errorMessage"
+                :title="wsResult.errorMessage"
+                type="error"
+                :closable="false"
+                show-icon
+              />
+
+              <div v-if="wsResult.success && wsResult.results && wsResult.results.length > 0" class="result-table">
+                <el-table :data="wsResult.results" border stripe max-height="500">
+                  <el-table-column
+                    v-for="key in wsResultColumns"
+                    :key="key"
+                    :prop="key"
+                    :label="key"
+                    min-width="120"
+                    show-overflow-tooltip
+                  />
+                </el-table>
+                <div class="result-count">共 {{ wsResult.results.length }} 条记录</div>
+              </div>
+            </div>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </el-card>
   </div>
@@ -231,8 +340,14 @@ import {
   type DatabaseSourceRespVO,
   type SqlExecuteReqVO,
   type SqlExecuteRespVO,
-  type ProcedureReqVO
+  type ProcedureReqVO,
+  type WebServiceExecuteReqVO
 } from '@/api/ubax/gather/datasource/database'
+import {
+  getWebServiceSourcePage,
+  executeWebService as executeWsApi,
+  type WebServiceSourceRespVO
+} from '@/api/ubax/gather/datasource/webservice'
 
 defineOptions({ name: 'DatabaseSourceSqlExecute' })
 
@@ -258,9 +373,22 @@ const viewForm = ref({
   viewName: ''
 })
 
+const wsForm = ref({
+  url: '',
+  method: '',
+  headers: '',
+  body: '',
+  authType: '',
+  authToken: '',
+  soapNamespace: '',
+  soapAction: '',
+  responsePath: ''
+})
+
 const sqlResult = ref<SqlExecuteRespVO | null>(null)
 const procedureResult = ref<SqlExecuteRespVO | null>(null)
 const viewResult = ref<SqlExecuteRespVO | null>(null)
+const wsResult = ref<SqlExecuteRespVO | null>(null)
 
 const resultColumns = computed(() => {
   if (!sqlResult.value?.results || sqlResult.value.results.length === 0) return []
@@ -275,6 +403,11 @@ const procedureResultColumns = computed(() => {
 const viewResultColumns = computed(() => {
   if (!viewResult.value?.results || viewResult.value.results.length === 0) return []
   return Object.keys(viewResult.value.results[0])
+})
+
+const wsResultColumns = computed(() => {
+  if (!wsResult.value?.results || wsResult.value.results.length === 0) return []
+  return Object.keys(wsResult.value.results[0])
 })
 
 /** 加载数据源列表 */
@@ -293,6 +426,7 @@ const handleDataSourceChange = (id: number) => {
   sqlResult.value = null
   procedureResult.value = null
   viewResult.value = null
+  wsResult.value = null
 }
 
 /** 执行 SQL */
@@ -389,6 +523,53 @@ const handleExecuteView = async () => {
   }
 }
 
+/** 执行 WebService 请求 */
+const handleExecuteWebService = async () => {
+  if (!executeForm.value.databaseId) {
+    message.warning('请先选择数据源')
+    return
+  }
+
+  const reqVO: WebServiceExecuteReqVO = {
+    databaseId: executeForm.value.databaseId
+  }
+  // 仅设置非空值，让后端使用数据源默认配置
+  if (wsForm.value.url) reqVO.url = wsForm.value.url
+  if (wsForm.value.method) reqVO.method = wsForm.value.method
+  if (wsForm.value.headers) reqVO.headers = wsForm.value.headers
+  if (wsForm.value.body) reqVO.body = wsForm.value.body
+  if (wsForm.value.authType) reqVO.authType = wsForm.value.authType
+  if (wsForm.value.authToken) reqVO.authToken = wsForm.value.authToken
+  if (wsForm.value.soapNamespace) reqVO.soapNamespace = wsForm.value.soapNamespace
+  if (wsForm.value.soapAction) reqVO.soapAction = wsForm.value.soapAction
+  if (wsForm.value.responsePath) reqVO.responsePath = wsForm.value.responsePath
+
+  try {
+    wsResult.value = await executeWsApi(reqVO)
+    if (!wsResult.value.success) {
+      message.error(wsResult.value.errorMessage || 'WebService 请求失败')
+    }
+  } catch {
+    message.error('WebService 请求异常')
+  }
+}
+
+/** 清空 WebService 表单 */
+const handleClearWs = () => {
+  wsForm.value = {
+    url: '',
+    method: '',
+    headers: '',
+    body: '',
+    authType: '',
+    authToken: '',
+    soapNamespace: '',
+    soapAction: '',
+    responsePath: ''
+  }
+  wsResult.value = null
+}
+
 onMounted(() => {
   loadDataSourceList()
 
@@ -396,6 +577,16 @@ onMounted(() => {
   const databaseId = route.query.databaseId
   if (databaseId) {
     executeForm.value.databaseId = Number(databaseId)
+  }
+  // 如果从 WebService 管理页跳转，使用 wsId
+  const wsId = route.query.wsId
+  if (wsId) {
+    executeForm.value.databaseId = Number(wsId)
+  }
+  // 如果指定了 Tab
+  const tab = route.query.tab
+  if (tab) {
+    activeTab.value = String(tab)
   }
 })
 </script>
@@ -490,7 +681,8 @@ onMounted(() => {
 }
 
 .procedure-section,
-.view-section {
+.view-section,
+.webservice-section {
   padding: 16px 0;
 }
 

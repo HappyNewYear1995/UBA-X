@@ -88,6 +88,20 @@ export interface DatabaseTestReqVO {
   connectionParams?: string
 }
 
+export interface WebServiceExecuteReqVO {
+  databaseId: number
+  url?: string
+  method?: string
+  headers?: string
+  body?: string
+  authType?: string
+  authToken?: string
+  soapNamespace?: string
+  soapAction?: string
+  responsePath?: string
+  params?: Record<string, string>
+}
+
 /** 获取数据库数据源分页 */
 export const getDatabaseSourcePage = (params: DatabaseSourcePageReqVO) => {
   return request.get({ url: '/source/database/page', params })

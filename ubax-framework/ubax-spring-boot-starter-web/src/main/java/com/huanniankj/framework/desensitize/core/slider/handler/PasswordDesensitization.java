@@ -8,7 +8,7 @@ import com.huanniankj.framework.desensitize.core.slider.annotation.PasswordDesen
  * @author zhaoff
  */
 public class PasswordDesensitization extends AbstractSliderDesensitizationHandler<PasswordDesensitize> {
-    
+
     @Override
     Integer getPrefixKeep(PasswordDesensitize annotation) {
         return annotation.prefixKeep();

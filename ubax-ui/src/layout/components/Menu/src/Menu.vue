@@ -148,7 +148,7 @@ $prefix-cls: #{$namespace}-menu;
       transition: all var(--transition-time-02) var(--transition-cubic) !important;
 
       &:hover {
-        color: var(--left-menu-text-active-color) !important;
+        color: var(--left-menu-text-hover-color) !important;
         background-color: var(--left-menu-hover-bg-color) !important;
       }
     }
@@ -156,7 +156,7 @@ $prefix-cls: #{$namespace}-menu;
     // 设置选中时子标题的颜色
     .is-active {
       & > .#{$elNamespace}-sub-menu__title {
-        color: var(--left-menu-text-active-color) !important;
+        color: var(--left-menu-text-open-color) !important;
       }
     }
 
@@ -164,7 +164,7 @@ $prefix-cls: #{$namespace}-menu;
     .#{$elNamespace}-sub-menu__title,
     .#{$elNamespace}-menu-item {
       &:hover {
-        color: var(--left-menu-text-active-color) !important;
+        color: var(--left-menu-text-hover-color) !important;
         background-color: var(--left-menu-hover-bg-color) !important;
       }
     }
@@ -293,7 +293,7 @@ $prefix-cls: #{$namespace}-menu-popper;
   // 设置选中时子标题的颜色
   .is-active {
     & > .el-sub-menu__title {
-      color: var(--left-menu-text-active-color) !important;
+      color: var(--left-menu-text-open-color) !important;
     }
   }
 
@@ -301,7 +301,7 @@ $prefix-cls: #{$namespace}-menu-popper;
   .el-sub-menu__title,
   .el-menu-item {
     &:hover {
-      color: var(--left-menu-text-active-color) !important;
+      color: var(--left-menu-text-hover-color) !important;
       background-color: var(--left-menu-hover-bg-color) !important;
     }
   }

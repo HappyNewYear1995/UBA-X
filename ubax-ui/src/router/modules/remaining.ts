@@ -150,48 +150,67 @@ const remainingRouter: AppRouteRecordRaw[] = [
             }
           }
         ]
-      }
-    ]
-  },
-  {
-    path: '/ubax/gather',
-    component: Layout,
-    redirect: '/ubax/gather/agent',
-    name: 'GatherManagement',
-    meta: {
-      title: '采集管理',
-      icon: 'ep:grid'
-    },
-    children: [
+      },
+      {
+        path: 'webservice',
+        name: 'WebService',
+        meta: {
+          title: 'WebService',
+          icon: 'ep:connection',
+          noCache: false
+        },
+        children: [
+          {
+            path: 'list',
+            component: () => import('@/views/ubax/source/datasource/webservice.vue'),
+            name: 'WebServiceList',
+            meta: {
+              title: '服务管理',
+              noCache: false
+            }
+          }
+        ]
+      },
       {
         path: 'agent',
-        component: () => import('@/views/ubax/source/agent/index.vue'),
-        name: 'ClientList',
+        name: 'Agent',
         meta: {
-          title: 'Agent管理',
+          title: '探针管理',
           icon: 'ep:menu',
           noCache: false
-        }
-      },
-      {
-        path: 'events',
-        component: () => import('@/views/ubax/source/events/index.vue'),
-        name: 'EventConfig',
-        meta: {
-          title: '事件管理',
-          icon: 'ep:edit',
-          noCache: false
-        }
-      },
-      {
-        path: 'monitor',
-        component: () => import('@/views/ubax/source/monitor/index.vue'),
-        name: 'AppMonitor',
-        meta: {
-          title: '运行监控',
-          icon: 'ep:monitor',
-          noCache: false
-        }
+        },
+        children: [
+          {
+            path: 'agent',
+            component: () => import('@/views/ubax/source/agent/index.vue'),
+            name: 'ClientList',
+            meta: {
+              title: 'Agent管理',
+              icon: 'ep:menu',
+              noCache: false
+            }
+          },
+          {
+            path: 'events',
+            component: () => import('@/views/ubax/source/events/index.vue'),
+            name: 'EventConfig',
+            meta: {
+              title: '事件管理',
+              icon: 'ep:edit',
+              noCache: false
+            }
+          },
+          {
+            path: 'monitor',
+            component: () => import('@/views/ubax/source/monitor/index.vue'),
+            name: 'AppMonitor',
+            meta: {
+              title: '运行监控',
+              icon: 'ep:monitor',
+              noCache: false
+            }
+          }
+        ]
       }
     ]
   },
@@ -306,48 +325,6 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '检测配置',
           icon: 'ep:setting',
-          noCache: false
-        }
-      }
-    ]
-  },
-  {
-    path: '/ubax/setting',
-    component: Layout,
-    redirect: '/ubax/setting/project',
-    name: 'SystemSettings',
-    meta: {
-      title: '系统设置',
-      icon: 'ep:setting'
-    },
-    children: [
-      {
-        path: 'project',
-        component: () => import('@/views/ubax/setting/project/index.vue'),
-        name: 'ProjectManagement',
-        meta: {
-          title: '项目管理',
-          icon: 'ep:folder',
-          noCache: false
-        }
-      },
-      {
-        path: 'sdk',
-        component: () => import('@/views/ubax/setting/sdk/index.vue'),
-        name: 'SDKIntegration',
-        meta: {
-          title: 'UBAX-Pilot',
-          icon: 'ep:connection',
-          noCache: false
-        }
-      },
-      {
-        path: 'permission',
-        component: () => import('@/views/ubax/setting/permission/index.vue'),
-        name: 'MemberPermission',
-        meta: {
-          title: '成员权限',
-          icon: 'ep:user-filled',
           noCache: false
         }
       }

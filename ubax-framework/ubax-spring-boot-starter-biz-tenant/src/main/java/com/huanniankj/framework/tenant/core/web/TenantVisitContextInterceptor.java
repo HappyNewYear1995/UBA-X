@@ -12,10 +12,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception0;
 
+/**
+ * 租户访问上下文拦截器
+ *
+ * @author zhaoff
+ */
 @RequiredArgsConstructor
 @Slf4j
 public class TenantVisitContextInterceptor implements HandlerInterceptor {
@@ -27,7 +33,7 @@ public class TenantVisitContextInterceptor implements HandlerInterceptor {
     private final SecurityFrameworkService securityFrameworkService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
         // 如果和当前租户编号一致，则直接跳过
         Long visitTenantId = WebFrameworkUtils.getVisitTenantId(request);
         if (visitTenantId == null) {
@@ -54,7 +60,7 @@ public class TenantVisitContextInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+    public void afterCompletion(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler, Exception ex) {
         // 【重点】清理切换，换回原租户编号
         LoginUser loginUser = SecurityFrameworkUtils.getLoginUser();
         if (loginUser != null && loginUser.getTenantId() != null) {

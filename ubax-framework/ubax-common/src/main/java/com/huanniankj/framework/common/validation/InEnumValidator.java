@@ -8,6 +8,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 范围校验器
+ *
+ * @author zhaoff
+ */
 public class InEnumValidator implements ConstraintValidator<InEnum, Object> {
 
     private List<?> values;

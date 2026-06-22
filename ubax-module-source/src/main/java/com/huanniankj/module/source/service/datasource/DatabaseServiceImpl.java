@@ -115,7 +115,7 @@ public class DatabaseServiceImpl implements DatabaseService {
         }
 
         boolean success = dataSourceManager.testConnection(databaseSource);
-        // 根据测试结果自动更新状态：0-正常(连接成功) 1-禁用(连接失败)
+        // 根据测试结果自动更新状态：0-正常(连接成功) 1-异常(连接失败)
         Integer newStatus = success ? 0 : 1;
         if (!newStatus.equals(databaseSource.getStatus())) {
             databaseSource.setStatus(newStatus);

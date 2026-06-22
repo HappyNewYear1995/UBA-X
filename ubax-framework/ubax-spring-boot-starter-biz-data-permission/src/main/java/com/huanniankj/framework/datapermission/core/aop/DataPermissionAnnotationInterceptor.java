@@ -4,6 +4,7 @@ import com.huanniankj.framework.datapermission.core.annotation.DataPermission;
 import lombok.Getter;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.jspecify.annotations.NonNull;
 import org.springframework.core.MethodClassKey;
 import org.springframework.core.annotation.AnnotationUtils;
 
@@ -30,7 +31,7 @@ public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
     private final Map<MethodClassKey, DataPermission> dataPermissionCache = new ConcurrentHashMap<>();
 
     @Override
-    public Object invoke(MethodInvocation methodInvocation) throws Throwable {
+    public Object invoke(@NonNull MethodInvocation methodInvocation) throws Throwable {
         // 入栈
         DataPermission dataPermission = this.findAnnotation(methodInvocation);
         if (dataPermission != null) {

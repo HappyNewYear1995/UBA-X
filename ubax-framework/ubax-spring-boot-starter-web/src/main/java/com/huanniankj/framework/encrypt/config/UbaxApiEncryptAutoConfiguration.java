@@ -14,6 +14,11 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import static com.huanniankj.framework.web.config.UbaxWebAutoConfiguration.createFilterBean;
 
+/**
+ * API 加解密自动配置类
+ *
+ * @author zhaoff
+ */
 @AutoConfiguration
 @Slf4j
 @EnableConfigurationProperties(ApiEncryptProperties.class)

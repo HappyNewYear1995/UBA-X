@@ -1,12 +1,12 @@
 package com.huanniankj.framework.tenant.core.db;
 
-import com.huanniankj.framework.tenant.config.TenantProperties;
-import com.huanniankj.framework.tenant.core.aop.TenantIgnore;
-import com.huanniankj.framework.tenant.core.context.TenantContextHolder;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.toolkit.SqlParserUtils;
+import com.huanniankj.framework.tenant.config.TenantProperties;
+import com.huanniankj.framework.tenant.core.aop.TenantIgnore;
+import com.huanniankj.framework.tenant.core.context.TenantContextHolder;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 

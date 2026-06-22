@@ -38,11 +38,6 @@ public class NotifySendServiceImpl implements NotifySendService {
     }
 
     @Override
-    public Long sendSingleNotifyToMember(Long userId, String templateCode, Map<String, Object> templateParams) {
-        return sendSingleNotify(userId, UserTypeEnum.MEMBER.getValue(), templateCode, templateParams);
-    }
-
-    @Override
     public Long sendSingleNotify(Long userId, Integer userType, String templateCode, Map<String, Object> templateParams) {
         // 校验模版
         NotifyTemplateDO template = validateNotifyTemplate(templateCode);

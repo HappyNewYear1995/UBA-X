@@ -32,7 +32,7 @@ public class OAuth2AccessTokenRespDTO implements Serializable {
      * 用户类型
      */
     private Integer userType;
-    
+
     /**
      * 过期时间
      */

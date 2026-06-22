@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.huanniankj.framework.redis.core.TimeoutRedisCacheManager;
 import com.huanniankj.framework.tenant.core.context.TenantContextHolder;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.cache.Cache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -34,7 +35,7 @@ public class TenantRedisCacheManager extends TimeoutRedisCacheManager {
     }
 
     @Override
-    public Cache getCache(String name) {
+    public Cache getCache(@NonNull String name) {
         String[] names = StrUtil.splitToArray(name, SPLIT);
         // 如果开启多租户，则 name 拼接租户后缀
         if (!TenantContextHolder.isIgnore()

@@ -13,6 +13,11 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.List;
 
+/**
+ * 幂等配置类
+ *
+ * @author zhaoff
+ */
 @AutoConfiguration(after = UbaxRedisAutoConfiguration.class)
 public class UbaxIdempotentConfiguration {
 

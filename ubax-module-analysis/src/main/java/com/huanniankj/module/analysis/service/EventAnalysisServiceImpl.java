@@ -2,8 +2,8 @@ package com.huanniankj.module.analysis.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.huanniankj.module.analysis.controller.admin.vo.EventAnalysisReqVO;
-import com.huanniankj.module.analysis.controller.admin.vo.EventAnalysisRespVO;
+import com.huanniankj.module.analysis.controller.vo.EventAnalysisReqVO;
+import com.huanniankj.module.analysis.controller.vo.EventAnalysisRespVO;
 import com.huanniankj.module.analysis.dal.dataobject.EventAnalysisDO;
 import com.huanniankj.module.analysis.dal.clickhouse.EventAnalysisMapper;
 import lombok.extern.slf4j.Slf4j;

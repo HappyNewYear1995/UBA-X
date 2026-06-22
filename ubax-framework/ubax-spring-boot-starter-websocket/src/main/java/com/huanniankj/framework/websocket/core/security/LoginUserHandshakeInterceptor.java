@@ -4,6 +4,7 @@ import com.huanniankj.framework.security.core.LoginUser;
 import com.huanniankj.framework.security.core.filter.TokenAuthenticationFilter;
 import com.huanniankj.framework.security.core.util.SecurityFrameworkUtils;
 import com.huanniankj.framework.websocket.core.util.WebSocketFrameworkUtils;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.socket.WebSocketHandler;
@@ -24,8 +25,8 @@ import java.util.Map;
 public class LoginUserHandshakeInterceptor implements HandshakeInterceptor {
 
     @Override
-    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
-                                   WebSocketHandler wsHandler, Map<String, Object> attributes) {
+    public boolean beforeHandshake(@NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response,
+                                   @NonNull WebSocketHandler wsHandler, @NonNull Map<String, Object> attributes) {
         LoginUser loginUser = SecurityFrameworkUtils.getLoginUser();
         if (loginUser != null) {
             WebSocketFrameworkUtils.setLoginUser(loginUser, attributes);
@@ -34,8 +35,8 @@ public class LoginUserHandshakeInterceptor implements HandshakeInterceptor {
     }
 
     @Override
-    public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response,
-                               WebSocketHandler wsHandler, Exception exception) {
+    public void afterHandshake(@NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response,
+                               @NonNull WebSocketHandler wsHandler, Exception exception) {
         // do nothing
     }
 

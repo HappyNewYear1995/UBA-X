@@ -140,40 +140,55 @@
 
 <script lang="ts" setup>
 import { EChartsOption } from 'echarts'
+import { useAppStore } from '@/store/modules/app'
 
 defineOptions({ name: 'BrandPage' })
 
-const heroChartOptions = reactive<EChartsOption>({
-  grid: { left: '3%', right: '4%', bottom: '3%', top: '10%', containLabel: true },
-  xAxis: {
-    type: 'category',
-    data: ['1月', '2月', '3月', '4月', '5月', '6月'],
-    axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
-    axisLabel: { color: 'rgba(255,255,255,0.5)' }
-  },
-  yAxis: {
-    type: 'value',
-    splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
-    axisLabel: { color: 'rgba(255,255,255,0.5)' }
-  },
-  series: [
-    {
-      type: 'line',
-      smooth: true,
-      areaStyle: {
-        color: {
-          type: 'linear',
-          x: 0, y: 0, x2: 0, y2: 1,
-          colorStops: [
-            { offset: 0, color: 'rgba(102, 126, 234, 0.4)' },
-            { offset: 1, color: 'rgba(102, 126, 234, 0)' }
-          ]
-        }
-      },
-      itemStyle: { color: '#667eea' },
-      data: [820, 932, 1201, 1434, 1890, 2346]
-    }
-  ]
+const appStore = useAppStore()
+
+const getChartColors = () => {
+  const isDark = appStore.getIsDark
+  return {
+    axisLine: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+    axisLabel: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)',
+    splitLine: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.06)'
+  }
+}
+
+const heroChartOptions = computed<EChartsOption>(() => {
+  const colors = getChartColors()
+  return {
+    grid: { left: '3%', right: '4%', bottom: '3%', top: '10%', containLabel: true },
+    xAxis: {
+      type: 'category',
+      data: ['1月', '2月', '3月', '4月', '5月', '6月'],
+      axisLine: { lineStyle: { color: colors.axisLine } },
+      axisLabel: { color: colors.axisLabel }
+    },
+    yAxis: {
+      type: 'value',
+      splitLine: { lineStyle: { color: colors.splitLine } },
+      axisLabel: { color: colors.axisLabel }
+    },
+    series: [
+      {
+        type: 'line',
+        smooth: true,
+        areaStyle: {
+          color: {
+            type: 'linear',
+            x: 0, y: 0, x2: 0, y2: 1,
+            colorStops: [
+              { offset: 0, color: 'rgba(102, 126, 234, 0.4)' },
+              { offset: 1, color: 'rgba(102, 126, 234, 0)' }
+            ]
+          }
+        },
+        itemStyle: { color: '#667eea' },
+        data: [820, 932, 1201, 1434, 1890, 2346]
+      }
+    ]
+  }
 })
 
 const features = ref([
@@ -264,9 +279,9 @@ const handleFeatureClick = (feature: any) => {
 
 <style lang="scss" scoped>
 .brand-page {
-  background: linear-gradient(180deg, #0f0c29 0%, #1a1a3e 50%, #24243e 100%);
+  background: var(--app-content-bg-color);
   min-height: 100vh;
-  color: #fff;
+  color: var(--el-text-color-primary);
 }
 
 // Hero Section
@@ -298,7 +313,7 @@ const handleFeatureClick = (feature: any) => {
   background: rgba(102, 126, 234, 0.15);
   border: 1px solid rgba(102, 126, 234, 0.3);
   font-size: 13px;
-  color: #a5b4fc;
+  color: #667eea;
   margin-bottom: 24px;
 }
 
@@ -321,14 +336,14 @@ const handleFeatureClick = (feature: any) => {
 .hero-subtitle {
   font-size: 24px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--el-text-color-regular);
   margin-top: 8px;
 }
 
 .hero-desc {
   font-size: 16px;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--el-text-color-secondary);
   max-width: 520px;
   margin-bottom: 32px;
 }
@@ -344,8 +359,8 @@ const handleFeatureClick = (feature: any) => {
 }
 
 .visual-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--app-content-card-bg);
+  border: 1px solid var(--app-content-card-border);
   border-radius: 16px;
   overflow: hidden;
   backdrop-filter: blur(10px);
@@ -355,7 +370,7 @@ const handleFeatureClick = (feature: any) => {
   display: flex;
   gap: 8px;
   padding: 12px 16px;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--border-color-light);
 }
 
 .dot {
@@ -382,15 +397,12 @@ const handleFeatureClick = (feature: any) => {
   font-size: 32px;
   font-weight: 700;
   margin: 0 0 12px;
-  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--el-text-color-primary);
 }
 
 .section-desc {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--el-text-color-secondary);
   margin: 0;
 }
 
@@ -405,14 +417,13 @@ const handleFeatureClick = (feature: any) => {
   text-align: center;
   padding: 32px 20px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--app-content-card-bg);
+  border: 1px solid var(--app-content-card-border);
   transition: all 0.3s ease;
   cursor: pointer;
 
   &:hover {
     transform: translateY(-8px);
-    background: rgba(255, 255, 255, 0.06);
     border-color: rgba(102, 126, 234, 0.3);
     box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
   }
@@ -432,13 +443,13 @@ const handleFeatureClick = (feature: any) => {
 .feature-title {
   font-size: 16px;
   font-weight: 600;
-  color: #fff;
+  color: var(--el-text-color-primary);
   margin: 0 0 8px;
 }
 
 .feature-desc {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--el-text-color-secondary);
   margin: 0;
 }
 
@@ -466,13 +477,13 @@ const handleFeatureClick = (feature: any) => {
 
 .stat-label {
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--el-text-color-regular);
   margin-bottom: 4px;
 }
 
 .stat-sub {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--el-text-color-secondary);
 }
 
 // Modules Section
@@ -485,14 +496,14 @@ const handleFeatureClick = (feature: any) => {
 .module-card {
   padding: 28px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--app-content-card-bg);
+  border: 1px solid var(--app-content-card-border);
   height: 100%;
   transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
     border-color: rgba(102, 126, 234, 0.2);
+    box-shadow: var(--shadow-md);
   }
 }
 
@@ -516,7 +527,7 @@ const handleFeatureClick = (feature: any) => {
 .module-title {
   font-size: 18px;
   font-weight: 600;
-  color: #fff;
+  color: var(--el-text-color-primary);
   margin: 0;
 }
 
@@ -530,9 +541,9 @@ const handleFeatureClick = (feature: any) => {
     align-items: center;
     gap: 10px;
     padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border-color-light);
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--el-text-color-regular);
 
     &:last-child {
       border-bottom: none;
@@ -549,7 +560,7 @@ const handleFeatureClick = (feature: any) => {
   padding: 64px 48px 32px;
   max-width: 1400px;
   margin: 0 auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border-color-light);
 }
 
 .footer-content {
@@ -575,7 +586,7 @@ const handleFeatureClick = (feature: any) => {
 
   .footer-desc {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--el-text-color-secondary);
     margin: 8px 0 0;
   }
 }
@@ -589,14 +600,14 @@ const handleFeatureClick = (feature: any) => {
   h4 {
     font-size: 14px;
     font-weight: 600;
-    color: #fff;
+    color: var(--el-text-color-primary);
     margin: 0 0 16px;
   }
 
   a {
     display: block;
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--el-text-color-secondary);
     text-decoration: none;
     margin-bottom: 10px;
     transition: color 0.2s;
@@ -610,8 +621,8 @@ const handleFeatureClick = (feature: any) => {
 .footer-bottom {
   text-align: center;
   padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--border-color-light);
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--el-text-color-secondary);
 }
 </style>

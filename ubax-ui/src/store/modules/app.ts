@@ -73,33 +73,33 @@ export const useAppStore = defineStore('app', {
       currentSize: wsCache.get('default') || 'default', // 组件尺寸
       theme: wsCache.get(CACHE_KEY.THEME) || {
         // 主题色
-        elColorPrimary: '#409eff',
+        elColorPrimary: '#79a8f9',
         // 左侧菜单边框颜色
         leftMenuBorderColor: 'inherit',
         // 左侧菜单背景颜色
-        leftMenuBgColor: '#001529',
+        leftMenuBgColor: '#ffffff',
         // 左侧菜单浅色背景颜色
-        leftMenuBgLightColor: '#0f2438',
+        leftMenuBgLightColor: '#f8f9fc',
         // 左侧菜单选中背景颜色
         leftMenuBgActiveColor: 'var(--el-color-primary)',
         // 左侧菜单收起选中背景颜色
         leftMenuCollapseBgActiveColor: 'var(--el-color-primary)',
         // 左侧菜单字体颜色
-        leftMenuTextColor: '#bfcbd9',
+        leftMenuTextColor: '#5a6178',
         // 左侧菜单选中字体颜色
         leftMenuTextActiveColor: '#fff',
         // logo字体颜色
-        logoTitleTextColor: '#fff',
+        logoTitleTextColor: '#1a1f4d',
         // logo边框颜色
         logoBorderColor: 'inherit',
         // 头部背景颜色
-        topHeaderBgColor: '#fff',
+        topHeaderBgColor: '#ffffff',
         // 头部字体颜色
-        topHeaderTextColor: 'inherit',
+        topHeaderTextColor: '#1a1f4d',
         // 头部悬停颜色
-        topHeaderHoverColor: '#f6f6f6',
+        topHeaderHoverColor: 'rgba(102, 126, 234, 0.08)',
         // 头部边框颜色
-        topToolBorderColor: '#eee'
+        topToolBorderColor: 'rgba(0, 0, 0, 0.06)'
       }
     }
   },
