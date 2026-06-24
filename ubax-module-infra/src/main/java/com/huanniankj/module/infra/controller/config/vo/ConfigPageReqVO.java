@@ -9,7 +9,12 @@ import java.time.LocalDateTime;
 
 import static com.huanniankj.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 参数配置分页 Request VO")
+/**
+ * 参数配置分页 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "参数配置分页 Request VO")
 @Data
 public class ConfigPageReqVO extends PageParam {
 

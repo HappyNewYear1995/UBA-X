@@ -10,7 +10,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Schema(description = "管理后台 - 取消社交绑定 Request VO")
+/**
+ * 取消社交绑定 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "取消社交绑定 Request VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

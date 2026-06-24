@@ -5,7 +5,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Schema(description = "管理后台 - 通知公告分页 Request VO")
+/**
+ * 通知公告分页 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "通知公告分页 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class NoticePageReqVO extends PageParam {

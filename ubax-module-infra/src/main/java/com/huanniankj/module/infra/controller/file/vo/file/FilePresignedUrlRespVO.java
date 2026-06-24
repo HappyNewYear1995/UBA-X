@@ -5,9 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 文件预签名地址 Response VO
+ *
+ * @author zhaoff
+ */
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "管理后台 - 文件预签名地址 Response VO")
+@Schema(description = "文件预签名地址 Response VO")
 @Data
 public class FilePresignedUrlRespVO {
 

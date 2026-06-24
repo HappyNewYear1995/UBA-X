@@ -8,6 +8,11 @@ import com.huanniankj.module.system.controller.logger.vo.operatelog.OperateLogPa
 import com.huanniankj.module.system.dal.dataobject.logger.OperateLogDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 操作日志 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface OperateLogMapper extends BaseMapperX<OperateLogDO> {
 

@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import java.time.LocalDateTime;
 
 /**
- * Job 日志 Service 实现类
+ * Job 日志服务实现类
  *
  * @author zhaoff
  */

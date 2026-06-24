@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
- * Job 日志 Framework Service 接口
+ * Job 日志 Framework服务接口
  *
  * @author zhaoff
  */

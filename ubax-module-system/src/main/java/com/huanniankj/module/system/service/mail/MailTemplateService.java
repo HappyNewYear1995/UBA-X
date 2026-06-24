@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 邮件模版 Service 接口
+ * 邮件模版服务接口
  *
  * @author zhaoff
  */

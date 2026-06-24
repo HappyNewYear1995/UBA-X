@@ -26,7 +26,7 @@ import static com.huanniankj.module.system.enums.ErrorCodeConstants.NOTIFY_TEMPL
 import static com.huanniankj.module.system.enums.ErrorCodeConstants.NOTIFY_TEMPLATE_NOT_EXISTS;
 
 /**
- * 站内信模版 Service 实现类
+ * 站内信模版服务实现类
  *
  * @author zhaoff
  */

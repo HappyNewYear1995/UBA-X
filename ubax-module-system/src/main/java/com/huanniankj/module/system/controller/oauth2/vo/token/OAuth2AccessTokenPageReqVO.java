@@ -5,7 +5,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Schema(description = "管理后台 - 访问令牌分页 Request VO")
+/**
+ * 访问令牌分页 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "访问令牌分页 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class OAuth2AccessTokenPageReqVO extends PageParam {

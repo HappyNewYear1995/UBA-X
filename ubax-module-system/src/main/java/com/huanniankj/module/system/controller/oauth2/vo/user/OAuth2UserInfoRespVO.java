@@ -7,7 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Schema(description = "管理后台 - OAuth2 获得用户基本信息 Response VO")
+/**
+ * OAuth2 获得用户基本信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "OAuth2 获得用户基本信息 Response VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -7,6 +7,11 @@ import com.huanniankj.module.system.controller.notify.vo.template.NotifyTemplate
 import com.huanniankj.module.system.dal.dataobject.notify.NotifyTemplateDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 站内信模板 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface NotifyTemplateMapper extends BaseMapperX<NotifyTemplateDO> {
 

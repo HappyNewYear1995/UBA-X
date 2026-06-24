@@ -20,7 +20,7 @@ import static com.huanniankj.module.system.enums.ErrorCodeConstants.SMS_CHANNEL_
 import static com.huanniankj.module.system.enums.ErrorCodeConstants.SMS_CHANNEL_NOT_EXISTS;
 
 /**
- * 短信渠道 Service 实现类
+ * 短信渠道服务实现类
  *
  * @author zhaoff
  */
@@ -28,7 +28,6 @@ import static com.huanniankj.module.system.enums.ErrorCodeConstants.SMS_CHANNEL_
 @Slf4j
 public class SmsChannelServiceImpl implements SmsChannelService {
 
-    @Resource
     private SmsClientFactory smsClientFactory;
 
     @Resource

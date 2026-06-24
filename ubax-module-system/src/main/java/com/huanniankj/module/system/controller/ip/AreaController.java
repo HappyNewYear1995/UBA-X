@@ -20,7 +20,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 地区")
+/**
+ * 地区控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "地区")
 @RestController
 @RequestMapping("/system/area")
 @Validated

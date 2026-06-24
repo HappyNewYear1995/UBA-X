@@ -2,9 +2,6 @@ package com.huanniankj.module.system.service.social;
 
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.system.api.social.dto.SocialWxQrcodeReqDTO;
-import com.huanniankj.module.system.api.social.dto.SocialWxaOrderNotifyConfirmReceiveReqDTO;
-import com.huanniankj.module.system.api.social.dto.SocialWxaOrderUploadShippingInfoReqDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
 import com.huanniankj.module.system.controller.socail.vo.client.SocialClientPageReqVO;
 import com.huanniankj.module.system.controller.socail.vo.client.SocialClientSaveReqVO;
@@ -18,7 +15,7 @@ import me.zhyd.oauth.model.AuthUser;
 import java.util.List;
 
 /**
- * 社交应用 Service 接口
+ * 社交应用服务接口
  *
  * @author zhaoff
  */
@@ -85,22 +82,6 @@ public interface SocialClientService {
      * @param openId     会员 openId
      */
     void sendSubscribeMessage(SocialWxaSubscribeMessageSendReqDTO reqDTO, String templateId, String openId);
-
-    /**
-     * 上传订单发货到微信小程序
-     *
-     * @param userType 用户类型
-     * @param reqDTO   请求
-     */
-    void uploadWxaOrderShippingInfo(Integer userType, SocialWxaOrderUploadShippingInfoReqDTO reqDTO);
-
-    /**
-     * 通知订单收货到微信小程序
-     *
-     * @param userType 用户类型
-     * @param reqDTO   请求
-     */
-    void notifyWxaOrderConfirmReceive(Integer userType, SocialWxaOrderNotifyConfirmReceiveReqDTO reqDTO);
 
     // =================== 客户端管理 ===================
 

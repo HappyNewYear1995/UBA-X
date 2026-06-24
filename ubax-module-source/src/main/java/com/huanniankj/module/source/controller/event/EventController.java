@@ -25,8 +25,8 @@ import static com.huanniankj.framework.common.pojo.CommonResult.success;
  *
  * @author zhaoff
  */
-@Tag(name = "管理后台 - 事件管理", description = "Agent 事件管理接口")
-@RestController
+@Tag(name = "Agent 事件管理", description = "Agent 事件管理接口")
+@RestController("sourceEventController")
 @RequestMapping("/gather/event")
 @Validated
 public class EventController {

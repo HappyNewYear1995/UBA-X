@@ -145,7 +145,7 @@ public class MailLogDO extends BaseDO implements Serializable {
      * 发送返回的消息 ID
      */
     private String sendMessageId;
-    
+
     /**
      * 发送异常
      */

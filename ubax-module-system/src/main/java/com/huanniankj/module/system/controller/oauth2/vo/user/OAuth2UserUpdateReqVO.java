@@ -1,15 +1,19 @@
 package com.huanniankj.module.system.controller.oauth2.vo.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
-
-@Schema(description = "管理后台 - OAuth2 更新用户基本信息 Request VO")
+/**
+ * OAuth2 更新用户基本信息 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "OAuth2 更新用户基本信息 Request VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

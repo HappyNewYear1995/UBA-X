@@ -54,12 +54,31 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.huanniankj.framework.common.util.collection.CollectionUtils.*;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
-import static com.huanniankj.module.system.enums.LogRecordConstants.*;
+import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertList;
+import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertSet;
+import static com.huanniankj.framework.common.util.collection.CollectionUtils.singleton;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_COUNT_MAX;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_EMAIL_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_IMPORT_INIT_PASSWORD;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_IMPORT_LIST_IS_EMPTY;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_IS_DISABLE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_MOBILE_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_PASSWORD_FAILED;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_REGISTER_DISABLED;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_USERNAME_EXISTS;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_USER_CREATE_SUB_TYPE;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_USER_CREATE_SUCCESS;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_USER_DELETE_SUB_TYPE;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_USER_DELETE_SUCCESS;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_USER_TYPE;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_USER_UPDATE_PASSWORD_SUB_TYPE;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_USER_UPDATE_PASSWORD_SUCCESS;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_USER_UPDATE_SUB_TYPE;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_USER_UPDATE_SUCCESS;
 
 /**
- * 后台用户 Service 实现类
+ * 后台用户服务实现类
  *
  * @author zhaoff
  */

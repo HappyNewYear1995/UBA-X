@@ -30,7 +30,7 @@ import static com.huanniankj.module.system.enums.ErrorCodeConstants.MAIL_TEMPLAT
 import static com.huanniankj.module.system.enums.ErrorCodeConstants.MAIL_TEMPLATE_NOT_EXISTS;
 
 /**
- * 邮箱模版 Service 实现类
+ * 邮箱模版服务实现类
  *
  * @author zhaoff
  */

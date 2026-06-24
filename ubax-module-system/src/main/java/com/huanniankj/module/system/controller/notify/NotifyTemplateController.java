@@ -17,13 +17,25 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 站内信模版")
+/**
+ * 站内信模版控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "站内信模版")
 @RestController
 @RequestMapping("/system/notify-template")
 @Validated

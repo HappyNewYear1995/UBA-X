@@ -29,10 +29,17 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SMS_CHANNEL_DISABLE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SMS_CHANNEL_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SMS_TEMPLATE_API_AUDIT_CHECKING;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SMS_TEMPLATE_API_AUDIT_FAIL;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SMS_TEMPLATE_API_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SMS_TEMPLATE_API_NOT_FOUND;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SMS_TEMPLATE_CODE_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.SMS_TEMPLATE_NOT_EXISTS;
 
 /**
- * 短信模板 Service 实现类
+ * 短信模板服务实现类
  *
  * @author zhaoff
  */

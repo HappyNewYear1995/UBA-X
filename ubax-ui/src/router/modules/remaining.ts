@@ -225,6 +225,26 @@ const remainingRouter: AppRouteRecordRaw[] = [
     },
     children: [
       {
+        path: 'event-config',
+        component: () => import('@/views/ubax/processing/event-config/index.vue'),
+        name: 'EventConfig',
+        meta: {
+          title: '事件配置',
+          icon: 'ep:setting',
+          noCache: false
+        }
+      },
+      {
+        path: 'event',
+        component: () => import('@/views/ubax/processing/event/index.vue'),
+        name: 'CollectEvent',
+        meta: {
+          title: '事件管理',
+          icon: 'ep:lightning',
+          noCache: false
+        }
+      },
+      {
         path: 'cleaning',
         component: () => import('@/views/ubax/processing/cleaning/index.vue'),
         name: 'CleaningPipeline',

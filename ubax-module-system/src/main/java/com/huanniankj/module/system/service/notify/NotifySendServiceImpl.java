@@ -17,7 +17,7 @@ import static com.huanniankj.module.system.enums.ErrorCodeConstants.NOTICE_NOT_F
 import static com.huanniankj.module.system.enums.ErrorCodeConstants.NOTIFY_SEND_TEMPLATE_PARAM_MISS;
 
 /**
- * 站内信发送 Service 实现类
+ * 站内信发送服务实现类
  *
  * @author zhaoff
  */

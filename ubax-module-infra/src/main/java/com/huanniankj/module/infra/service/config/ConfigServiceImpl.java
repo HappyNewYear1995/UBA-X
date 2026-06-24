@@ -16,10 +16,12 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.huanniankj.module.infra.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.infra.enums.ErrorCodeConstants.CONFIG_CAN_NOT_DELETE_SYSTEM_TYPE;
+import static com.huanniankj.module.infra.enums.ErrorCodeConstants.CONFIG_KEY_DUPLICATE;
+import static com.huanniankj.module.infra.enums.ErrorCodeConstants.CONFIG_NOT_EXISTS;
 
 /**
- * 参数配置 Service 实现类
+ * 参数配置服务实现类
  *
  * @author zhaoff
  */

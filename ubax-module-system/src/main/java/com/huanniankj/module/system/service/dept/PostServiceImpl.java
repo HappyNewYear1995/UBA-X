@@ -19,10 +19,13 @@ import java.util.Map;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertMap;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.POST_CODE_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.POST_NAME_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.POST_NOT_ENABLE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.POST_NOT_FOUND;
 
 /**
- * 岗位 Service 实现类
+ * 岗位服务实现类
  *
  * @author zhaoff
  */

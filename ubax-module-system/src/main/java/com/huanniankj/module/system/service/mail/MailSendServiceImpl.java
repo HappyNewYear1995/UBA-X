@@ -26,10 +26,13 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.MAIL_ACCOUNT_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.MAIL_SEND_MAIL_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.MAIL_SEND_TEMPLATE_PARAM_MISS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.MAIL_TEMPLATE_NOT_EXISTS;
 
 /**
- * 邮箱发送 Service 实现类
+ * 邮箱发送服务实现类
  *
  * @author zhaoff
  */

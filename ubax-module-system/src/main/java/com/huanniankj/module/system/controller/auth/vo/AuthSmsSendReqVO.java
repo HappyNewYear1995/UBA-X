@@ -4,15 +4,19 @@ import com.huanniankj.framework.common.validation.InEnum;
 import com.huanniankj.framework.common.validation.Mobile;
 import com.huanniankj.module.system.enums.sms.SmsSceneEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-
-@Schema(description = "管理后台 - 发送手机验证码 Request VO")
+/**
+ * 发送手机验证码 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "发送手机验证码 Request VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

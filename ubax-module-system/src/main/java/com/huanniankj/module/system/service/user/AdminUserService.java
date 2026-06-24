@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 后台用户 Service 接口
+ * 后台用户服务接口
  *
  * @author zhaoff
  */

@@ -31,7 +31,12 @@ import java.util.List;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 import static com.huanniankj.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 邮件模版")
+/**
+ * 邮件模版控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "邮件模版")
 @RestController
 @RequestMapping("/system/mail-template")
 public class MailTemplateController {

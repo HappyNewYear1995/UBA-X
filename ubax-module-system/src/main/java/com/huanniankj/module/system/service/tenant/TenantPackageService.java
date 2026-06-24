@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 租户套餐 Service 接口
+ * 租户套餐服务接口
  *
  * @author zhaoff
  */

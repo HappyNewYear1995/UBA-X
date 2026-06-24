@@ -37,7 +37,12 @@ import static com.huanniankj.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 import static java.util.Collections.singleton;
 
-@Tag(name = "管理后台 - 角色")
+/**
+ * 角色控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "角色")
 @RestController
 @RequestMapping("/system/role")
 @Validated

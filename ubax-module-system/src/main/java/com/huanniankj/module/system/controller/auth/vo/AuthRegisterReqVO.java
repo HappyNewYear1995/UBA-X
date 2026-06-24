@@ -8,7 +8,12 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-@Schema(description = "管理后台 - Register Request VO")
+/**
+ * 注册 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "注册 Request VO")
 @Data
 public class AuthRegisterReqVO extends CaptchaVerificationReqVO {
 

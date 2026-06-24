@@ -59,7 +59,7 @@ public class SmsChannelDO extends BaseDO {
      * 短信 API 的密钥
      */
     private String apiSecret;
-    
+
     /**
      * 短信发送回调 URL
      */

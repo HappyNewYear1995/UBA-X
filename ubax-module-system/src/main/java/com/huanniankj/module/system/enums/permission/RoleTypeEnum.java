@@ -3,6 +3,11 @@ package com.huanniankj.module.system.enums.permission;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 角色类型枚举
+ *
+ * @author zhaoff
+ */
 @Getter
 @AllArgsConstructor
 public enum RoleTypeEnum {

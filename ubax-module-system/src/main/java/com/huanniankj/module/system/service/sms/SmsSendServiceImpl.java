@@ -31,7 +31,7 @@ import static com.huanniankj.framework.common.exception.util.ServiceExceptionUti
 import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
 
 /**
- * 短信发送 Service 发送的实现
+ * 短信发送服务发送的实现
  *
  * @author zhaoff
  */

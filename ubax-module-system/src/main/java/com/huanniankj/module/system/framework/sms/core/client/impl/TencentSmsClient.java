@@ -43,7 +43,7 @@ public class TencentSmsClient extends AbstractSmsClient {
     private static final String HOST = "sms.tencentcloudapi.com";
 
     private static final String VERSION = "2021-01-11";
-    
+
     private static final String REGION = "ap-guangzhou";
 
     /**

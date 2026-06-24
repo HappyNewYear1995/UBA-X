@@ -26,18 +26,18 @@ import java.util.Set;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
 /**
- * 权限 Controller，提供赋予用户、角色的权限的 API 接口
+ * 权限控制层，提供赋予用户、角色的权限的 API 接口
  *
  * @author zhaoff
  */
-@Tag(name = "管理后台 - 权限")
+@Tag(name = "权限")
 @RestController
 @RequestMapping("/system/permission")
 public class PermissionController {
 
     @Resource
     private PermissionService permissionService;
-    
+
     @Resource
     private TenantService tenantService;
 

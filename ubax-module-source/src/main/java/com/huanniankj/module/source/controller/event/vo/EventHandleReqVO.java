@@ -9,7 +9,7 @@ import lombok.Data;
  *
  * @author zhaoff
  */
-@Schema(description = "管理后台 - 事件处理请求 VO")
+@Schema(description = "事件处理请求 VO")
 @Data
 public class EventHandleReqVO {
 

@@ -9,8 +9,13 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 用户个人中心信息 Response VO
+ *
+ * @author zhaoff
+ */
 @Data
-@Schema(description = "管理后台 - 用户个人中心信息 Response VO")
+@Schema(description = "用户个人中心信息 Response VO")
 public class UserProfileRespVO {
 
     @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")

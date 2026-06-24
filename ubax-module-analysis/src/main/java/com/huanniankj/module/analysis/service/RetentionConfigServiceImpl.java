@@ -2,7 +2,10 @@ package com.huanniankj.module.analysis.service;
 
 import cn.hutool.json.JSONUtil;
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.analysis.controller.admin.vo.*;
+import com.huanniankj.module.analysis.controller.vo.RetentionConfigPageReqVO;
+import com.huanniankj.module.analysis.controller.vo.RetentionConfigRespVO;
+import com.huanniankj.module.analysis.controller.vo.RetentionConfigSaveReqVO;
+import com.huanniankj.module.analysis.controller.vo.RetentionResultRespVO;
 import com.huanniankj.module.analysis.convert.RetentionConfigConvert;
 import com.huanniankj.module.analysis.dal.dataobject.RetentionConfigDO;
 import com.huanniankj.module.analysis.dal.dataobject.RetentionResultDO;

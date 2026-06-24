@@ -8,9 +8,6 @@ import com.huanniankj.framework.common.util.object.BeanUtils;
 import com.huanniankj.module.system.api.social.dto.SocialUserRespDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxJsapiSignatureRespDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxPhoneNumberInfoRespDTO;
-import com.huanniankj.module.system.api.social.dto.SocialWxQrcodeReqDTO;
-import com.huanniankj.module.system.api.social.dto.SocialWxaOrderNotifyConfirmReceiveReqDTO;
-import com.huanniankj.module.system.api.social.dto.SocialWxaOrderUploadShippingInfoReqDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxaSubscribeTemplateRespDTO;
 import com.huanniankj.module.system.enums.social.SocialTypeEnum;
@@ -95,16 +92,6 @@ public class SocialClientApiImpl implements SocialClientApi {
 
         // 3. 发送订阅消息
         socialClientService.sendSubscribeMessage(reqDTO, template.getPriTmplId(), socialUser.getOpenid());
-    }
-
-    @Override
-    public void uploadWxaOrderShippingInfo(Integer userType, SocialWxaOrderUploadShippingInfoReqDTO reqDTO) {
-        socialClientService.uploadWxaOrderShippingInfo(userType, reqDTO);
-    }
-
-    @Override
-    public void notifyWxaOrderConfirmReceive(Integer userType, SocialWxaOrderNotifyConfirmReceiveReqDTO reqDTO) {
-        socialClientService.notifyWxaOrderConfirmReceive(userType, reqDTO);
     }
 
 }

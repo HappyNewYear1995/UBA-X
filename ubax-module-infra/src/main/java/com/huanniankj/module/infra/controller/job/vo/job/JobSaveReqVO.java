@@ -5,7 +5,12 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 定时任务创建/修改 Request VO")
+/**
+ * 定时任务创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "定时任务创建/修改 Request VO")
 @Data
 public class JobSaveReqVO {
 

@@ -7,7 +7,12 @@ import lombok.Data;
 
 import java.util.Map;
 
-@Schema(description = "管理后台 - 站内信模板的发送 Request VO")
+/**
+ * 站内信模板的发送 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "站内信模板的发送 Request VO")
 @Data
 public class NotifyTemplateSendReqVO {
 

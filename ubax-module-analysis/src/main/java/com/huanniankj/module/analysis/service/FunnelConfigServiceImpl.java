@@ -2,10 +2,10 @@ package com.huanniankj.module.analysis.service;
 
 import cn.hutool.json.JSONUtil;
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.analysis.controller.admin.vo.FunnelConfigPageReqVO;
-import com.huanniankj.module.analysis.controller.admin.vo.FunnelConfigRespVO;
-import com.huanniankj.module.analysis.controller.admin.vo.FunnelConfigSaveReqVO;
-import com.huanniankj.module.analysis.controller.admin.vo.FunnelResultRespVO;
+import com.huanniankj.module.analysis.controller.vo.FunnelConfigPageReqVO;
+import com.huanniankj.module.analysis.controller.vo.FunnelConfigRespVO;
+import com.huanniankj.module.analysis.controller.vo.FunnelConfigSaveReqVO;
+import com.huanniankj.module.analysis.controller.vo.FunnelResultRespVO;
 import com.huanniankj.module.analysis.convert.FunnelConfigConvert;
 import com.huanniankj.module.analysis.dal.dataobject.FunnelConfigDO;
 import com.huanniankj.module.analysis.dal.dataobject.FunnelResultDO;

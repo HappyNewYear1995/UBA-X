@@ -7,7 +7,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 数据源配置 Service 接口
+ * 数据源配置服务接口
  *
  * @author zhaoff
  */

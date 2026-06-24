@@ -25,10 +25,16 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.OAUTH2_CLIENT_CLIENT_SECRET_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.OAUTH2_CLIENT_DISABLE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.OAUTH2_CLIENT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.OAUTH2_CLIENT_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.OAUTH2_CLIENT_SCOPE_OVER;
 
 /**
- * OAuth2.0 Client Service 实现类
+ * OAuth2.0 Client服务实现类
  *
  * @author zhaoff
  */

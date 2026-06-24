@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * 邮件日志 Service 接口
+ * 邮件日志服务接口
  *
  * @author zhaoff
  */

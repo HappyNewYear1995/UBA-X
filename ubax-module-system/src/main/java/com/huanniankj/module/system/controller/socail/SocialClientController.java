@@ -30,7 +30,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 社交客户端")
+/**
+ * 社交客户端控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "社交客户端")
 @RestController
 @RequestMapping("/system/social-client")
 @Validated

@@ -7,6 +7,11 @@ import com.huanniankj.module.system.controller.mail.vo.template.MailTemplatePage
 import com.huanniankj.module.system.dal.dataobject.mail.MailTemplateDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 邮件模板 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface MailTemplateMapper extends BaseMapperX<MailTemplateDO> {
 

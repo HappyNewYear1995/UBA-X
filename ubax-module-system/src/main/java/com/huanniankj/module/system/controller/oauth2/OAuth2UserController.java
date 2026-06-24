@@ -31,6 +31,7 @@ import static com.huanniankj.framework.common.pojo.CommonResult.success;
 import static com.huanniankj.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
 /**
+ * OAuth2.0 用户控制层
  * 提供给外部应用调用为主
  * <p>
  * 1. 在 getUserInfo 方法上，添加 @PreAuthorize("@ss.hasScope('user.read')") 注解，声明需要满足 scope = user.read
@@ -38,7 +39,7 @@ import static com.huanniankj.framework.security.core.util.SecurityFrameworkUtils
  *
  * @author zhaoff
  */
-@Tag(name = "管理后台 - OAuth2.0 用户")
+@Tag(name = "OAuth2.0 用户")
 @RestController
 @RequestMapping("/system/oauth2/user")
 @Validated

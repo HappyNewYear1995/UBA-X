@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 短信发送 Service 接口
+ * 短信发送服务接口
  *
  * @author zhaoff
  */

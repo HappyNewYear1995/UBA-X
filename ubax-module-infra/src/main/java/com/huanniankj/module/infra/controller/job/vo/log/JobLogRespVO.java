@@ -10,7 +10,12 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 定时任务日志 Response VO")
+/**
+ * 定时任务日志 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "定时任务日志 Response VO")
 @Data
 @ExcelIgnoreUnannotated
 public class JobLogRespVO {

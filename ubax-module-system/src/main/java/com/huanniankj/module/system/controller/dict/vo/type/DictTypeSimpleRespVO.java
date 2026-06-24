@@ -3,7 +3,12 @@ package com.huanniankj.module.system.controller.dict.vo.type;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 字典类型精简信息 Response VO")
+/**
+ * 字典类型精简信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "字典类型精简信息 Response VO")
 @Data
 public class DictTypeSimpleRespVO {
 

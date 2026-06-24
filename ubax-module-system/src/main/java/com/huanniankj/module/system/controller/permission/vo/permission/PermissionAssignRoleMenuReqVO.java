@@ -7,7 +7,12 @@ import lombok.Data;
 import java.util.Collections;
 import java.util.Set;
 
-@Schema(description = "管理后台 - 赋予角色菜单 Request VO")
+/**
+ * 赋予角色菜单 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "赋予角色菜单 Request VO")
 @Data
 public class PermissionAssignRoleMenuReqVO {
 

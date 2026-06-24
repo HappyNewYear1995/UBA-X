@@ -3,7 +3,7 @@ package com.huanniankj.module.analysis.dal.mysql;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.mybatis.core.mapper.BaseMapperX;
 import com.huanniankj.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.huanniankj.module.analysis.controller.admin.vo.PathConfigPageReqVO;
+import com.huanniankj.module.analysis.controller.vo.PathConfigPageReqVO;
 import com.huanniankj.module.analysis.dal.dataobject.PathConfigDO;
 import org.apache.ibatis.annotations.Mapper;
 

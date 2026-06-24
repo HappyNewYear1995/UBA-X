@@ -5,7 +5,7 @@ import com.huanniankj.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import java.util.List;
 
 /**
- * OAuth2 授予 Service 接口
+ * OAuth2 授予服务接口
  * <p>
  * 从功能上，和 Spring Security OAuth 的 TokenGranter 的功能，提供访问令牌、刷新令牌的操作
  * <p>

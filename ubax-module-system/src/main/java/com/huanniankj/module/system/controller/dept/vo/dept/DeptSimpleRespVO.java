@@ -5,7 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Schema(description = "管理后台 - 部门精简信息 Response VO")
+/**
+ * 部门精简信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "部门精简信息 Response VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

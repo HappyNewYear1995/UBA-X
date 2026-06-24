@@ -28,7 +28,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 文件配置")
+/**
+ * 文件配置控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "文件配置")
 @RestController
 @RequestMapping("/infra/file-config")
 @Validated

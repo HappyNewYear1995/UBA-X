@@ -5,7 +5,12 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 社交客户端 Response VO")
+/**
+ * 社交客户端 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "社交客户端 Response VO")
 @Data
 public class SocialClientRespVO {
 

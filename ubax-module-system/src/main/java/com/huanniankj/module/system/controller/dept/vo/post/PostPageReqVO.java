@@ -5,7 +5,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Schema(description = "管理后台 - 岗位分页 Request VO")
+/**
+ * 岗位分页 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "岗位分页 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class PostPageReqVO extends PageParam {

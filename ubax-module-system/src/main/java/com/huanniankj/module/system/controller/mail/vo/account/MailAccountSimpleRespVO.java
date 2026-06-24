@@ -3,7 +3,12 @@ package com.huanniankj.module.system.controller.mail.vo.account;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 邮箱账号的精简 Response VO")
+/**
+ * 邮箱账号的精简 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "邮箱账号的精简 Response VO")
 @Data
 public class MailAccountSimpleRespVO {
 

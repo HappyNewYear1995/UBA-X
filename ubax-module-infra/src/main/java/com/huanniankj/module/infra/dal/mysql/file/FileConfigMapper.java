@@ -7,6 +7,11 @@ import com.huanniankj.module.infra.controller.file.vo.config.FileConfigPageReqVO
 import com.huanniankj.module.infra.dal.dataobject.file.FileConfigDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 文件配置 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface FileConfigMapper extends BaseMapperX<FileConfigDO> {
 

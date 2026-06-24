@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 站内信 Service 实现类
+ * 站内信服务实现类
  *
  * @author zhaoff
  */

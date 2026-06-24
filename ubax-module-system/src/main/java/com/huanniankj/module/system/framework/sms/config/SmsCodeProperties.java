@@ -7,6 +7,11 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.Duration;
 
+/**
+ * 短信验证码配置类
+ *
+ * @author zhaoff
+ */
 @ConfigurationProperties(prefix = "ubax.sms-code")
 @Validated
 @Data

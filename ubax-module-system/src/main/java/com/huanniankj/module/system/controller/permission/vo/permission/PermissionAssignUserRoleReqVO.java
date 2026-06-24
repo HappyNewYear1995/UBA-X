@@ -7,7 +7,12 @@ import lombok.Data;
 import java.util.Collections;
 import java.util.Set;
 
-@Schema(description = "管理后台 - 赋予用户角色 Request VO")
+/**
+ * 赋予用户角色 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "赋予用户角色 Request VO")
 @Data
 public class PermissionAssignUserRoleReqVO {
 

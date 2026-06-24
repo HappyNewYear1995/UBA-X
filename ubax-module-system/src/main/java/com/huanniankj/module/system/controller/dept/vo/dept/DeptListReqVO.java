@@ -3,7 +3,12 @@ package com.huanniankj.module.system.controller.dept.vo.dept;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 部门列表 Request VO")
+/**
+ * 部门列表 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "部门列表 Request VO")
 @Data
 public class DeptListReqVO {
 

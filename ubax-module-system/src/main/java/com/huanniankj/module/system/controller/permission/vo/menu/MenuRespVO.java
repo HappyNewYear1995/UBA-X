@@ -8,7 +8,12 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 菜单信息 Response VO")
+/**
+ * 菜单信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "菜单信息 Response VO")
 @Data
 public class MenuRespVO {
 

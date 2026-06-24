@@ -44,7 +44,12 @@ import java.util.List;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 import static com.huanniankj.module.infra.framework.file.core.utils.FileTypeUtils.writeAttachment;
 
-@Tag(name = "管理后台 - 文件存储")
+/**
+ * 文件存储控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "文件存储")
 @RestController
 @RequestMapping("/infra/file")
 @Validated

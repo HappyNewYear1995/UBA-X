@@ -10,6 +10,11 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 管理员用户 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface AdminUserMapper extends BaseMapperX<AdminUserDO> {
 

@@ -4,7 +4,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 数据源配置创建/修改 Request VO")
+/**
+ * 数据源配置创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "数据源配置创建/修改 Request VO")
 @Data
 public class DataSourceConfigSaveReqVO {
 

@@ -36,7 +36,12 @@ import java.util.List;
 import static com.huanniankj.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 字典数据")
+/**
+ * 字典数据控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "字典数据")
 @RestController
 @RequestMapping("/system/dict-data")
 @Validated

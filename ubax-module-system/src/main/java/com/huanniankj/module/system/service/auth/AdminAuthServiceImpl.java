@@ -49,10 +49,17 @@ import java.util.Objects;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static com.huanniankj.framework.common.util.servlet.ServletUtils.getClientIP;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.AUTH_LOGIN_BAD_CREDENTIALS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.AUTH_LOGIN_CAPTCHA_CODE_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.AUTH_LOGIN_USER_DISABLED;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.AUTH_MOBILE_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.AUTH_REGISTER_CAPTCHA_CODE_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.AUTH_THIRD_LOGIN_NOT_BIND;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_MOBILE_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 
 /**
- * Auth Service 实现类
+ * Auth服务实现类
  *
  * @author zhaoff
  */

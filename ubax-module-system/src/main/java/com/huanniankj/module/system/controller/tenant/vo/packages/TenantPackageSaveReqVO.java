@@ -3,13 +3,18 @@ package com.huanniankj.module.system.controller.tenant.vo.packages;
 import com.huanniankj.framework.common.enums.CommonStatusEnum;
 import com.huanniankj.framework.common.validation.InEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
 import java.util.Set;
 
-@Schema(description = "管理后台 - 租户套餐创建/修改 Request VO")
+/**
+ * 租户套餐创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "租户套餐创建/修改 Request VO")
 @Data
 public class TenantPackageSaveReqVO {
 

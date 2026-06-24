@@ -29,7 +29,7 @@ import static com.huanniankj.framework.common.util.json.JsonUtils.toJsonString;
 import static com.huanniankj.module.system.enums.ErrorCodeConstants.SOCIAL_USER_NOT_FOUND;
 
 /**
- * 社交用户 Service 实现类
+ * 社交用户服务实现类
  *
  * @author zhaoff
  */

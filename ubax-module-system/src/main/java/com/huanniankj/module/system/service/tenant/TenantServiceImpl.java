@@ -42,11 +42,16 @@ import java.util.Objects;
 import java.util.Set;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.TENANT_CAN_NOT_UPDATE_SYSTEM;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.TENANT_DISABLE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.TENANT_EXPIRE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.TENANT_NAME_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.TENANT_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.TENANT_WEBSITE_DUPLICATE;
 import static java.util.Collections.singleton;
 
 /**
- * 租户 Service 实现类
+ * 租户服务实现类
  *
  * @author zhaoff
  */

@@ -31,17 +31,17 @@
             <version>${revision}</version>
         </dependency>
 
-        <!-- 数据采集模块 -->
+        <!-- 数据源模块 -->
         <dependency>
             <groupId>com.huanniankj</groupId>
-            <artifactId>ubax-module-collect</artifactId>
+            <artifactId>ubax-module-source</artifactId>
             <version>${revision}</version>
         </dependency>
 
-        <!-- 数据存储模块 -->
+        <!-- 数据处理模块 -->
         <dependency>
             <groupId>com.huanniankj</groupId>
-            <artifactId>ubax-module-storage</artifactId>
+            <artifactId>ubax-module-processing</artifactId>
             <version>${revision}</version>
         </dependency>
 
@@ -52,9 +52,10 @@
             <version>${revision}</version>
         </dependency>
 
+        <!-- 数据应用模块 -->
         <dependency>
             <groupId>com.huanniankj</groupId>
-            <artifactId>ubax-module-source</artifactId>
+            <artifactId>ubax-module-app</artifactId>
             <version>${revision}</version>
         </dependency>
 

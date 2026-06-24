@@ -7,7 +7,12 @@ import lombok.Data;
 import java.util.List;
 import java.util.Map;
 
-@Schema(description = "管理后台 - 用户导入 Response VO")
+/**
+ * 用户导入 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "用户导入 Response VO")
 @Data
 @Builder
 public class UserImportRespVO {

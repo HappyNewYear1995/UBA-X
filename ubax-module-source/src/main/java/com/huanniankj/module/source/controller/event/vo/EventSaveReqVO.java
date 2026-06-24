@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  *
  * @author zhaoff
  */
-@Schema(description = "管理后台 - 事件保存请求 VO")
+@Schema(description = "事件保存请求 VO")
 @Data
 public class EventSaveReqVO {
 

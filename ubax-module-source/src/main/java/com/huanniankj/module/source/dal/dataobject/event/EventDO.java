@@ -6,6 +6,7 @@ import com.huanniankj.framework.mybatis.core.dataobject.BaseDO;
 import com.huanniankj.module.source.enums.event.EventLevelEnum;
 import com.huanniankj.module.source.enums.event.EventSourceEnum;
 import lombok.*;
+import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
  *
  * @author zhaoff
  */
+@Alias("GatherEventDO")
 @TableName("gather_event")
 @Data
 @EqualsAndHashCode(callSuper = true)

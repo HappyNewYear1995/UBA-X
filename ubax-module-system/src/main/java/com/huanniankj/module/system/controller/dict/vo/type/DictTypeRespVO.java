@@ -10,7 +10,12 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 字典类型信息 Response VO")
+/**
+ * 字典类型信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "字典类型信息 Response VO")
 @Data
 @ExcelIgnoreUnannotated
 public class DictTypeRespVO {

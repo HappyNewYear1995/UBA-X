@@ -6,7 +6,7 @@ import com.huanniankj.module.infra.controller.job.vo.log.JobLogPageReqVO;
 import com.huanniankj.module.infra.dal.dataobject.job.JobLogDO;
 
 /**
- * Job 日志 Service 接口
+ * Job 日志服务接口
  *
  * @author zhaoff
  */

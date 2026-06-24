@@ -7,7 +7,7 @@ import com.huanniankj.module.source.controller.event.vo.EventRespVO;
 import com.huanniankj.module.source.controller.event.vo.EventSaveReqVO;
 import com.huanniankj.module.source.convert.event.EventConvert;
 import com.huanniankj.module.source.dal.dataobject.event.EventDO;
-import com.huanniankj.module.source.dal.mysql.event.EventMapper;
+import com.huanniankj.module.source.dal.mysql.event.AgentEventMapper;
 import com.huanniankj.module.source.enums.event.EventLevelEnum;
 import com.huanniankj.module.source.enums.event.EventSourceEnum;
 import jakarta.annotation.Resource;
@@ -27,12 +27,12 @@ import static com.huanniankj.module.source.enums.ErrorCodeConstants.EVENT_NOT_EX
  *
  * @author zhaoff
  */
-@Service
+@Service("sourceEventServiceImpl")
 @Slf4j
 public class EventServiceImpl implements EventService {
 
     @Resource
-    private EventMapper eventMapper;
+    private AgentEventMapper agentEventMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -42,7 +42,7 @@ public class EventServiceImpl implements EventService {
             event.setEventTime(LocalDateTime.now());
         }
         event.setHandled(false);
-        eventMapper.insert(event);
+        agentEventMapper.insert(event);
         log.info("事件已创建: id={}, type={}, level={}", event.getId(), event.getEventType(), event.getEventLevel());
         return event.getId();
     }
@@ -50,7 +50,7 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void handleEvent(EventHandleReqVO handleReqVO) {
-        EventDO event = eventMapper.selectById(handleReqVO.getId());
+        EventDO event = agentEventMapper.selectById(handleReqVO.getId());
         if (event == null) {
             throw exception(EVENT_NOT_EXISTS);
         }
@@ -58,13 +58,13 @@ public class EventServiceImpl implements EventService {
         event.setHandler(handleReqVO.getHandler());
         event.setHandleTime(LocalDateTime.now());
         event.setHandleRemark(handleReqVO.getHandleRemark());
-        eventMapper.updateById(event);
+        agentEventMapper.updateById(event);
         log.info("事件已处理: id={}, handler={}", event.getId(), handleReqVO.getHandler());
     }
 
     @Override
     public EventRespVO getEvent(Long id) {
-        EventDO event = eventMapper.selectById(id);
+        EventDO event = agentEventMapper.selectById(id);
         if (event == null) {
             throw exception(EVENT_NOT_EXISTS);
         }
@@ -73,13 +73,13 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public PageResult<EventRespVO> getEventPage(EventPageReqVO pageReqVO) {
-        PageResult<EventDO> pageResult = eventMapper.selectPage(pageReqVO);
+        PageResult<EventDO> pageResult = agentEventMapper.selectPage(pageReqVO);
         return EventConvert.INSTANCE.convertPage(pageResult);
     }
 
     @Override
     public List<EventRespVO> getEventListByAgentUuid(String agentUuid) {
-        List<EventDO> events = eventMapper.selectListByAgentUuid(agentUuid);
+        List<EventDO> events = agentEventMapper.selectListByAgentUuid(agentUuid);
         return events.stream()
                 .map(this::convertToRespVO)
                 .collect(Collectors.toList());
@@ -87,12 +87,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Long countEventByAgentUuidAndLevel(String agentUuid, Integer eventLevel) {
-        return eventMapper.selectCountByAgentUuidAndLevel(agentUuid, eventLevel);
+        return agentEventMapper.selectCountByAgentUuidAndLevel(agentUuid, eventLevel);
     }
 
     @Override
     public Long countEventByAgentUuidAndHandled(String agentUuid, Boolean handled) {
-        return eventMapper.selectCountByAgentUuidAndHandled(agentUuid, handled);
+        return agentEventMapper.selectCountByAgentUuidAndHandled(agentUuid, handled);
     }
 
     /**

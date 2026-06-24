@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 租户 Service 接口
+ * 租户服务接口
  *
  * @author zhaoff
  */

@@ -6,6 +6,11 @@ import com.huanniankj.framework.tenant.core.aop.TenantIgnore;
 import com.huanniankj.module.system.dal.dataobject.oauth2.OAuth2RefreshTokenDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * OAuth2 刷新令牌 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface OAuth2RefreshTokenMapper extends BaseMapperX<OAuth2RefreshTokenDO> {
 

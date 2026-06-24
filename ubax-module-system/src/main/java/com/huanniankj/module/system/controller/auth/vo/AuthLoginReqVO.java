@@ -13,7 +13,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-@Schema(description = "管理后台 - 账号密码登录 Request VO，如果登录并绑定社交用户，需要传递 social 开头的参数")
+/**
+ * 账号密码登录 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "账号密码登录 Request VO，如果登录并绑定社交用户，需要传递 social 开头的参数")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

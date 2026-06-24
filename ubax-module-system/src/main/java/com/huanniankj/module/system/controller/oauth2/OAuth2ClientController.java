@@ -28,7 +28,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - OAuth2 客户端")
+/**
+ * OAuth2 客户端控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "OAuth2 客户端")
 @RestController
 @RequestMapping("/system/oauth2-client")
 @Validated

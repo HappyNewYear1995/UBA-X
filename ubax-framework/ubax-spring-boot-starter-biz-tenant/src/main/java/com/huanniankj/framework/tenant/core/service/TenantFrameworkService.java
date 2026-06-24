@@ -3,7 +3,7 @@ package com.huanniankj.framework.tenant.core.service;
 import java.util.List;
 
 /**
- * Tenant 框架 Service 接口，定义获取租户信息
+ * Tenant 框架服务接口，定义获取租户信息
  *
  * @author zhaoff
  */

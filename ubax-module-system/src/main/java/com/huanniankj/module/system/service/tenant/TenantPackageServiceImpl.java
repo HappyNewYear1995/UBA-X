@@ -20,10 +20,13 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.TENANT_PACKAGE_DISABLE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.TENANT_PACKAGE_NAME_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.TENANT_PACKAGE_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.TENANT_PACKAGE_USED;
 
 /**
- * 租户套餐 Service 实现类
+ * 租户套餐服务实现类
  *
  * @author zhaoff
  */

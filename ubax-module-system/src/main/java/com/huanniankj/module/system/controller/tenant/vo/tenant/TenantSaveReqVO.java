@@ -13,7 +13,12 @@ import org.hibernate.validator.constraints.Length;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "管理后台 - 租户创建/修改 Request VO")
+/**
+ * 租户创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "租户创建/修改 Request VO")
 @Data
 public class TenantSaveReqVO {
 

@@ -51,7 +51,12 @@ import static com.huanniankj.framework.common.pojo.CommonResult.success;
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertSet;
 import static com.huanniankj.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 认证")
+/**
+ * 认证控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "认证")
 @RestController
 @RequestMapping("/system/auth")
 @Validated

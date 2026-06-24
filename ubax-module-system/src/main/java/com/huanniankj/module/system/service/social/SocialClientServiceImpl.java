@@ -30,8 +30,6 @@ import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.framework.common.util.cache.CacheUtils;
 import com.huanniankj.framework.common.util.http.HttpUtils;
 import com.huanniankj.framework.common.util.object.BeanUtils;
-import com.huanniankj.module.system.api.social.dto.SocialWxaOrderNotifyConfirmReceiveReqDTO;
-import com.huanniankj.module.system.api.social.dto.SocialWxaOrderUploadShippingInfoReqDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
 import com.huanniankj.module.system.controller.socail.vo.client.SocialClientPageReqVO;
 import com.huanniankj.module.system.controller.socail.vo.client.SocialClientSaveReqVO;
@@ -85,7 +83,7 @@ import static com.huanniankj.module.system.enums.ErrorCodeConstants.SOCIAL_USER_
 import static java.util.Collections.singletonList;
 
 /**
- * 社交应用 Service 实现类
+ * 社交应用服务实现类
  *
  * @author zhaoff
  */
@@ -349,81 +347,6 @@ public class SocialClientServiceImpl implements SocialClientService {
                     subscribeMessage.addData(new WxMaSubscribeMessage.MsgData(key, value))));
         }
         return subscribeMessage;
-    }
-
-    @Override
-    public void uploadWxaOrderShippingInfo(Integer userType, SocialWxaOrderUploadShippingInfoReqDTO reqDTO) {
-        WxMaService service = getWxMaService(userType);
-        List<ShippingListBean> shippingList;
-        if (Objects.equals(reqDTO.getLogisticsType(), SocialWxaOrderUploadShippingInfoReqDTO.LOGISTICS_TYPE_EXPRESS)) {
-            shippingList = singletonList(ShippingListBean.builder()
-                    .trackingNo(reqDTO.getLogisticsNo())
-                    .expressCompany(reqDTO.getExpressCompany())
-                    .itemDesc(reqDTO.getItemDesc())
-                    .contact(ContactBean.builder().receiverContact(DesensitizedUtil.mobilePhone(reqDTO.getReceiverContact())).build())
-                    .build());
-        } else {
-            shippingList = singletonList(ShippingListBean.builder().itemDesc(reqDTO.getItemDesc()).build());
-        }
-        WxMaOrderShippingInfoUploadRequest request = WxMaOrderShippingInfoUploadRequest.builder()
-                .orderKey(OrderKeyBean.builder()
-                        .orderNumberType(2) // 使用原支付交易对应的微信订单号，即渠道单号
-                        .transactionId(reqDTO.getTransactionId())
-                        .build())
-                .logisticsType(reqDTO.getLogisticsType()) // 配送方式
-                .deliveryMode(1) // 统一发货
-                .shippingList(shippingList)
-                .payer(PayerBean.builder().openid(reqDTO.getOpenid()).build())
-                .uploadTime(ZonedDateTime.now().format(UTC_MS_WITH_XXX_OFFSET_FORMATTER))
-                .build();
-        // 重试机制：解决支付回调与订单信息上传之间的时间差导致的 10060001 错误
-        for (int attempt = 1; attempt <= UPLOAD_SHIPPING_INFO_MAX_RETRIES; attempt++) {
-            try {
-                WxMaOrderShippingInfoBaseResponse response = service.getWxMaOrderShippingService().upload(request);
-                // 成功，直接返回
-                if (response.getErrCode() == 0) {
-                    log.info("[uploadWxaOrderShippingInfo][上传微信小程序发货信息成功：request({}) response({})]", request, response);
-                    return;
-                }
-                // 如果是 10060001 错误（支付单不存在）且还有重试次数，则等待后重试
-                if (response.getErrCode() == WX_ERR_CODE_PAY_ORDER_NOT_EXIST && attempt < UPLOAD_SHIPPING_INFO_MAX_RETRIES) {
-                    log.warn("[uploadWxaOrderShippingInfo][第 {} 次尝试失败，支付单不存在，{} 后重试：request({}) response({})]",
-                            attempt, UPLOAD_SHIPPING_INFO_RETRY_INTERVAL, request, response);
-                    Thread.sleep(UPLOAD_SHIPPING_INFO_RETRY_INTERVAL.toMillis());
-                    continue;
-                }
-                // 其他错误或重试次数用尽，抛出异常
-                log.error("[uploadWxaOrderShippingInfo][上传微信小程序发货信息失败：request({}) response({})]", request, response);
-                throw exception(SOCIAL_CLIENT_WEIXIN_MINI_APP_ORDER_UPLOAD_SHIPPING_INFO_ERROR, response.getErrMsg());
-            } catch (WxErrorException ex) {
-                log.error("[uploadWxaOrderShippingInfo][上传微信小程序发货信息失败：request({})]", request, ex);
-                throw exception(SOCIAL_CLIENT_WEIXIN_MINI_APP_ORDER_UPLOAD_SHIPPING_INFO_ERROR, ex.getError().getErrorMsg());
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-                log.error("[uploadWxaOrderShippingInfo][重试等待被中断：request({})]", request, ex);
-                throw exception(SOCIAL_CLIENT_WEIXIN_MINI_APP_ORDER_UPLOAD_SHIPPING_INFO_ERROR, "重试等待被中断");
-            }
-        }
-    }
-
-    @Override
-    public void notifyWxaOrderConfirmReceive(Integer userType, SocialWxaOrderNotifyConfirmReceiveReqDTO reqDTO) {
-        WxMaService service = getWxMaService(userType);
-        WxMaOrderShippingInfoNotifyConfirmRequest request = WxMaOrderShippingInfoNotifyConfirmRequest.builder()
-                .transactionId(reqDTO.getTransactionId())
-                .receivedTime(toEpochSecond(reqDTO.getReceivedTime()))
-                .build();
-        try {
-            WxMaOrderShippingInfoBaseResponse response = service.getWxMaOrderShippingService().notifyConfirmReceive(request);
-            if (response.getErrCode() != 0) {
-                log.error("[notifyWxaOrderConfirmReceive][确认收货提醒到微信小程序失败：request({}) response({})]", request, response);
-                throw exception(SOCIAL_CLIENT_WEIXIN_MINI_APP_ORDER_NOTIFY_CONFIRM_RECEIVE_ERROR, response.getErrMsg());
-            }
-            log.info("[notifyWxaOrderConfirmReceive][确认收货提醒到微信小程序成功：request({}) response({})]", request, response);
-        } catch (WxErrorException ex) {
-            log.error("[notifyWxaOrderConfirmReceive][确认收货提醒到微信小程序失败：request({})]", request, ex);
-            throw exception(SOCIAL_CLIENT_WEIXIN_MINI_APP_ORDER_NOTIFY_CONFIRM_RECEIVE_ERROR, ex.getError().getErrorMsg());
-        }
     }
 
     /**

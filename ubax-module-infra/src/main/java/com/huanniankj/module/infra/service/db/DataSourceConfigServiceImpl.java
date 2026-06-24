@@ -19,7 +19,7 @@ import static com.huanniankj.module.infra.enums.ErrorCodeConstants.DATA_SOURCE_C
 import static com.huanniankj.module.infra.enums.ErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_OK;
 
 /**
- * 数据源配置 Service 实现类
+ * 数据源配置服务实现类
  *
  * @author zhaoff
  */

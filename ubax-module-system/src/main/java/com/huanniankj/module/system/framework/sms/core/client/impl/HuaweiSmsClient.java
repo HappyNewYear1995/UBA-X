@@ -22,7 +22,11 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+import java.util.TreeMap;
 
 import static cn.hutool.crypto.digest.DigestUtil.sha256Hex;
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertList;
@@ -52,9 +56,9 @@ public class HuaweiSmsClient extends AbstractSmsClient {
 
     /**
      * 参数校验华为云的 sender 通道号
-     *
+     * <p>
      * 原因是：验华为云发放短信的时候，需要额外的参数 sender
-     *
+     * <p>
      * 解决方案：考虑到不破坏原有的 apiKey + apiSecret 的结构，所以将 secretId 拼接到 apiKey 字段中，格式为 "secretId sdkAppId"。
      *
      * @param properties 配置
@@ -101,11 +105,11 @@ public class HuaweiSmsClient extends AbstractSmsClient {
     /**
      * 请求华为云短信
      *
-     * @see <a href="认证鉴权">https://support.huaweicloud.com/api-msgsms/sms_05_0046.html</a>
-     * @param uri 请求 URI
-     * @param method 请求 Method
+     * @param uri         请求 URI
+     * @param method      请求 Method
      * @param requestBody 请求 Body
      * @return 请求结果
+     * @see <a href="认证鉴权">https://support.huaweicloud.com/api-msgsms/sms_05_0046.html</a>
      */
     private JSONObject request(String uri, String method, String requestBody) {
         // 1.1 请求 Header
@@ -118,7 +122,7 @@ public class HuaweiSmsClient extends AbstractSmsClient {
         // 1.2 构建签名 Header
         String canonicalQueryString = ""; // 查询参数为空
         String canonicalHeaders = "content-type:application/x-www-form-urlencoded\n"
-                + "host:"+ HOST +"\n" + "x-sdk-date:" + sdkDate + "\n";
+                + "host:" + HOST + "\n" + "x-sdk-date:" + sdkDate + "\n";
         String canonicalRequest = method + "\n" + uri + "\n" + canonicalQueryString + "\n"
                 + canonicalHeaders + "\n" + SIGNEDHEADERS + "\n" + sha256Hex(requestBody);
         String stringToSign = "SDK-HMAC-SHA256" + "\n" + sdkDate + "\n" + sha256Hex(canonicalRequest);

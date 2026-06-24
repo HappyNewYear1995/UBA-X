@@ -6,7 +6,12 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Schema(description = "管理后台 - 租户套餐 Response VO")
+/**
+ * 租户套餐 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "租户套餐 Response VO")
 @Data
 public class TenantPackageRespVO {
 

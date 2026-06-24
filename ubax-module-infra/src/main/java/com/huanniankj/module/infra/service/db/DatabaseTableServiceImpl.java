@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 数据库表 Service 实现类
+ * 数据库表服务实现类
  *
  * @author zhaoff
  */

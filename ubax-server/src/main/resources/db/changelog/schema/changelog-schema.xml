@@ -1487,4 +1487,105 @@
         </sql>
     </changeSet>
 
+    <changeSet id="schema-20260623-001" author="zhaoff">
+        <comment>数据分析</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE `collect_clean_pipeline` (
+                                                      `id` bigint NOT NULL COMMENT '管道 ID',
+                                                      `name` varchar(100) NOT NULL COMMENT '管道名称',
+                                                      `type` varchar(32) DEFAULT NULL COMMENT '管道类型（format_convert/data_clean/data_map/data_filter）',
+                                                      `description` varchar(500) DEFAULT NULL COMMENT '管道描述',
+                                                      `config` text COMMENT '管道配置（JSON 格式）',
+                                                      `event_id` bigint DEFAULT NULL COMMENT '关联事件 ID',
+                                                      `status` int NOT NULL DEFAULT 1 COMMENT '状态（0=禁用 1=启用）',
+                                                      `processed_count` bigint DEFAULT 0 COMMENT '已处理数据量',
+                                                      `sort` int DEFAULT 0 COMMENT '排序',
+                                                      `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                                                      `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                                                      `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                                      `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                                                      `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                                      `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                                                      PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='清洗管道表';
+
+            CREATE TABLE `collect_error_log` (
+                                                 `id` bigint NOT NULL COMMENT '日志 ID',
+                                                 `error_type` varchar(32) NOT NULL COMMENT '异常类型（format_error/duplicate_data/invalid_char/timestamp_error/other）',
+                                                 `source` varchar(100) DEFAULT NULL COMMENT '数据来源',
+                                                 `error_count` int DEFAULT 0 COMMENT '异常记录数',
+                                                 `action` varchar(32) DEFAULT NULL COMMENT '处理动作（auto_filter/auto_dedup/mark_pending/manual_handle）',
+                                                 `detail` text COMMENT '异常详情（JSON 格式）',
+                                                 `pipeline_id` bigint DEFAULT NULL COMMENT '关联清洗管道 ID',
+                                                 `event_id` bigint DEFAULT NULL COMMENT '关联事件 ID',
+                                                 `status` int NOT NULL DEFAULT 0 COMMENT '处理状态（0=待处理 1=已处理 2=已忽略）',
+                                                 `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                                                 `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                                                 `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                                 `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                                                 `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                                 `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                                                 PRIMARY KEY (`id`),
+                                                 KEY `idx_error_type` (`error_type`),
+                                                 KEY `idx_status` (`status`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='异常日志表';
+
+            CREATE TABLE `collect_data_log` (
+                                                `id` bigint NOT NULL COMMENT '日志 ID',
+                                                `log_id` varchar(64) DEFAULT NULL COMMENT '日志唯一标识',
+                                                `app_id` varchar(64) DEFAULT NULL COMMENT '来源应用标识',
+                                                `event_type` varchar(32) DEFAULT NULL COMMENT '事件类型',
+                                                `device_id` varchar(64) DEFAULT NULL COMMENT '设备 ID',
+                                                `user_id` varchar(64) DEFAULT NULL COMMENT '用户 ID',
+                                                `platform` varchar(32) DEFAULT NULL COMMENT '平台',
+                                                `ip` varchar(64) DEFAULT NULL COMMENT 'IP 地址',
+                                                `user_agent` varchar(500) DEFAULT NULL COMMENT 'User Agent',
+                                                `properties` text COMMENT '事件属性（JSON 格式）',
+                                                `event_id` bigint DEFAULT NULL COMMENT '关联事件 ID',
+                                                `pipeline_id` bigint DEFAULT NULL COMMENT '关联清洗管道 ID',
+                                                `collect_time` datetime DEFAULT NULL COMMENT '采集时间',
+                                                `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                                                `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                                                `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                                `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                                                `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                                `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                                                PRIMARY KEY (`id`),
+                                                KEY `idx_log_id` (`log_id`),
+                                                KEY `idx_event_type` (`event_type`),
+                                                KEY `idx_collect_time` (`collect_time`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='数据日志表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260623-002" author="zhaoff">
+        <comment>数据分析</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE `collect_event` (
+                                             `id` bigint NOT NULL COMMENT '事件 ID',
+                                             `name` varchar(100) NOT NULL COMMENT '事件名称',
+                                             `code` varchar(64) NOT NULL COMMENT '事件编码（唯一标识）',
+                                             `data_source_id` bigint DEFAULT NULL COMMENT '数据源 ID',
+                                             `data_source_type` varchar(32) DEFAULT NULL COMMENT '数据源类型（database/webservice/sdk）',
+                                             `event_type` varchar(32) DEFAULT NULL COMMENT '事件类型（page_view/click/custom）',
+                                             `properties` text COMMENT '事件属性定义（JSON 格式）',
+                                             `filter_condition` text COMMENT '过滤条件（JSON 格式）',
+                                             `field_mapping` text COMMENT '字段映射规则（JSON 格式）',
+                                             `status` int NOT NULL DEFAULT 1 COMMENT '状态（0=禁用 1=启用）',
+                                             `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                                             `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                                             `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                             `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                                             `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                             `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                                             PRIMARY KEY (`id`),
+                                             UNIQUE KEY `uk_code` (`code`,`deleted`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='采集事件表';
+            ]]>
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name = "管理后台 - 数据分析大盘", description = "用于展示基于 ClickHouse 计算的用户行为、机器监控大盘数据")
+@Tag(name = "数据分析大盘", description = "用于展示基于 ClickHouse 计算的用户行为、机器监控大盘数据")
 @RestController
 @RequestMapping("/analysis/dashboard")
 @Validated

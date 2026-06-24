@@ -3,7 +3,7 @@ package com.huanniankj.module.infra.api.logger;
 import com.huanniankj.framework.common.biz.infra.logger.ApiAccessLogCommonApi;
 import com.huanniankj.framework.common.biz.infra.logger.dto.ApiAccessLogCreateReqDTO;
 import com.huanniankj.module.infra.service.logger.ApiAccessLogService;
-import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class ApiAccessLogApiImpl implements ApiAccessLogCommonApi {
 
-    @Resource
+    @Autowired
     private ApiAccessLogService apiAccessLogService;
 
     @Override

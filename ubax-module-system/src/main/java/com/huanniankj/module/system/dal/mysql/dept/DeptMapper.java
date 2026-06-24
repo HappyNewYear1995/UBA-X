@@ -9,6 +9,11 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 部门 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface DeptMapper extends BaseMapperX<DeptDO> {
 

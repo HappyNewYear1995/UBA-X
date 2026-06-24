@@ -6,7 +6,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-@Schema(description = "管理后台 - 邮箱账号分页 Request VO")
+/**
+ * 邮箱账号分页 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "邮箱账号分页 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)

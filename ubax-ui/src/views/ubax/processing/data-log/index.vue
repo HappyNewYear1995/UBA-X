@@ -8,47 +8,31 @@
             <el-button size="small" @click="handleRefresh">
               <Icon icon="ep:refresh" /> 刷新
             </el-button>
-            <el-button size="small" @click="handleExport">
-              <Icon icon="ep:download" /> 导出
-            </el-button>
           </div>
         </div>
       </template>
 
       <!-- 搜索筛选 -->
-      <el-form :model="searchForm" inline class="search-form">
-        <el-form-item label="时间范围">
-          <el-date-picker
-            v-model="searchForm.dateRange"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            value-format="YYYY-MM-DD"
-            style="width: 240px"
-          />
-        </el-form-item>
+      <el-form :model="queryParams" inline class="search-form">
         <el-form-item label="事件类型">
-          <el-select v-model="searchForm.eventType" placeholder="请选择" clearable style="width: 140px">
+          <el-select v-model="queryParams.eventType" placeholder="请选择" clearable style="width: 140px">
             <el-option label="页面浏览" value="page_view" />
             <el-option label="按钮点击" value="button_click" />
             <el-option label="表单提交" value="form_submit" />
             <el-option label="自定义事件" value="custom" />
           </el-select>
         </el-form-item>
-        <el-form-item label="设备 ID">
-          <el-input v-model="searchForm.deviceId" placeholder="请输入设备 ID" clearable style="width: 180px" />
-        </el-form-item>
         <el-form-item label="客户端">
-          <el-select v-model="searchForm.appId" placeholder="请选择" clearable style="width: 160px">
-            <el-option label="UBA-X 官网" value="app_ubax_web_001" />
-            <el-option label="UBA-X Android" value="app_ubax_android_001" />
-            <el-option label="UBA-X iOS" value="app_ubax_ios_001" />
-            <el-option label="微信小程序" value="app_ubax_mini_001" />
-          </el-select>
+          <el-input v-model="queryParams.appId" placeholder="请输入 AppId" clearable style="width: 180px" @keyup.enter="handleQuery" />
+        </el-form-item>
+        <el-form-item label="设备 ID">
+          <el-input v-model="queryParams.deviceId" placeholder="请输入设备 ID" clearable style="width: 180px" @keyup.enter="handleQuery" />
+        </el-form-item>
+        <el-form-item label="用户 ID">
+          <el-input v-model="queryParams.userId" placeholder="请输入用户 ID" clearable style="width: 160px" @keyup.enter="handleQuery" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleSearch">
+          <el-button type="primary" @click="handleQuery">
             <Icon icon="ep:search" /> 查询
           </el-button>
           <el-button @click="handleReset">重置</el-button>
@@ -64,18 +48,7 @@
             </div>
             <div class="stat-content">
               <div class="stat-label">总日志数</div>
-              <div class="stat-value">{{ totalLogs }}</div>
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="stat-card">
-            <div class="stat-icon today">
-              <Icon icon="ep:calendar" :size="24" />
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">今日日志</div>
-              <div class="stat-value">{{ todayLogs }}</div>
+              <div class="stat-value">{{ total }}</div>
             </div>
           </div>
         </el-col>
@@ -86,7 +59,7 @@
             </div>
             <div class="stat-content">
               <div class="stat-label">页面浏览</div>
-              <div class="stat-value">{{ pageViewLogs }}</div>
+              <div class="stat-value">{{ pageViewCount }}</div>
             </div>
           </div>
         </el-col>
@@ -97,61 +70,75 @@
             </div>
             <div class="stat-content">
               <div class="stat-label">事件上报</div>
-              <div class="stat-value">{{ eventLogs }}</div>
+              <div class="stat-value">{{ eventCount }}</div>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="stat-card">
+            <div class="stat-icon today">
+              <Icon icon="ep:calendar" :size="24" />
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">当前页日志</div>
+              <div class="stat-value">{{ list.length }}</div>
             </div>
           </div>
         </el-col>
       </el-row>
 
       <!-- 日志列表 -->
-      <el-table :data="logList" class="log-table mt-4" v-loading="loading">
-        <el-table-column prop="id" label="日志 ID" min-width="160" show-overflow-tooltip />
-        <el-table-column prop="appName" label="客户端" min-width="130" />
+      <el-table v-loading="loading" :data="list" class="log-table mt-4">
+        <el-table-column prop="logId" label="日志 ID" min-width="160" show-overflow-tooltip />
+        <el-table-column prop="appId" label="客户端" min-width="130" show-overflow-tooltip />
         <el-table-column prop="eventType" label="事件类型" min-width="100" align="center">
           <template #default="{ row }">
-            <el-tag :type="getEventTypeTag(row.eventType)" size="small">{{ row.eventTypeName }}</el-tag>
+            <el-tag :type="getEventTypeTag(row.eventType)" size="small">{{ getEventTypeLabel(row.eventType) }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="deviceId" label="设备 ID" min-width="150" show-overflow-tooltip />
         <el-table-column prop="userId" label="用户 ID" min-width="120" show-overflow-tooltip />
         <el-table-column prop="platform" label="平台" min-width="100" align="center" />
-        <el-table-column prop="timestamp" label="上报时间" min-width="170" align="center">
+        <el-table-column prop="collectTime" label="采集时间" min-width="170" align="center">
           <template #default="{ row }">
-            <span class="time-text">{{ row.timestamp }}</span>
+            <span class="time-text">{{ formatDateTime(row.collectTime) }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="80" fixed="right" align="center">
+        <el-table-column label="操作" width="140" fixed="right" align="center">
           <template #default="{ row }">
             <el-button type="primary" link @click="handleViewDetail(row)">详情</el-button>
+            <el-button type="danger" link @click="handleDelete(row)">
+              <Icon icon="ep:delete" /> 删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
 
       <div class="pagination-wrapper">
-        <el-pagination
-          v-model:current-page="currentPage"
-          v-model:page-size="pageSize"
+        <Pagination
+          v-model:page="queryParams.pageNo"
+          v-model:limit="queryParams.pageSize"
           :total="total"
-          :page-sizes="[10, 20, 50, 100]"
-          layout="total, sizes, prev, pager, next"
+          @pagination="getList"
         />
       </div>
     </el-card>
 
     <!-- 日志详情对话框 -->
-    <el-dialog v-model="detailDialogVisible" title="日志详情" width="700px">
+    <el-dialog v-model="detailDialogVisible" title="日志详情" width="700px" destroy-on-close>
       <el-descriptions :column="2" border v-if="currentLog">
-        <el-descriptions-item label="日志 ID">{{ currentLog.id }}</el-descriptions-item>
-        <el-descriptions-item label="客户端">{{ currentLog.appName }}</el-descriptions-item>
-        <el-descriptions-item label="事件类型">{{ currentLog.eventTypeName }}</el-descriptions-item>
+        <el-descriptions-item label="日志 ID">{{ currentLog.logId }}</el-descriptions-item>
+        <el-descriptions-item label="客户端">{{ currentLog.appId }}</el-descriptions-item>
+        <el-descriptions-item label="事件类型">
+          <el-tag :type="getEventTypeTag(currentLog.eventType)" size="small">{{ getEventTypeLabel(currentLog.eventType) }}</el-tag>
+        </el-descriptions-item>
         <el-descriptions-item label="设备 ID">{{ currentLog.deviceId }}</el-descriptions-item>
         <el-descriptions-item label="用户 ID">{{ currentLog.userId }}</el-descriptions-item>
         <el-descriptions-item label="平台">{{ currentLog.platform }}</el-descriptions-item>
-        <el-descriptions-item label="上报时间">{{ currentLog.timestamp }}</el-descriptions-item>
-        <el-descriptions-item label="IP 地址">{{ currentLog.ip }}</el-descriptions-item>
-        <el-descriptions-item label="User Agent" :span="2">{{ currentLog.userAgent }}</el-descriptions-item>
+        <el-descriptions-item label="采集时间">{{ formatDateTime(currentLog.collectTime) }}</el-descriptions-item>
+        <el-descriptions-item label="备注">{{ currentLog.remark || '-' }}</el-descriptions-item>
         <el-descriptions-item label="事件属性" :span="2">
-          <pre class="json-block">{{ JSON.stringify(currentLog.properties, null, 2) }}</pre>
+          <pre class="json-block">{{ formatProperties(currentLog.properties) }}</pre>
         </el-descriptions-item>
       </el-descriptions>
     </el-dialog>
@@ -159,145 +146,122 @@
 </template>
 
 <script lang="ts" setup>
+import {
+  getDataLogPage,
+  getDataLog,
+  deleteDataLog,
+  type DataLogRespVO,
+  type DataLogPageReqVO
+} from '@/api/ubax/collect'
+
 defineOptions({ name: 'DataLog' })
 
-const loading = ref(false)
-const currentPage = ref(1)
-const pageSize = ref(20)
-const total = ref(156)
-const detailDialogVisible = ref(false)
-const currentLog = ref<any>(null)
+const message = useMessage()
 
-const searchForm = reactive({
-  dateRange: [],
-  eventType: '',
-  deviceId: '',
-  appId: ''
+const loading = ref(false)
+const list = ref<DataLogRespVO[]>([])
+const total = ref(0)
+
+const queryParams = ref<DataLogPageReqVO>({
+  pageNo: 1,
+  pageSize: 20,
+  eventType: undefined,
+  appId: undefined,
+  deviceId: undefined,
+  userId: undefined
 })
 
-const logList = ref([
-  {
-    id: 'log_20260522_001',
-    appName: 'UBA-X 官网',
-    eventType: 'page_view',
-    eventTypeName: '页面浏览',
-    deviceId: 'dev_web_8a7f6e5d',
-    userId: 'user_12345',
-    platform: 'Web',
-    timestamp: '2026-05-22 10:35:22',
-    ip: '192.168.1.100',
-    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-    properties: { page_url: '/home', page_title: '首页', referrer: 'https://google.com' }
-  },
-  {
-    id: 'log_20260522_002',
-    appName: 'UBA-X Android',
-    eventType: 'button_click',
-    eventTypeName: '按钮点击',
-    deviceId: 'dev_android_3c4d5e6f',
-    userId: 'user_67890',
-    platform: 'Android',
-    timestamp: '2026-05-22 10:34:15',
-    ip: '10.0.0.55',
-    userAgent: 'UBA-X-Android/1.8.3',
-    properties: { button_id: 'btn_submit', page_name: 'checkout' }
-  },
-  {
-    id: 'log_20260522_003',
-    appName: 'UBA-X iOS',
-    eventType: 'form_submit',
-    eventTypeName: '表单提交',
-    deviceId: 'dev_ios_7g8h9i0j',
-    userId: 'user_11111',
-    platform: 'iOS',
-    timestamp: '2026-05-22 10:33:08',
-    ip: '172.16.0.22',
-    userAgent: 'UBA-X-iOS/1.8.3',
-    properties: { form_id: 'login_form', fields: ['username', 'password'] }
-  },
-  {
-    id: 'log_20260522_004',
-    appName: '微信小程序',
-    eventType: 'custom',
-    eventTypeName: '自定义事件',
-    deviceId: 'dev_mini_1k2l3m4n',
-    userId: 'user_22222',
-    platform: '微信小程序',
-    timestamp: '2026-05-22 10:32:45',
-    ip: '192.168.2.88',
-    userAgent: 'WeChat/8.0.0',
-    properties: { event_name: 'share_product', product_id: 'prod_001' }
-  },
-  {
-    id: 'log_20260522_005',
-    appName: 'UBA-X 官网',
-    eventType: 'page_view',
-    eventTypeName: '页面浏览',
-    deviceId: 'dev_web_5o6p7q8r',
-    userId: 'user_33333',
-    platform: 'Web',
-    timestamp: '2026-05-22 10:31:30',
-    ip: '192.168.3.44',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
-    properties: { page_url: '/products', page_title: '产品列表' }
-  },
-  {
-    id: 'log_20260522_006',
-    appName: 'UBA-X Android',
-    eventType: 'button_click',
-    eventTypeName: '按钮点击',
-    deviceId: 'dev_android_9s0t1u2v',
-    userId: 'user_44444',
-    platform: 'Android',
-    timestamp: '2026-05-22 10:30:12',
-    ip: '10.0.1.33',
-    userAgent: 'UBA-X-Android/1.8.3',
-    properties: { button_id: 'btn_add_cart', product_id: 'prod_002' }
-  }
-])
+const detailDialogVisible = ref(false)
+const currentLog = ref<DataLogRespVO | null>(null)
 
-const totalLogs = computed(() => logList.value.length)
-const todayLogs = computed(() => logList.value.filter(l => l.timestamp.includes('2026-05-22')).length)
-const pageViewLogs = computed(() => logList.value.filter(l => l.eventType === 'page_view').length)
-const eventLogs = computed(() => logList.value.filter(l => l.eventType !== 'page_view').length)
+const formatDateTime = (date: Date) => {
+  if (!date) return ''
+  const d = new Date(date)
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
+}
+
+const getEventTypeLabel = (type: string) => {
+  const map: Record<string, string> = {
+    page_view: '页面浏览',
+    button_click: '按钮点击',
+    form_submit: '表单提交',
+    custom: '自定义事件'
+  }
+  return map[type] || type
+}
 
 const getEventTypeTag = (type: string) => {
   const map: Record<string, string> = {
-    'page_view': 'primary',
-    'button_click': 'success',
-    'form_submit': 'warning',
-    'custom': 'info'
+    page_view: 'primary',
+    button_click: 'success',
+    form_submit: 'warning',
+    custom: 'info'
   }
   return map[type] || ''
 }
 
-const handleSearch = () => {
+const formatProperties = (properties?: string) => {
+  if (!properties) return '-'
+  try {
+    return JSON.stringify(JSON.parse(properties), null, 2)
+  } catch {
+    return properties
+  }
+}
+
+const pageViewCount = computed(() => list.value.filter(l => l.eventType === 'page_view').length)
+const eventCount = computed(() => list.value.filter(l => l.eventType !== 'page_view').length)
+
+/** 获取列表 */
+const getList = async () => {
   loading.value = true
-  setTimeout(() => {
+  try {
+    const data = await getDataLogPage(queryParams.value)
+    list.value = data.list
+    total.value = data.total
+  } finally {
     loading.value = false
-    ElMessage.success('查询完成')
-  }, 500)
+  }
 }
 
+/** 搜索 */
+const handleQuery = () => {
+  queryParams.value.pageNo = 1
+  getList()
+}
+
+/** 重置 */
 const handleReset = () => {
-  searchForm.dateRange = []
-  searchForm.eventType = ''
-  searchForm.deviceId = ''
-  searchForm.appId = ''
+  queryParams.value = { pageNo: 1, pageSize: 20, eventType: undefined, appId: undefined, deviceId: undefined, userId: undefined }
+  getList()
 }
 
+/** 刷新 */
 const handleRefresh = () => {
-  handleSearch()
+  getList()
 }
 
-const handleExport = () => {
-  ElMessage.success('日志导出中，请稍候')
+/** 查看详情 */
+const handleViewDetail = async (row: DataLogRespVO) => {
+  try {
+    const data = await getDataLog(row.id)
+    currentLog.value = data
+    detailDialogVisible.value = true
+  } catch { /* ignore */ }
 }
 
-const handleViewDetail = (row: any) => {
-  currentLog.value = row
-  detailDialogVisible.value = true
+/** 删除 */
+const handleDelete = async (row: DataLogRespVO) => {
+  await message.delConfirm(`确定要删除该数据日志吗？`)
+  await deleteDataLog(row.id)
+  message.success('删除成功')
+  getList()
 }
+
+onMounted(() => {
+  getList()
+})
 </script>
 
 <style lang="scss" scoped>

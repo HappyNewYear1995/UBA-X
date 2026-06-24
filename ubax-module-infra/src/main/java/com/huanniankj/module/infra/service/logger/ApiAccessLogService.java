@@ -6,7 +6,7 @@ import com.huanniankj.module.infra.controller.logger.vo.apiaccesslog.ApiAccessLo
 import com.huanniankj.module.infra.dal.dataobject.logger.ApiAccessLogDO;
 
 /**
- * API 访问日志 Service 接口
+ * API 访问日志服务接口
  *
  * @author zhaoff
  */

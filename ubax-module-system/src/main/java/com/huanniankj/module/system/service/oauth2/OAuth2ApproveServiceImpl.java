@@ -21,7 +21,7 @@ import java.util.Set;
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertSet;
 
 /**
- * OAuth2 批准 Service 实现类
+ * OAuth2 批准服务实现类
  *
  * @author zhaoff
  */

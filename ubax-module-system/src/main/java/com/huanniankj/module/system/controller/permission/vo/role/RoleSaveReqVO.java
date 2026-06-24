@@ -9,7 +9,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 角色创建/更新 Request VO")
+/**
+ * 角色创建/更新 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "角色创建/更新 Request VO")
 @Data
 public class RoleSaveReqVO {
 

@@ -8,7 +8,7 @@ import com.huanniankj.module.system.dal.dataobject.dict.DictTypeDO;
 import java.util.List;
 
 /**
- * 字典类型 Service 接口
+ * 字典类型服务接口
  *
  * @author zhaoff
  */

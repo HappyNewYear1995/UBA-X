@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 岗位 Service 接口
+ * 岗位服务接口
  *
  * @author zhaoff
  */

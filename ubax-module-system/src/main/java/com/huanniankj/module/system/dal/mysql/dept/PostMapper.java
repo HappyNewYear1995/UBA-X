@@ -10,6 +10,11 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 岗位 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface PostMapper extends BaseMapperX<PostDO> {
 

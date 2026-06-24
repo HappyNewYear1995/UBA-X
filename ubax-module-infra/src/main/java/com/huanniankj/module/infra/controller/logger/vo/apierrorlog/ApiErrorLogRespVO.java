@@ -1,16 +1,21 @@
 package com.huanniankj.module.infra.controller.logger.vo.apierrorlog;
 
+import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
+import cn.idev.excel.annotation.ExcelProperty;
 import com.huanniankj.framework.excel.core.annotations.DictFormat;
 import com.huanniankj.framework.excel.core.convert.DictConvert;
 import com.huanniankj.module.infra.enums.DictTypeConstants;
-import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
-import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - API 错误日志 Response VO")
+/**
+ * API 错误日志 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "API 错误日志 Response VO")
 @Data
 @ExcelIgnoreUnannotated
 public class ApiErrorLogRespVO {

@@ -35,7 +35,7 @@ import static com.huanniankj.module.infra.enums.ErrorCodeConstants.FILE_CONFIG_D
 import static com.huanniankj.module.infra.enums.ErrorCodeConstants.FILE_CONFIG_NOT_EXISTS;
 
 /**
- * 文件配置 Service 实现类
+ * 文件配置服务实现类
  *
  * @author zhaoff
  */

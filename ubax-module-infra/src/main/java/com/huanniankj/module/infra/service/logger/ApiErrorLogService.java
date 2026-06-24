@@ -6,7 +6,7 @@ import com.huanniankj.module.infra.controller.logger.vo.apierrorlog.ApiErrorLogP
 import com.huanniankj.module.infra.dal.dataobject.logger.ApiErrorLogDO;
 
 /**
- * API 错误日志 Service 接口
+ * API 错误日志服务接口
  *
  * @author zhaoff
  */

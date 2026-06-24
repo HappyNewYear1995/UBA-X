@@ -33,7 +33,12 @@ import java.util.List;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 import static com.huanniankj.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 用户个人中心")
+/**
+ * 用户个人中心控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "用户个人中心")
 @RestController
 @RequestMapping("/system/user/profile")
 @Validated

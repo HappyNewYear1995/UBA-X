@@ -7,7 +7,7 @@ import com.huanniankj.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import java.util.List;
 
 /**
- * OAuth2.0 Token Service 接口
+ * OAuth2.0 Token服务接口
  * <p>
  * 从功能上，和 Spring Security OAuth 的 DefaultTokenServices + JdbcTokenStore 的功能，提供访问令牌、刷新令牌的操作
  *

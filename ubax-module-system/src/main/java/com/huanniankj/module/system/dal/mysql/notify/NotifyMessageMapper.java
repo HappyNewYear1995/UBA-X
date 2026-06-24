@@ -13,6 +13,11 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 站内信 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface NotifyMessageMapper extends BaseMapperX<NotifyMessageDO> {
 

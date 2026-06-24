@@ -6,7 +6,7 @@ import com.huanniankj.module.source.controller.event.vo.EventConfigRespVO;
 import com.huanniankj.module.source.controller.event.vo.EventConfigSaveReqVO;
 import com.huanniankj.module.source.convert.event.EventConfigConvert;
 import com.huanniankj.module.source.dal.dataobject.event.EventConfigDO;
-import com.huanniankj.module.source.dal.mysql.event.EventConfigMapper;
+import com.huanniankj.module.source.dal.mysql.event.AgentEventConfigMapper;
 import com.huanniankj.module.source.enums.event.EventLevelEnum;
 import com.huanniankj.module.source.enums.event.MatchLogicEnum;
 import com.huanniankj.module.source.enums.event.MatchPositionEnum;
@@ -29,12 +29,12 @@ import static com.huanniankj.module.source.enums.ErrorCodeConstants.EVENT_CONFIG
  *
  * @author zhaoff
  */
-@Service
+@Service("sourceEventConfigServiceImpl")
 @Slf4j
 public class EventConfigServiceImpl implements EventConfigService {
 
     @Resource
-    private EventConfigMapper eventConfigMapper;
+    private AgentEventConfigMapper agentEventConfigMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -46,7 +46,7 @@ public class EventConfigServiceImpl implements EventConfigService {
         if (eventConfig.getSort() == null) {
             eventConfig.setSort(0);
         }
-        eventConfigMapper.insert(eventConfig);
+        agentEventConfigMapper.insert(eventConfig);
         log.info("事件配置已创建: id={}, name={}, position={}, type={}",
                 eventConfig.getId(), eventConfig.getConfigName(), eventConfig.getMatchPosition(), eventConfig.getMatchType());
         return eventConfig.getId();
@@ -58,29 +58,29 @@ public class EventConfigServiceImpl implements EventConfigService {
         if (saveReqVO.getId() == null) {
             throw exception(EVENT_CONFIG_NOT_EXISTS);
         }
-        EventConfigDO existConfig = eventConfigMapper.selectById(saveReqVO.getId());
+        EventConfigDO existConfig = agentEventConfigMapper.selectById(saveReqVO.getId());
         if (existConfig == null) {
             throw exception(EVENT_CONFIG_NOT_EXISTS);
         }
         EventConfigDO updateConfig = EventConfigConvert.INSTANCE.convert(saveReqVO);
-        eventConfigMapper.updateById(updateConfig);
+        agentEventConfigMapper.updateById(updateConfig);
         log.info("事件配置已更新: id={}, name={}", saveReqVO.getId(), saveReqVO.getConfigName());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteEventConfig(Long id) {
-        EventConfigDO existConfig = eventConfigMapper.selectById(id);
+        EventConfigDO existConfig = agentEventConfigMapper.selectById(id);
         if (existConfig == null) {
             throw exception(EVENT_CONFIG_NOT_EXISTS);
         }
-        eventConfigMapper.deleteById(id);
+        agentEventConfigMapper.deleteById(id);
         log.info("事件配置已删除: id={}", id);
     }
 
     @Override
     public EventConfigRespVO getEventConfig(Long id) {
-        EventConfigDO eventConfig = eventConfigMapper.selectById(id);
+        EventConfigDO eventConfig = agentEventConfigMapper.selectById(id);
         if (eventConfig == null) {
             throw exception(EVENT_CONFIG_NOT_EXISTS);
         }
@@ -89,13 +89,13 @@ public class EventConfigServiceImpl implements EventConfigService {
 
     @Override
     public PageResult<EventConfigRespVO> getEventConfigPage(EventConfigPageReqVO pageReqVO) {
-        PageResult<EventConfigDO> pageResult = eventConfigMapper.selectPage(pageReqVO);
+        PageResult<EventConfigDO> pageResult = agentEventConfigMapper.selectPage(pageReqVO);
         return EventConfigConvert.INSTANCE.convertPage(pageResult);
     }
 
     @Override
     public List<EventConfigRespVO> getEnabledEventConfigList() {
-        List<EventConfigDO> configs = eventConfigMapper.selectListByEnabled(true);
+        List<EventConfigDO> configs = agentEventConfigMapper.selectListByEnabled(true);
         return configs.stream()
                 .map(this::convertToRespVO)
                 .collect(Collectors.toList());
@@ -103,7 +103,7 @@ public class EventConfigServiceImpl implements EventConfigService {
 
     @Override
     public List<EventConfigRespVO> getEnabledEventConfigListByPosition(String matchPosition) {
-        List<EventConfigDO> configs = eventConfigMapper.selectListByMatchPosition(matchPosition);
+        List<EventConfigDO> configs = agentEventConfigMapper.selectListByMatchPosition(matchPosition);
         return configs.stream()
                 .map(this::convertToRespVO)
                 .collect(Collectors.toList());
@@ -115,7 +115,7 @@ public class EventConfigServiceImpl implements EventConfigService {
             return new ArrayList<>();
         }
 
-        List<EventConfigDO> configs = eventConfigMapper.selectListByMatchPosition(position);
+        List<EventConfigDO> configs = agentEventConfigMapper.selectListByMatchPosition(position);
         List<EventConfigDO> matchedConfigs = new ArrayList<>();
 
         for (EventConfigDO config : configs) {

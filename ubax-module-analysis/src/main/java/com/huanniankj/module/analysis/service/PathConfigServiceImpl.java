@@ -2,7 +2,10 @@ package com.huanniankj.module.analysis.service;
 
 import cn.hutool.json.JSONUtil;
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.analysis.controller.admin.vo.*;
+import com.huanniankj.module.analysis.controller.vo.PathConfigPageReqVO;
+import com.huanniankj.module.analysis.controller.vo.PathConfigRespVO;
+import com.huanniankj.module.analysis.controller.vo.PathConfigSaveReqVO;
+import com.huanniankj.module.analysis.controller.vo.PathResultRespVO;
 import com.huanniankj.module.analysis.convert.PathConfigConvert;
 import com.huanniankj.module.analysis.dal.dataobject.PathConfigDO;
 import com.huanniankj.module.analysis.dal.dataobject.PathResultDO;

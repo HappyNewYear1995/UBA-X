@@ -27,7 +27,7 @@ import static com.huanniankj.framework.common.exception.util.ServiceExceptionUti
 import static com.huanniankj.module.infra.enums.ErrorCodeConstants.FILE_NOT_EXISTS;
 
 /**
- * 文件 Service 实现类
+ * 文件服务实现类
  *
  * @author zhaoff
  */

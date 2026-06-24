@@ -19,6 +19,11 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 用户 Convert
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface UserConvert {
 

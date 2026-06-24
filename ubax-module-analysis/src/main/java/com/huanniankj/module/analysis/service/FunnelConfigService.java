@@ -1,10 +1,10 @@
 package com.huanniankj.module.analysis.service;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.analysis.controller.admin.vo.FunnelConfigPageReqVO;
-import com.huanniankj.module.analysis.controller.admin.vo.FunnelConfigRespVO;
-import com.huanniankj.module.analysis.controller.admin.vo.FunnelConfigSaveReqVO;
-import com.huanniankj.module.analysis.controller.admin.vo.FunnelResultRespVO;
+import com.huanniankj.module.analysis.controller.vo.FunnelConfigPageReqVO;
+import com.huanniankj.module.analysis.controller.vo.FunnelConfigRespVO;
+import com.huanniankj.module.analysis.controller.vo.FunnelConfigSaveReqVO;
+import com.huanniankj.module.analysis.controller.vo.FunnelResultRespVO;
 
 import java.time.LocalDate;
 import java.util.List;

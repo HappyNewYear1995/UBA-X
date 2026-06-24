@@ -7,6 +7,11 @@ import com.huanniankj.module.system.controller.sms.vo.template.SmsTemplatePageRe
 import com.huanniankj.module.system.dal.dataobject.sms.SmsTemplateDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 短信模板 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface SmsTemplateMapper extends BaseMapperX<SmsTemplateDO> {
 

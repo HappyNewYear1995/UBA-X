@@ -7,7 +7,12 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
-@Schema(description = "管理后台 - 用户个人信息更新 Request VO")
+/**
+ * 用户个人中心更新密码 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "c")
 @Data
 public class UserProfileUpdateReqVO {
 

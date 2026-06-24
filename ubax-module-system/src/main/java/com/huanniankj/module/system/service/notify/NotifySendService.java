@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 站内信发送 Service 接口
+ * 站内信发送服务接口
  *
  * @author zhaoff
  */

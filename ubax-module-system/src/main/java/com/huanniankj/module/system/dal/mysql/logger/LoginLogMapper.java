@@ -8,6 +8,11 @@ import com.huanniankj.module.system.dal.dataobject.logger.LoginLogDO;
 import com.huanniankj.module.system.enums.logger.LoginResultEnum;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 登录日志 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface LoginLogMapper extends BaseMapperX<LoginLogDO> {
 

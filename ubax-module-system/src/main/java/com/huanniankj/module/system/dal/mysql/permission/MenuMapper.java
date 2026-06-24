@@ -8,6 +8,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 菜单 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface MenuMapper extends BaseMapperX<MenuDO> {
 

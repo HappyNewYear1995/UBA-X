@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 社交用户 Service 接口，例如说社交平台的授权登录
+ * 社交用户服务接口，例如说社交平台的授权登录
  *
  * @author zhaoff
  */

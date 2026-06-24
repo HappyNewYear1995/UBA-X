@@ -34,10 +34,16 @@ import static com.huanniankj.framework.common.exception.util.ServiceExceptionUti
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertList;
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertMap;
 import static com.huanniankj.module.system.dal.dataobject.permission.MenuDO.ID_ROOT;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.MENU_COMPONENT_NAME_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.MENU_EXISTS_CHILDREN;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.MENU_NAME_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.MENU_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.MENU_PARENT_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.MENU_PARENT_NOT_DIR_OR_MENU;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.MENU_PARENT_NOT_EXISTS;
 
 /**
- * 菜单 Service 实现
+ * 菜单服务实现
  *
  * @author zhaoff
  */

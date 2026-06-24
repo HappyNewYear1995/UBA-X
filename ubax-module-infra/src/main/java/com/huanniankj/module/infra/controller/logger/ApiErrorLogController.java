@@ -32,7 +32,12 @@ import static com.huanniankj.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 import static com.huanniankj.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - API 错误日志")
+/**
+ * API 错误日志控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "API 错误日志")
 @RestController
 @RequestMapping("/infra/api-error-log")
 @Validated

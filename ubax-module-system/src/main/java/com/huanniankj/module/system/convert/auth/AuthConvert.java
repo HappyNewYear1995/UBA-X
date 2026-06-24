@@ -29,6 +29,11 @@ import static com.huanniankj.framework.common.util.collection.CollectionUtils.co
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.filterList;
 import static com.huanniankj.module.system.dal.dataobject.permission.MenuDO.ID_ROOT;
 
+/**
+ * 认证 Convert
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface AuthConvert {
 

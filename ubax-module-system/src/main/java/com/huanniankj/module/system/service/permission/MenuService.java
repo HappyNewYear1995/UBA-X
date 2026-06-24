@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 菜单 Service 接口
+ * 菜单服务接口
  *
  * @author zhaoff
  */

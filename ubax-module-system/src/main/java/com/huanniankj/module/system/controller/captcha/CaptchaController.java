@@ -16,7 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "管理后台 - 验证码")
+/**
+ * 验证码控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "验证码")
 @RestController("adminCaptchaController")
 @RequestMapping("/system/captcha")
 public class CaptchaController {

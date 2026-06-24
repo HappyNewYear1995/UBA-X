@@ -10,7 +10,7 @@ import org.quartz.SchedulerException;
 import java.util.List;
 
 /**
- * 定时任务 Service 接口
+ * 定时任务服务接口
  *
  * @author zhaoff
  */

@@ -3,13 +3,17 @@ package com.huanniankj.module.system.controller.dict.vo.data;
 import com.huanniankj.framework.common.enums.CommonStatusEnum;
 import com.huanniankj.framework.common.validation.InEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
-@Schema(description = "管理后台 - 字典数据创建/修改 Request VO")
+/**
+ * 字典数据创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "字典数据创建/修改 Request VO")
 @Data
 public class DictDataSaveReqVO {
 

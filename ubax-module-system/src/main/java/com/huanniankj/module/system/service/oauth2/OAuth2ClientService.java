@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * OAuth2.0 Client Service 接口
+ * OAuth2.0 Client服务接口
  * <p>
  * 从功能上，和 JdbcClientDetailsService 的功能，提供客户端的操作
  *

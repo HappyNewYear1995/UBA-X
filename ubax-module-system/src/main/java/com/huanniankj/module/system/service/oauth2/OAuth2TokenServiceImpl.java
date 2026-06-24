@@ -37,7 +37,7 @@ import static com.huanniankj.framework.common.exception.util.ServiceExceptionUti
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertSet;
 
 /**
- * OAuth2.0 Token Service 实现类
+ * OAuth2.0 Token服务实现类
  *
  * @author zhaoff
  */
@@ -55,7 +55,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     @Resource
     private OAuth2ClientService oauth2ClientService;
-    
+
     @Resource
     @Lazy // 懒加载，避免循环依赖
     private AdminUserService adminUserService;

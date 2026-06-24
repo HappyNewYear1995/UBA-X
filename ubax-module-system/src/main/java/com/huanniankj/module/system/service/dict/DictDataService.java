@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 字典数据 Service 接口
+ * 字典数据服务接口
  *
  * @author zhaoff
  */

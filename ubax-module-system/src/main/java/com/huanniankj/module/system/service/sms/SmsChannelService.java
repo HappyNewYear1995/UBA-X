@@ -10,7 +10,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 短信渠道 Service 接口
+ * 短信渠道服务接口
  *
  * @author zhaoff
  */

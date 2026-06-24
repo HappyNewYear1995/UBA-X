@@ -1,12 +1,16 @@
 package com.huanniankj.module.system.controller.mail.vo.template;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-@Schema(description = "管理后台 - 邮件模版创建/修改 Request VO")
+/**
+ * 邮件模版创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "邮件模版创建/修改 Request VO")
 @Data
 public class MailTemplateSaveReqVO {
 

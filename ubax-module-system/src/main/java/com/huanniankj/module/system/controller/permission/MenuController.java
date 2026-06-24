@@ -30,7 +30,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 菜单")
+/**
+ * 菜单控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "菜单")
 @RestController
 @RequestMapping("/system/menu")
 @Validated

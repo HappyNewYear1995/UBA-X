@@ -20,6 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * OAuth2 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface OAuth2OpenConvert {
 

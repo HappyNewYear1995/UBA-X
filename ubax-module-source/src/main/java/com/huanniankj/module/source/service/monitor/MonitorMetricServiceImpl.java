@@ -7,7 +7,7 @@ import com.huanniankj.module.source.controller.monitor.vo.MonitorMetricSaveReqVO
 import com.huanniankj.module.source.controller.monitor.vo.MonitorStatisticsRespVO;
 import com.huanniankj.module.source.convert.monitor.MonitorMetricConvert;
 import com.huanniankj.module.source.dal.dataobject.monitor.MonitorMetricDO;
-import com.huanniankj.module.source.dal.mysql.event.EventMapper;
+import com.huanniankj.module.source.dal.mysql.event.AgentEventMapper;
 import com.huanniankj.module.source.dal.mysql.monitor.MonitorMetricMapper;
 import com.huanniankj.module.source.enums.event.EventLevelEnum;
 import com.huanniankj.module.source.enums.monitor.MetricTypeEnum;
@@ -39,7 +39,7 @@ public class MonitorMetricServiceImpl implements MonitorMetricService {
     private MonitorMetricMapper monitorMetricMapper;
 
     @Resource
-    private EventMapper eventMapper;
+    private AgentEventMapper agentEventMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -93,7 +93,7 @@ public class MonitorMetricServiceImpl implements MonitorMetricService {
         // 统计各事件级别数量
         Map<Integer, Long> eventLevelCountMap = new HashMap<>();
         for (EventLevelEnum level : EventLevelEnum.values()) {
-            Long count = eventMapper.selectCountByAgentUuidAndLevel(agentUuid, level.getLevel());
+            Long count = agentEventMapper.selectCountByAgentUuidAndLevel(agentUuid, level.getLevel());
             eventLevelCountMap.put(level.getLevel(), count);
         }
         statistics.setEventLevelCountMap(eventLevelCountMap);

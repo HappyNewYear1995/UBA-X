@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 角色 Service 接口
+ * 角色服务接口
  *
  * @author zhaoff
  */

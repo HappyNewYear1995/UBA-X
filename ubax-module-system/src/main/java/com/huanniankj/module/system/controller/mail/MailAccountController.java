@@ -29,7 +29,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 邮箱账号")
+/**
+ * 邮箱账号控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "邮箱账号")
 @RestController
 @RequestMapping("/system/mail-account")
 public class MailAccountController {

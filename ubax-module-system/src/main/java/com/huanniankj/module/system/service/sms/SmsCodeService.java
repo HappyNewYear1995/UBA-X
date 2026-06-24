@@ -7,7 +7,7 @@ import com.huanniankj.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
 import jakarta.validation.Valid;
 
 /**
- * 短信验证码 Service 接口
+ * 短信验证码服务接口
  *
  * @author zhaoff
  */

@@ -5,7 +5,12 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 数据源配置 Response VO")
+/**
+ * 数据源配置 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "数据源配置 Response VO")
 @Data
 public class DataSourceConfigRespVO {
 

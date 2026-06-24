@@ -8,7 +8,12 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Schema(description = "管理后台 - 字典类型分页列表 Request VO")
+/**
+ * 字典类型分页列表 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "字典类型分页列表 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class DictDataPageReqVO extends PageParam {

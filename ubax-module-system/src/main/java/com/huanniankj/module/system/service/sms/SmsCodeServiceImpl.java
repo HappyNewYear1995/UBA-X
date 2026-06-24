@@ -22,7 +22,7 @@ import static com.huanniankj.framework.common.util.date.DateUtils.isToday;
 import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
 
 /**
- * 短信验证码 Service 实现类
+ * 短信验证码服务实现类
  *
  * @author zhaoff
  */

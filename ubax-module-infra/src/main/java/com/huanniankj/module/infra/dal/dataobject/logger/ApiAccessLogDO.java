@@ -146,7 +146,7 @@ public class ApiAccessLogDO extends BaseDO {
      * 目前使用的 {@link CommonResult#getCode()} 属性
      */
     private Integer resultCode;
-    
+
     /**
      * 结果提示
      * <p>

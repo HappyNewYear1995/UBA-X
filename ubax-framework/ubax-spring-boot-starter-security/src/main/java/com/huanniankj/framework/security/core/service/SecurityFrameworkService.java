@@ -1,7 +1,7 @@
 package com.huanniankj.framework.security.core.service;
 
 /**
- * Security 框架 Service 接口，定义权限相关的校验操作
+ * Security 框架服务接口，定义权限相关的校验操作
  *
  * @author zhaoff
  */

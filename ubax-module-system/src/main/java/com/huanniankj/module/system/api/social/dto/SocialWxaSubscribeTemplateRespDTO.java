@@ -2,7 +2,6 @@ package com.huanniankj.module.system.api.social.dto;
 
 import lombok.Data;
 
-
 /**
  * 小程序订阅消息模版 Response DTO
  *

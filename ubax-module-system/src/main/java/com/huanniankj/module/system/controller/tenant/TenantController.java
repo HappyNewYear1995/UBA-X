@@ -37,7 +37,12 @@ import static com.huanniankj.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertList;
 
-@Tag(name = "管理后台 - 租户")
+/**
+ * 租户控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "租户")
 @RestController
 @RequestMapping("/system/tenant")
 public class TenantController {

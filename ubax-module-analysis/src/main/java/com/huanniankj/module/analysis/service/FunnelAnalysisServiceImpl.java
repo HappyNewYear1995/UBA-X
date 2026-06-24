@@ -5,8 +5,8 @@ import com.huanniankj.module.analysis.controller.vo.FunnelAnalysisReqVO;
 import com.huanniankj.module.analysis.controller.vo.FunnelAnalysisRespVO;
 import com.huanniankj.module.analysis.dal.clickhouse.EventAnalysisMapper;
 import com.huanniankj.module.analysis.dal.dataobject.EventAnalysisDO;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,11 +24,22 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FunnelAnalysisServiceImpl implements FunnelAnalysisService {
 
-    @Resource
+    @Autowired(required = false)
     private EventAnalysisMapper eventAnalysisMapper;
 
     @Override
     public FunnelAnalysisRespVO analyzeFunnel(FunnelAnalysisReqVO reqVO) {
+        if (eventAnalysisMapper == null) {
+            log.warn("ClickHouse 数据源未配置，漏斗分析不可用");
+            return FunnelAnalysisRespVO.builder()
+                    .steps(Collections.emptyList())
+                    .totalUsers(0L)
+                    .finalConversionRate(0.0)
+                    .avgConversionRate(0.0)
+                    .avgDuration(0.0)
+                    .build();
+        }
+
         List<String> steps = reqVO.getSteps();
         if (steps == null || steps.isEmpty()) {
             return FunnelAnalysisRespVO.builder()

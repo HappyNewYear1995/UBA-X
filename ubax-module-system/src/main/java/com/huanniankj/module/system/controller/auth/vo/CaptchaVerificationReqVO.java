@@ -4,7 +4,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 验证码 Request VO")
+/**
+ * 验证码 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "验证码 Request VO")
 @Data
 public class CaptchaVerificationReqVO {
 

@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 邮箱账号 Service 接口
+ * 邮箱账号服务接口
  *
  * @author zhaoff
  */

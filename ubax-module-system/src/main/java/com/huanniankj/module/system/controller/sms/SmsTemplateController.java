@@ -35,7 +35,12 @@ import java.util.List;
 import static com.huanniankj.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 短信模板")
+/**
+ * 短信模板控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "短信模板")
 @RestController
 @RequestMapping("/system/sms-template")
 public class SmsTemplateController {

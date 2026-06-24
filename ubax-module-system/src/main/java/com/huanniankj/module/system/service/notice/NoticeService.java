@@ -8,7 +8,7 @@ import com.huanniankj.module.system.dal.dataobject.notice.NoticeDO;
 import java.util.List;
 
 /**
- * 通知公告 Service 接口
+ * 通知公告服务接口
  *
  * @author zhaoff
  */

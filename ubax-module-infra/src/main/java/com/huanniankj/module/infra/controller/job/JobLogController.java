@@ -29,7 +29,12 @@ import java.util.List;
 import static com.huanniankj.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 定时任务日志")
+/**
+ * 定时任务日志控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "定时任务日志")
 @RestController
 @RequestMapping("/infra/job-log")
 @Validated

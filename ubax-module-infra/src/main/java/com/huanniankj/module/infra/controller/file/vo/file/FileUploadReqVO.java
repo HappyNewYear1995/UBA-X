@@ -8,7 +8,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-@Schema(description = "管理后台 - 上传文件 Request VO")
+/**
+ * 上传文件 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "上传文件 Request VO")
 @Data
 public class FileUploadReqVO {
 

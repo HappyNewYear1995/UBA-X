@@ -159,5 +159,5 @@ public class QiniuSmsClient extends AbstractSmsClient {
                 throw new IllegalArgumentException(String.format("未知审核状态(%str)", templateStatus));
         }
     }
-    
+
 }

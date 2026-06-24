@@ -12,6 +12,11 @@ import org.springframework.lang.Nullable;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 角色 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface RoleMapper extends BaseMapperX<RoleDO> {
 

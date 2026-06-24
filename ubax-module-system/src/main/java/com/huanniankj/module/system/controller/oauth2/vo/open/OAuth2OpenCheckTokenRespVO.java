@@ -8,7 +8,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Schema(description = "管理后台 - 【开放接口】校验令牌 Response VO")
+/**
+ * 校验令牌 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "【开放接口】校验令牌 Response VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

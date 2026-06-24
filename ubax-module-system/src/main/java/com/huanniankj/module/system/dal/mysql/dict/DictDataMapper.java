@@ -12,6 +12,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 字典数据 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface DictDataMapper extends BaseMapperX<DictDataDO> {
 

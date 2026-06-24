@@ -1,10 +1,10 @@
 package com.huanniankj.module.analysis.service;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.analysis.controller.admin.vo.RetentionConfigPageReqVO;
-import com.huanniankj.module.analysis.controller.admin.vo.RetentionConfigRespVO;
-import com.huanniankj.module.analysis.controller.admin.vo.RetentionConfigSaveReqVO;
-import com.huanniankj.module.analysis.controller.admin.vo.RetentionResultRespVO;
+import com.huanniankj.module.analysis.controller.vo.RetentionConfigPageReqVO;
+import com.huanniankj.module.analysis.controller.vo.RetentionConfigRespVO;
+import com.huanniankj.module.analysis.controller.vo.RetentionConfigSaveReqVO;
+import com.huanniankj.module.analysis.controller.vo.RetentionResultRespVO;
 
 import java.time.LocalDate;
 import java.util.List;

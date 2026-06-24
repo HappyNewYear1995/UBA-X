@@ -31,7 +31,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 通知公告")
+/**
+ * 通知公告控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "通知公告")
 @RestController
 @RequestMapping("/system/notice")
 @Validated

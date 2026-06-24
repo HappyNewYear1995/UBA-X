@@ -4,7 +4,12 @@ import com.huanniankj.framework.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 定时任务分页 Request VO")
+/**
+ * 定时任务分页 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "定时任务分页 Request VO")
 @Data
 public class JobPageReqVO extends PageParam {
 

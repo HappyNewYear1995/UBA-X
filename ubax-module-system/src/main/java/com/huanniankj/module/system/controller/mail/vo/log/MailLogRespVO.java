@@ -7,7 +7,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-@Schema(description = "管理后台 - 邮件日志 Response VO")
+/**
+ * 邮件日志 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "邮件日志 Response VO")
 @Data
 public class MailLogRespVO {
 

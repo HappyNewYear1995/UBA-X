@@ -16,11 +16,10 @@
         <module>ubax-module-system</module>
         <module>ubax-module-infra</module>
         <module>ubax-module-source</module>
-
-        <module>ubax-module-collect</module>
-        <module>ubax-module-storage</module>
+        <module>ubax-module-processing</module>
         <module>ubax-module-analysis</module>
-        <module>ubax-module-flink</module>
+        <module>ubax-module-app</module>
+
     </modules>
 
     <name>${project.artifactId}</name>

@@ -5,8 +5,8 @@ import com.huanniankj.module.analysis.controller.vo.RetentionAnalysisReqVO;
 import com.huanniankj.module.analysis.controller.vo.RetentionAnalysisRespVO;
 import com.huanniankj.module.analysis.dal.clickhouse.EventAnalysisMapper;
 import com.huanniankj.module.analysis.dal.dataobject.EventAnalysisDO;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,7 +27,7 @@ import java.util.*;
 @Slf4j
 public class RetentionAnalysisServiceImpl implements RetentionAnalysisService {
 
-    @Resource
+    @Autowired(required = false)
     private EventAnalysisMapper eventAnalysisMapper;
 
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("MM-dd");
@@ -35,6 +35,14 @@ public class RetentionAnalysisServiceImpl implements RetentionAnalysisService {
 
     @Override
     public RetentionAnalysisRespVO analyzeRetention(RetentionAnalysisReqVO reqVO) {
+        if (eventAnalysisMapper == null) {
+            log.warn("ClickHouse 数据源未配置，留存分析不可用");
+            return RetentionAnalysisRespVO.builder()
+                    .trend(Collections.emptyList())
+                    .table(Collections.emptyList())
+                    .build();
+        }
+
         LocalDateTime startTime = reqVO.getStartTime();
         LocalDateTime endTime = reqVO.getEndTime();
 

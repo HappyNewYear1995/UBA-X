@@ -7,6 +7,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 社交用户的绑定 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface SocialUserBindMapper extends BaseMapperX<SocialUserBindDO> {
 

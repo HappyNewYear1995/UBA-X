@@ -6,7 +6,12 @@ import lombok.Data;
 
 import java.util.Map;
 
-@Schema(description = "管理后台 - 短信模板的发送 Request VO")
+/**
+ * 短信模板的发送 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "短信模板的发送 Request VO")
 @Data
 public class SmsTemplateSendReqVO {
 

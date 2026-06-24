@@ -20,7 +20,7 @@ import java.util.Objects;
 import static cn.hutool.core.exceptions.ExceptionUtil.getRootCauseMessage;
 
 /**
- * 邮件日志 Service 实现类
+ * 邮件日志服务实现类
  *
  * @author zhaoff
  */

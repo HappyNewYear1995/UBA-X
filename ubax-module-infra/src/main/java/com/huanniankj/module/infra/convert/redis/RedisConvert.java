@@ -8,6 +8,11 @@ import org.mapstruct.factory.Mappers;
 import java.util.ArrayList;
 import java.util.Properties;
 
+/**
+ * Redis Convert
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface RedisConvert {
 

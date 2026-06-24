@@ -18,7 +18,12 @@ import java.util.Properties;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - Redis 监控")
+/**
+ * Redis 监控控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "Redis 监控")
 @RestController
 @RequestMapping("/infra/redis")
 public class RedisController {

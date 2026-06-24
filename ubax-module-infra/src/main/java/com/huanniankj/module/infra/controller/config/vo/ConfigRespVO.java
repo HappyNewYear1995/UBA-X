@@ -10,7 +10,12 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 参数配置信息 Response VO")
+/**
+ * 参数配置信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "参数配置信息 Response VO")
 @Data
 @ExcelIgnoreUnannotated
 public class ConfigRespVO {

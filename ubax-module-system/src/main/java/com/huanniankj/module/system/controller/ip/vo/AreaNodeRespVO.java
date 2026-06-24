@@ -5,7 +5,12 @@ import lombok.Data;
 
 import java.util.List;
 
-@Schema(description = "管理后台 - 地区节点 Response VO")
+/**
+ * 地区节点 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "地区节点 Response VO")
 @Data
 public class AreaNodeRespVO {
 

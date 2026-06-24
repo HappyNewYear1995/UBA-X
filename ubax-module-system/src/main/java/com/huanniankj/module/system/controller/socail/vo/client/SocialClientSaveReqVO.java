@@ -1,19 +1,24 @@
 package com.huanniankj.module.system.controller.socail.vo.client;
 
 import cn.hutool.core.util.StrUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.huanniankj.framework.common.enums.CommonStatusEnum;
 import com.huanniankj.framework.common.enums.UserTypeEnum;
 import com.huanniankj.framework.common.validation.InEnum;
 import com.huanniankj.module.system.enums.social.SocialTypeEnum;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
 import java.util.Objects;
 
-@Schema(description = "管理后台 - 社交客户端创建/修改 Request VO")
+/**
+ * 社交客户端创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "社交客户端创建/修改 Request VO")
 @Data
 public class SocialClientSaveReqVO {
 

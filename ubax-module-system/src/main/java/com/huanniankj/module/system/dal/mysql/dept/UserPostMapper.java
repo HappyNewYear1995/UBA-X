@@ -9,6 +9,11 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 用户岗位 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface UserPostMapper extends BaseMapperX<UserPostDO> {
 

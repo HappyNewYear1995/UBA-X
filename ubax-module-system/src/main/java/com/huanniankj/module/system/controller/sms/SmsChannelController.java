@@ -29,7 +29,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 短信渠道")
+/**
+ * 短信渠道控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "短信渠道")
 @RestController
 @RequestMapping("system/sms-channel")
 public class SmsChannelController {

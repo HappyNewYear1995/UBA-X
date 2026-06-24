@@ -25,7 +25,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - OAuth2.0 令牌")
+/**
+ * OAuth2.0 令牌控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "OAuth2.0 令牌")
 @RestController
 @RequestMapping("/system/oauth2-token")
 public class OAuth2TokenController {

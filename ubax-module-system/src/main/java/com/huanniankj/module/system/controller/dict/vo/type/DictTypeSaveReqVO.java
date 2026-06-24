@@ -6,7 +6,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 字典类型创建/修改 Request VO")
+/**
+ * 字典类型创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "字典类型创建/修改 Request VO")
 @Data
 public class DictTypeSaveReqVO {
 

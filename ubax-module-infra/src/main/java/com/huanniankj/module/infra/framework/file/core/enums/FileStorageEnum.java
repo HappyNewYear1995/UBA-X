@@ -41,7 +41,7 @@ public enum FileStorageEnum {
      * 配置类
      */
     private final Class<? extends FileClientConfig> configClass;
-    
+
     /**
      * 客户端类
      */

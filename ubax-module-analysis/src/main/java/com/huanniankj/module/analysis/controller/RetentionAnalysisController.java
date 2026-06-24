@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author zhaoff
  */
-@Tag(name = "管理后台 - 留存分析", description = "用于分析用户在后续时间的留存情况")
+@Tag(name = "留存分析", description = "用于分析用户在后续时间的留存情况")
 @RestController
 @RequestMapping("/analysis/retention")
 @Validated

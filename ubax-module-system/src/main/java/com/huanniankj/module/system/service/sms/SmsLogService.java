@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
- * 短信日志 Service 接口
+ * 短信日志服务接口
  *
  * @author zhaoff
  */

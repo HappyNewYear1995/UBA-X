@@ -35,7 +35,12 @@ import java.util.List;
 import static com.huanniankj.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 字典类型")
+/**
+ * 字典类型控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "字典类型")
 @RestController
 @RequestMapping("/system/dict-type")
 @Validated

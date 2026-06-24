@@ -6,7 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Schema(description = "管理后台 - 【开放接口】访问令牌 Response VO")
+/**
+ * 访问令牌 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "【开放接口】访问令牌 Response VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

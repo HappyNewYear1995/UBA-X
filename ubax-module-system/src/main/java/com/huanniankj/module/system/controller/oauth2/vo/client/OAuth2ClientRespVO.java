@@ -6,7 +6,12 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "管理后台 - OAuth2 客户端 Response VO")
+/**
+ * OAuth2 客户端 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "OAuth2 客户端 Response VO")
 @Data
 public class OAuth2ClientRespVO {
 

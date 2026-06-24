@@ -7,7 +7,12 @@ import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 短信渠道 Response VO")
+/**
+ * 短信渠道 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "短信渠道 Response VO")
 @Data
 public class SmsChannelRespVO {
 

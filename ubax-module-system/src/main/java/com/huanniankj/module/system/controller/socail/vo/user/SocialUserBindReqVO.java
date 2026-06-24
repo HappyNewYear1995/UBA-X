@@ -10,7 +10,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Schema(description = "管理后台 - 社交绑定 Request VO，使用 code 授权码")
+/**
+ * 社交绑定 Request VO，使用 code 授权码
+ *
+ * @author zhaoff
+ */
+@Schema(description = "社交绑定 Request VO，使用 code 授权码")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

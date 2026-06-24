@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * 邮件发送 Service 接口
+ * 邮件发送服务接口
  *
  * @author zhaoff
  */

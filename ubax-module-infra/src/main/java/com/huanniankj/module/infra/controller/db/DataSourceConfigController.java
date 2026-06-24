@@ -26,7 +26,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 数据源配置")
+/**
+ * 数据源配置控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "数据源配置")
 @RestController
 @RequestMapping("/infra/data-source-config")
 @Validated

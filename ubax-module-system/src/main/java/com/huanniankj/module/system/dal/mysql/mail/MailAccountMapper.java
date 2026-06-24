@@ -7,6 +7,11 @@ import com.huanniankj.module.system.controller.mail.vo.account.MailAccountPageRe
 import com.huanniankj.module.system.dal.dataobject.mail.MailAccountDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 邮件账号 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface MailAccountMapper extends BaseMapperX<MailAccountDO> {
 

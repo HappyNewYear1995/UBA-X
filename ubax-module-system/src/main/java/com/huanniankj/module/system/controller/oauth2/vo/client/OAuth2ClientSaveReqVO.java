@@ -11,7 +11,12 @@ import org.hibernate.validator.constraints.URL;
 
 import java.util.List;
 
-@Schema(description = "管理后台 - OAuth2 客户端创建/修改 Request VO")
+/**
+ * OAuth2 客户端创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "OAuth2 客户端创建/修改 Request VO")
 @Data
 public class OAuth2ClientSaveReqVO {
 

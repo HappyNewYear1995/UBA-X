@@ -16,10 +16,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DICT_TYPE_HAS_CHILDREN;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DICT_TYPE_NAME_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DICT_TYPE_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DICT_TYPE_TYPE_DUPLICATE;
 
 /**
- * 字典类型 Service 实现类
+ * 字典类型服务实现类
  *
  * @author zhaoff
  */

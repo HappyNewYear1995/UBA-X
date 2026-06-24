@@ -38,7 +38,12 @@ import java.util.List;
 import static com.huanniankj.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 岗位")
+/**
+ * 岗位控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "岗位")
 @RestController
 @RequestMapping("/system/post")
 @Validated

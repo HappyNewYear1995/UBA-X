@@ -7,6 +7,11 @@ import com.huanniankj.module.system.controller.sms.vo.channel.SmsChannelPageReqV
 import com.huanniankj.module.system.dal.dataobject.sms.SmsChannelDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 短信渠道 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface SmsChannelMapper extends BaseMapperX<SmsChannelDO> {
 

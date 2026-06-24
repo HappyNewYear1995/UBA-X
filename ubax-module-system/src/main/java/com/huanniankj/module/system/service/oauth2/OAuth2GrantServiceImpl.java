@@ -17,7 +17,7 @@ import java.util.List;
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
 
 /**
- * OAuth2 授予 Service 实现类
+ * OAuth2 授予服务实现类
  *
  * @author zhaoff
  */

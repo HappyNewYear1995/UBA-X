@@ -29,7 +29,12 @@ import java.util.List;
 import static com.huanniankj.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - API 访问日志")
+/**
+ * API 访问日志控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "API 访问日志")
 @RestController
 @RequestMapping("/infra/api-access-log")
 @Validated

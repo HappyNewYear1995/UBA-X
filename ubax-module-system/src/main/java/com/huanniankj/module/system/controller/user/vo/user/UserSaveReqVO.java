@@ -18,7 +18,12 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.Set;
 
-@Schema(description = "管理后台 - 用户创建/修改 Request VO")
+/**
+ * 用户创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "用户创建/修改 Request VO")
 @Data
 public class UserSaveReqVO {
 

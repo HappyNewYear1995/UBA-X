@@ -29,7 +29,12 @@ import java.util.List;
 import static com.huanniankj.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 短信日志")
+/**
+ * 短信日志控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "短信日志")
 @RestController
 @RequestMapping("/system/sms-log")
 @Validated

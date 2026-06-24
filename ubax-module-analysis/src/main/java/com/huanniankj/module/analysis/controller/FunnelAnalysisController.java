@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author zhaoff
  */
-@Tag(name = "管理后台 - 漏斗分析", description = "用于分析用户在多步骤流程中的转化和流失情况")
+@Tag(name = "漏斗分析", description = "用于分析用户在多步骤流程中的转化和流失情况")
 @RestController
 @RequestMapping("/analysis/funnel")
 @Validated

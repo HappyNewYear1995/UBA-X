@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author zhaoff
  */
-@Tag(name = "管理后台 - 路径分析", description = "用于分析用户在应用中的行为路径流转")
+@Tag(name = "路径分析", description = "用于分析用户在应用中的行为路径流转")
 @RestController
 @RequestMapping("/analysis/path")
 @Validated

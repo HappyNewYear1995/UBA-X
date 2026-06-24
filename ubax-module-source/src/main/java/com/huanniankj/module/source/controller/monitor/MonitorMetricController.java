@@ -28,7 +28,7 @@ import static com.huanniankj.framework.common.util.date.DateUtils.FORMAT_YEAR_MO
  *
  * @author zhaoff
  */
-@Tag(name = "管理后台 - 运行监控", description = "Agent 运行监控接口")
+@Tag(name = "运行监控", description = "Agent 运行监控接口")
 @RestController
 @RequestMapping("/gather/monitor")
 @Validated

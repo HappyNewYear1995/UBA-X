@@ -3,6 +3,11 @@ package com.huanniankj.module.infra.enums.config;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 配置类型枚举
+ *
+ * @author zhaoff
+ */
 @Getter
 @AllArgsConstructor
 public enum ConfigTypeEnum {

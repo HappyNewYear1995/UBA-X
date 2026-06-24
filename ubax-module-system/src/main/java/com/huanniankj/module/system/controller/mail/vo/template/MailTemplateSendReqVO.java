@@ -8,7 +8,12 @@ import lombok.Data;
 import java.util.List;
 import java.util.Map;
 
-@Schema(description = "管理后台 - 邮件发送 Req VO")
+/**
+ * 邮件发送 Req VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "邮件发送 Req VO")
 @Data
 public class MailTemplateSendReqVO {
 

@@ -3,7 +3,12 @@ package com.huanniankj.module.system.controller.permission.vo.role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 角色精简信息 Response VO")
+/**
+ * 角色精简信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "角色精简信息 Response VO")
 @Data
 public class RoleSimpleRespVO {
 

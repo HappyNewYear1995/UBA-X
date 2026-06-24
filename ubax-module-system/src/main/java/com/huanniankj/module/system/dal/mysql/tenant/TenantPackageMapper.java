@@ -9,6 +9,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 租户套餐
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface TenantPackageMapper extends BaseMapperX<TenantPackageDO> {
 

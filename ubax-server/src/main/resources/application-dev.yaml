@@ -9,6 +9,7 @@ spring:
     exclude:
       - org.springframework.ai.vectorstore.qdrant.autoconfigure.QdrantVectorStoreAutoConfiguration # 禁用 AI 模块的 Qdrant，手动创建
       - org.springframework.ai.vectorstore.milvus.autoconfigure.MilvusVectorStoreAutoConfiguration # 禁用 AI 模块的 Milvus，手动创建
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration # Kafka 服务未启动时排除
   # 数据源配置项
   datasource:
     druid: # Druid 【监控】相关的全局配置
@@ -45,6 +46,7 @@ spring:
         pool-prepared-statements: true # 是否开启 PreparedStatement 缓存
         max-pool-prepared-statement-per-connection-size: 20 # 每个连接缓存的 PreparedStatement 数量
       primary: master
+      strict: false # 严格匹配数据源，未匹配时回退到默认数据源而非抛异常
       datasource:
         master:
           url: jdbc:mysql://192.168.10.10:3306/uba?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true

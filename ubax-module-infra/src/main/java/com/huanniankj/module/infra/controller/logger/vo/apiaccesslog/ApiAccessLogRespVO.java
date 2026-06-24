@@ -10,7 +10,12 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - API 访问日志 Response VO")
+/**
+ * API 访问日志 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "API 访问日志 Response VO")
 @Data
 @ExcelIgnoreUnannotated
 public class ApiAccessLogRespVO {

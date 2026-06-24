@@ -48,6 +48,7 @@ import static com.huanniankj.framework.common.util.collection.CollectionUtils.co
 import static com.huanniankj.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
 /**
+ * OAuth2.0 授权控制层
  * 提供给外部应用调用为主
  * <p>
  * 一般来说，管理后台的 /system-api/* 是不直接提供给外部应用使用，主要是外部应用能够访问的数据与接口是有限的，而管理后台的 RBAC 无法很好的控制。
@@ -59,7 +60,7 @@ import static com.huanniankj.framework.security.core.util.SecurityFrameworkUtils
  *
  * @author zhaoff
  */
-@Tag(name = "管理后台 - OAuth2.0 授权")
+@Tag(name = "OAuth2.0 授权")
 @RestController
 @RequestMapping("/system/oauth2")
 @Validated

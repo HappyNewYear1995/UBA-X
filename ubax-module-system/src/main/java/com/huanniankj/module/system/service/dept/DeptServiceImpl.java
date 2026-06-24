@@ -29,10 +29,16 @@ import java.util.Set;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertSet;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DEPT_EXITS_CHILDREN;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DEPT_NAME_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DEPT_NOT_ENABLE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DEPT_NOT_FOUND;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DEPT_PARENT_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DEPT_PARENT_IS_CHILD;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DEPT_PARENT_NOT_EXITS;
 
 /**
- * 部门 Service 实现类
+ * 部门服务实现类
  *
  * @author zhaoff
  */

@@ -5,6 +5,11 @@ import com.huanniankj.framework.mybatis.core.query.QueryWrapperX;
 import com.huanniankj.module.system.dal.dataobject.sms.SmsCodeDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 短信验证码 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface SmsCodeMapper extends BaseMapperX<SmsCodeDO> {
 

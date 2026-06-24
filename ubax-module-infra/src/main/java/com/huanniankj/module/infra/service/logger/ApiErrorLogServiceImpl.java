@@ -23,7 +23,7 @@ import static com.huanniankj.module.infra.enums.ErrorCodeConstants.API_ERROR_LOG
 import static com.huanniankj.module.infra.enums.ErrorCodeConstants.API_ERROR_LOG_PROCESSED;
 
 /**
- * API 错误日志 Service 实现类
+ * API 错误日志服务实现类
  *
  * @author zhaoff
  */

@@ -9,7 +9,7 @@ import lombok.Data;
  *
  * @author zhaoff
  */
-@Schema(description = "管理后台 - Agent 更新 Request VO")
+@Schema(description = "Agent 更新 Request VO")
 @Data
 public class AgentUpdateReqVO {
 

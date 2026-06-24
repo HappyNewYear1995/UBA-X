@@ -7,6 +7,11 @@ import com.huanniankj.module.system.controller.sms.vo.log.SmsLogPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.sms.SmsLogDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 短信日志 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface SmsLogMapper extends BaseMapperX<SmsLogDO> {
 

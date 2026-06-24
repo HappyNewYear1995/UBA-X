@@ -8,7 +8,12 @@ import lombok.Data;
 import java.util.List;
 import java.util.Properties;
 
-@Schema(description = "管理后台 - Redis 监控信息 Response VO")
+/**
+ * Redis 监控信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "Redis 监控信息 Response VO")
 @Data
 @Builder
 @AllArgsConstructor

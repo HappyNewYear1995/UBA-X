@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
- * 文件 Service 接口
+ * 文件服务接口
  *
  * @author zhaoff
  */

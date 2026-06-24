@@ -21,10 +21,14 @@ import java.util.List;
 import java.util.Map;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DICT_DATA_NOT_ENABLE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DICT_DATA_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DICT_DATA_VALUE_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DICT_TYPE_NOT_ENABLE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.DICT_TYPE_NOT_EXISTS;
 
 /**
- * 字典数据 Service 实现类
+ * 字典数据服务实现类
  *
  * @author zhaoff
  */

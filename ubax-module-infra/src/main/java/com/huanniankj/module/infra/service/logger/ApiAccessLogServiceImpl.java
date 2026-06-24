@@ -20,7 +20,7 @@ import static com.huanniankj.module.infra.dal.dataobject.logger.ApiAccessLogDO.R
 import static com.huanniankj.module.infra.dal.dataobject.logger.ApiAccessLogDO.RESULT_MSG_MAX_LENGTH;
 
 /**
- * API 访问日志 Service 实现类
+ * API 访问日志服务实现类
  *
  * @author zhaoff
  */

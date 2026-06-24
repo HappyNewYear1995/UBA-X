@@ -4,7 +4,12 @@ import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 岗位信息的精简 Response VO")
+/**
+ * 岗位信息的精简 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "岗位信息的精简 Response VO")
 @Data
 public class PostSimpleRespVO {
 

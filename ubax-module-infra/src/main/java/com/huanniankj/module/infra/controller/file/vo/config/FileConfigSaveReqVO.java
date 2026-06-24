@@ -6,7 +6,12 @@ import lombok.Data;
 
 import java.util.Map;
 
-@Schema(description = "管理后台 - 文件配置创建/修改 Request VO")
+/**
+ * 文件配置创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "文件配置创建/修改 Request VO")
 @Data
 public class FileConfigSaveReqVO {
 

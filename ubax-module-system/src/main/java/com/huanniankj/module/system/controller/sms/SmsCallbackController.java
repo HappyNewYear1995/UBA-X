@@ -17,7 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 短信回调")
+/**
+ * 短信回调控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "短信回调")
 @RestController
 @RequestMapping("/system/sms/callback")
 public class SmsCallbackController {

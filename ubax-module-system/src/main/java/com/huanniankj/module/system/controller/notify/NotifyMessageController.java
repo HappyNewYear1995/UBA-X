@@ -28,7 +28,12 @@ import java.util.List;
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 import static com.huanniankj.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 我的站内信")
+/**
+ * 我的站内信控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "我的站内信")
 @RestController
 @RequestMapping("/system/notify-message")
 @Validated

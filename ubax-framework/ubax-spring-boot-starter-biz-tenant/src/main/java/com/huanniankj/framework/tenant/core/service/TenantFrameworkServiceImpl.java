@@ -12,7 +12,7 @@ import java.time.Duration;
 import java.util.List;
 
 /**
- * Tenant 框架 Service 实现类
+ * Tenant 框架服务实现类
  *
  * @author zhaoff
  */

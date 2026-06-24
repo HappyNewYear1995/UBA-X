@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  *
  * @author zhaoff
  */
-@Schema(description = "管理后台 - 运行监控指标保存请求 VO")
+@Schema(description = "运行监控指标保存请求 VO")
 @Data
 public class MonitorMetricSaveReqVO {
 

@@ -8,7 +8,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Schema(description = "管理后台 - 授权页的信息 Response VO")
+/**
+ * 授权页的信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "授权页的信息 Response VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

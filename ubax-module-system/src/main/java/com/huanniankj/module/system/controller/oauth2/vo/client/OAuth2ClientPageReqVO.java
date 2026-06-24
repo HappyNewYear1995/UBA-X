@@ -6,7 +6,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-@Schema(description = "管理后台 - OAuth2 客户端分页 Request VO")
+/**
+ * OAuth2 客户端分页 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "OAuth2 客户端分页 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)

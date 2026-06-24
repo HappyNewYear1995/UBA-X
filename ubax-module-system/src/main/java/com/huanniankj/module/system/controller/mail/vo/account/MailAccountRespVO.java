@@ -5,7 +5,12 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 邮箱账号 Response VO")
+/**
+ * 邮箱账号 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "邮箱账号 Response VO")
 @Data
 public class MailAccountRespVO {
 

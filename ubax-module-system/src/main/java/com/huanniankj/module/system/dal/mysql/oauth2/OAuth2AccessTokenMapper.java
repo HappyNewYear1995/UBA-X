@@ -11,6 +11,11 @@ import org.apache.ibatis.annotations.Mapper;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * OAuth2 访问令牌 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface OAuth2AccessTokenMapper extends BaseMapperX<OAuth2AccessTokenDO> {
 

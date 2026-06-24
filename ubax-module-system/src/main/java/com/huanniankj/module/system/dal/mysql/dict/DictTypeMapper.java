@@ -11,6 +11,11 @@ import org.apache.ibatis.annotations.Update;
 
 import java.time.LocalDateTime;
 
+/**
+ * 字典类型 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface DictTypeMapper extends BaseMapperX<DictTypeDO> {
 

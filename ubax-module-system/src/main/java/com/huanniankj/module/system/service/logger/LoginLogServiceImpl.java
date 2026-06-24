@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * 登录日志 Service 实现
+ * 登录日志服务实现
  *
  * @author zhaoff
  */

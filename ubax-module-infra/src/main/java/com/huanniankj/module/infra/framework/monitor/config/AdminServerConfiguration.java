@@ -29,7 +29,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableAdminServer
-@ConditionalOnClass(name = "de.codecentric.boot.admin.server.config.AdminServerProperties")// 目的：按需启动 spring boot admin 监控服务
+@ConditionalOnClass(name = "de.codecentric.boot.admin.server.config.AdminServerProperties")
+// 目的：按需启动 spring boot admin 监控服务
 public class AdminServerConfiguration {
 
     @Value("${spring.boot.admin.context-path:''}")

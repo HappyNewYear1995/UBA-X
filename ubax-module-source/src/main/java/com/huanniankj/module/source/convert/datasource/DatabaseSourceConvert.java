@@ -26,7 +26,7 @@ public interface DatabaseSourceConvert {
      * @param bean DO 对象
      * @return RespVO 对象
      */
-    @Mapping(source = "password", target = "password")
+    // @Mapping(source = "password", target = "password")
     DatabaseRespVO convert(DatabaseDO bean);
 
     /**

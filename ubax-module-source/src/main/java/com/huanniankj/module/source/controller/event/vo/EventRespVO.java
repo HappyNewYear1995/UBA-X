@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  *
  * @author zhaoff
  */
-@Schema(description = "管理后台 - 事件响应 VO")
+@Schema(description = "事件响应 VO")
 @Data
 public class EventRespVO {
 

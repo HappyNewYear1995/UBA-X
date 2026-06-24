@@ -2,13 +2,9 @@ package com.huanniankj.module.system.api.social;
 
 import com.huanniankj.module.system.api.social.dto.SocialWxJsapiSignatureRespDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxPhoneNumberInfoRespDTO;
-import com.huanniankj.module.system.api.social.dto.SocialWxQrcodeReqDTO;
-import com.huanniankj.module.system.api.social.dto.SocialWxaOrderNotifyConfirmReceiveReqDTO;
-import com.huanniankj.module.system.api.social.dto.SocialWxaOrderUploadShippingInfoReqDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
 import com.huanniankj.module.system.api.social.dto.SocialWxaSubscribeTemplateRespDTO;
 import com.huanniankj.module.system.enums.social.SocialTypeEnum;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -62,21 +58,5 @@ public interface SocialClientApi {
      * @param reqDTO 请求
      */
     void sendWxaSubscribeMessage(SocialWxaSubscribeMessageSendReqDTO reqDTO);
-
-    /**
-     * 上传订单发货到微信小程序
-     *
-     * @param userType 用户类型
-     * @param reqDTO   请求
-     */
-    void uploadWxaOrderShippingInfo(Integer userType, SocialWxaOrderUploadShippingInfoReqDTO reqDTO);
-
-    /**
-     * 通知订单收货到微信小程序
-     *
-     * @param userType 用户类型
-     * @param reqDTO   请求
-     */
-    void notifyWxaOrderConfirmReceive(Integer userType, SocialWxaOrderNotifyConfirmReceiveReqDTO reqDTO);
 
 }

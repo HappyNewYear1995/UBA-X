@@ -1,7 +1,10 @@
 package com.huanniankj.module.analysis.service;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.analysis.controller.admin.vo.*;
+import com.huanniankj.module.analysis.controller.vo.PathConfigPageReqVO;
+import com.huanniankj.module.analysis.controller.vo.PathConfigRespVO;
+import com.huanniankj.module.analysis.controller.vo.PathConfigSaveReqVO;
+import com.huanniankj.module.analysis.controller.vo.PathResultRespVO;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -21,7 +21,7 @@ import static com.huanniankj.module.system.enums.ErrorCodeConstants.MAIL_ACCOUNT
 import static com.huanniankj.module.system.enums.ErrorCodeConstants.MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS;
 
 /**
- * 邮箱账号 Service 实现类
+ * 邮箱账号服务实现类
  *
  * @author zhaoff
  */

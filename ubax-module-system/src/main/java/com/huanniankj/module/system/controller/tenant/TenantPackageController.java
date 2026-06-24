@@ -30,7 +30,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 租户套餐")
+/**
+ * 租户套餐控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "租户套餐")
 @RestController
 @RequestMapping("/system/tenant-package")
 @Validated

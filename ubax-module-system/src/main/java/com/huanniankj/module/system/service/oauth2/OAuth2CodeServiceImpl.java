@@ -16,7 +16,7 @@ import static com.huanniankj.module.system.enums.ErrorCodeConstants.OAUTH2_CODE_
 import static com.huanniankj.module.system.enums.ErrorCodeConstants.OAUTH2_CODE_NOT_EXISTS;
 
 /**
- * OAuth2.0 授权码 Service 实现类
+ * OAuth2.0 授权码服务实现类
  *
  * @author zhaoff
  */

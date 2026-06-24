@@ -5,7 +5,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 
-@Schema(description = "管理后台 - 短信渠道创建/修改 Request VO")
+/**
+ * 短信渠道创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "短信渠道创建/修改 Request VO")
 @Data
 public class SmsChannelSaveReqVO {
 

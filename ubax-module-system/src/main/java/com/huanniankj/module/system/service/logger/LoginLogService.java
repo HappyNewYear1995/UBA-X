@@ -7,7 +7,9 @@ import com.huanniankj.module.system.dal.dataobject.logger.LoginLogDO;
 import jakarta.validation.Valid;
 
 /**
- * 登录日志 Service 接口
+ * 登录日志服务接口
+ *
+ * @author zhaoff
  */
 public interface LoginLogService {
 

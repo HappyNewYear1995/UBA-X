@@ -20,7 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 邮件日志")
+/**
+ * 邮件日志控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "邮件日志")
 @RestController
 @RequestMapping("/system/mail-log")
 public class MailLogController {

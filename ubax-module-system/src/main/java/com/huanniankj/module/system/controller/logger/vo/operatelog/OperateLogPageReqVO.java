@@ -9,7 +9,12 @@ import java.time.LocalDateTime;
 
 import static com.huanniankj.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 操作日志分页列表 Request VO")
+/**
+ * 操作日志分页列表 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "操作日志分页列表 Request VO")
 @Data
 public class OperateLogPageReqVO extends PageParam {
 

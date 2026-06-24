@@ -3,7 +3,12 @@ package com.huanniankj.module.system.controller.sms.vo.channel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 短信渠道精简 Response VO")
+/**
+ * 短信渠道精简 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "短信渠道精简 Response VO")
 @Data
 public class SmsChannelSimpleRespVO {
 

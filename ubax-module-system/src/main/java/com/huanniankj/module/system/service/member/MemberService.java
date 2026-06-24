@@ -1,7 +1,7 @@
 package com.huanniankj.module.system.service.member;
 
 /**
- * Member Service 接口
+ * Member服务接口
  *
  * @author zhaoff
  */

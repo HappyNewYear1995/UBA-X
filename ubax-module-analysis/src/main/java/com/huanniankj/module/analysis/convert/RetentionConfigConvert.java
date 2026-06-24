@@ -1,8 +1,8 @@
 package com.huanniankj.module.analysis.convert;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.analysis.controller.admin.vo.RetentionConfigRespVO;
-import com.huanniankj.module.analysis.controller.admin.vo.RetentionConfigSaveReqVO;
+import com.huanniankj.module.analysis.controller.vo.RetentionConfigRespVO;
+import com.huanniankj.module.analysis.controller.vo.RetentionConfigSaveReqVO;
 import com.huanniankj.module.analysis.dal.dataobject.RetentionConfigDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

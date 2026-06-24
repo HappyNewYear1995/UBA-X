@@ -7,6 +7,11 @@ import com.huanniankj.module.system.controller.notice.vo.NoticePageReqVO;
 import com.huanniankj.module.system.dal.dataobject.notice.NoticeDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 通知公告 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface NoticeMapper extends BaseMapperX<NoticeDO> {
 

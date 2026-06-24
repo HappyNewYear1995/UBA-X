@@ -11,7 +11,12 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "管理后台 - 短信模板 Response VO")
+/**
+ * 短信模板 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "短信模板 Response VO")
 @Data
 @ExcelIgnoreUnannotated
 public class SmsTemplateRespVO {

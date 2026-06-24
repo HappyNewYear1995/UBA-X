@@ -5,7 +5,12 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-@Schema(description = "管理后台 - 用户个人中心更新密码 Request VO")
+/**
+ * 用户个人中心更新密码 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "用户个人中心更新密码 Request VO")
 @Data
 public class UserProfileUpdatePasswordReqVO {
 

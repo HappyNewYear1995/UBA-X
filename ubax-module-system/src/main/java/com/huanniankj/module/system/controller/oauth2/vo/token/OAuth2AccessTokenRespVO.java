@@ -7,7 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 访问令牌 Response VO")
+/**
+ * 访问令牌 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "访问令牌 Response VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

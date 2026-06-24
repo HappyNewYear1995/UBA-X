@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.huanniankj</groupId>
+  <artifactId>ubax-spring-boot-starter-protection</artifactId>
+  <version>1.0.0</version>
+  <name>ubax-spring-boot-starter-protection</name>
+  <description>服务保证，提供分布式锁、幂等、限流、熔断、API 签名等等功能</description>
+  <url>https://github.com/HappyNewYear1995/UBA-X</url>
+  <dependencies>
+    <dependency>
+      <groupId>com.huanniankj</groupId>
+      <artifactId>ubax-spring-boot-starter-web</artifactId>
+      <version>1.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.huanniankj</groupId>
+      <artifactId>ubax-spring-boot-starter-redis</artifactId>
+      <version>1.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>lock4j-redisson-spring-boot-starter</artifactId>
+      <version>2.2.7</version>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.redisson</groupId>
+          <artifactId>redisson-spring-boot-starter</artifactId>
+        </exclusion>
+      </exclusions>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>huaweicloud</id>
+      <name>huawei</name>
+      <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+    </repository>
+    <repository>
+      <id>aliyunmaven</id>
+      <name>aliyun</name>
+      <url>https://maven.aliyun.com/repository/public</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>https://repo.spring.io/milestone</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <id>spring-snapshots</id>
+      <name>Spring Snapshots</name>
+      <url>https://repo.spring.io/snapshot</url>
+    </repository>
+  </repositories>
+</project>

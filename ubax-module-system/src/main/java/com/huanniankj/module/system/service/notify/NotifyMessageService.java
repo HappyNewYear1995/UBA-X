@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 站内信 Service 接口
+ * 站内信服务接口
  *
  * @author zhaoff
  */

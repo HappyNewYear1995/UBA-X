@@ -16,7 +16,7 @@ import static com.huanniankj.framework.common.util.date.DateUtils.FORMAT_YEAR_MO
  *
  * @author zhaoff
  */
-@Schema(description = "管理后台 - 事件配置分页请求 VO")
+@Schema(description = "事件配置分页请求 VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)

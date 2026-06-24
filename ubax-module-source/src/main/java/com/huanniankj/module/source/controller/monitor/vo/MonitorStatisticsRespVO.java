@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @author zhaoff
  */
-@Schema(description = "管理后台 - 监控统计响应 VO")
+@Schema(description = "监控统计响应 VO")
 @Data
 public class MonitorStatisticsRespVO {
 

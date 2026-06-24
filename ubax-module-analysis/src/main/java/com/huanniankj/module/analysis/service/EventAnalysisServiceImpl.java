@@ -7,10 +7,11 @@ import com.huanniankj.module.analysis.controller.vo.EventAnalysisRespVO;
 import com.huanniankj.module.analysis.dal.dataobject.EventAnalysisDO;
 import com.huanniankj.module.analysis.dal.clickhouse.EventAnalysisMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +19,16 @@ import java.util.Map;
 @Slf4j
 public class EventAnalysisServiceImpl implements EventAnalysisService {
 
-    @Resource
+    @Autowired(required = false)
     private EventAnalysisMapper eventAnalysisMapper;
 
     @Override
     public List<EventAnalysisRespVO> analyzeEvent(EventAnalysisReqVO reqVO) {
+        if (eventAnalysisMapper == null) {
+            log.warn("ClickHouse 数据源未配置，事件分析不可用");
+            return Collections.emptyList();
+        }
+
         String groupBy = StrUtil.isNotBlank(reqVO.getGroupBy()) ? reqVO.getGroupBy() : "stat_hour";
         
         // 注意：实际项目中，对于 groupBy 字段要做白名单校验，防止 SQL 注入！

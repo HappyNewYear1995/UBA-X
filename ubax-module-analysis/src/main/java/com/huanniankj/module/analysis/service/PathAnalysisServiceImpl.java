@@ -5,8 +5,8 @@ import com.huanniankj.module.analysis.controller.vo.PathAnalysisReqVO;
 import com.huanniankj.module.analysis.controller.vo.PathAnalysisRespVO;
 import com.huanniankj.module.analysis.dal.clickhouse.EventAnalysisMapper;
 import com.huanniankj.module.analysis.dal.dataobject.EventAnalysisDO;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,11 +24,20 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PathAnalysisServiceImpl implements PathAnalysisService {
 
-    @Resource
+    @Autowired(required = false)
     private EventAnalysisMapper eventAnalysisMapper;
 
     @Override
     public PathAnalysisRespVO analyzePath(PathAnalysisReqVO reqVO) {
+        if (eventAnalysisMapper == null) {
+            log.warn("ClickHouse 数据源未配置，路径分析不可用");
+            return PathAnalysisRespVO.builder()
+                    .nodes(Collections.emptyList())
+                    .links(Collections.emptyList())
+                    .pathStats(Collections.emptyList())
+                    .build();
+        }
+
         int maxDepth = reqVO.getMaxDepth() != null ? reqVO.getMaxDepth() : 7;
 
         // 查询时间范围内按设备ID和开始时间排序的事件序列

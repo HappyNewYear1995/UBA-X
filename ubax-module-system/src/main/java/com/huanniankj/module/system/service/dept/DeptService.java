@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 部门 Service 接口
+ * 部门服务接口
  *
  * @author zhaoff
  */

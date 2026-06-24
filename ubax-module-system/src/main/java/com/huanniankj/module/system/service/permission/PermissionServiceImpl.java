@@ -41,7 +41,7 @@ import static com.huanniankj.framework.common.util.collection.CollectionUtils.co
 import static com.huanniankj.framework.common.util.json.JsonUtils.toJsonString;
 
 /**
- * 权限 Service 实现类
+ * 权限服务实现类
  *
  * @author zhaoff
  */

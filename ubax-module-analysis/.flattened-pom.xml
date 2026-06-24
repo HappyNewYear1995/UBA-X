@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.huanniankj</groupId>
+  <artifactId>ubax-module-analysis</artifactId>
+  <version>1.0.0</version>
+  <name>ubax-module-analysis</name>
+  <description>数据分析与查询模块，负责将存储层的海量数据通过 OLAP 引擎转换为前端可视化大盘所需的数据指标。</description>
+  <url>https://github.com/HappyNewYear1995/UBA-X/ubax-module-analysis</url>
+  <dependencies>
+    <dependency>
+      <groupId>com.huanniankj</groupId>
+      <artifactId>ubax-spring-boot-starter-web</artifactId>
+      <version>1.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.huanniankj</groupId>
+      <artifactId>ubax-spring-boot-starter-security</artifactId>
+      <version>1.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.huanniankj</groupId>
+      <artifactId>ubax-spring-boot-starter-mybatis</artifactId>
+      <version>1.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-all</artifactId>
+      <version>5.8.25</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.42</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>huaweicloud</id>
+      <name>huawei</name>
+      <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+    </repository>
+    <repository>
+      <id>aliyunmaven</id>
+      <name>aliyun</name>
+      <url>https://maven.aliyun.com/repository/public</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>https://repo.spring.io/milestone</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <id>spring-snapshots</id>
+      <name>Spring Snapshots</name>
+      <url>https://repo.spring.io/snapshot</url>
+    </repository>
+  </repositories>
+</project>

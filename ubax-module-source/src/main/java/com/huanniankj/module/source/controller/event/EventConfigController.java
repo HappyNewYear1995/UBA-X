@@ -24,8 +24,8 @@ import static com.huanniankj.framework.common.pojo.CommonResult.success;
  *
  * @author zhaoff
  */
-@Tag(name = "管理后台 - 事件配置", description = "Agent 事件匹配规则配置接口")
-@RestController
+@Tag(name = "Agent 事件配置", description = "Agent 事件匹配规则配置接口")
+@RestController("sourceEventConfigController")
 @RequestMapping("/gather/event-config")
 @Validated
 public class EventConfigController {

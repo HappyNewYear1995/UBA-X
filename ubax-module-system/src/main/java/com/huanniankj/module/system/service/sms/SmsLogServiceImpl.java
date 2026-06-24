@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 短信日志 Service 实现类
+ * 短信日志服务实现类
  *
  * @author zhaoff
  */

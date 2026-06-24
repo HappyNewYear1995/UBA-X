@@ -7,6 +7,11 @@ import com.huanniankj.module.system.controller.socail.vo.user.SocialUserPageReqV
 import com.huanniankj.module.system.dal.dataobject.social.SocialUserDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 社交（三方）用户 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface SocialUserMapper extends BaseMapperX<SocialUserDO> {
 

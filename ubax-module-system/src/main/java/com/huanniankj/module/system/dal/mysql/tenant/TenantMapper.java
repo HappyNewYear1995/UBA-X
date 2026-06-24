@@ -10,6 +10,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 租户 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface TenantMapper extends BaseMapperX<TenantDO> {
 

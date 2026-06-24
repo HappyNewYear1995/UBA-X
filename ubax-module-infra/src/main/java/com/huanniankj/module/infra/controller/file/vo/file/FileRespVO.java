@@ -5,7 +5,12 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 文件 Response VO,不返回 content 字段，太大")
+/**
+ * 文件 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "文件 Response VO")
 @Data
 public class FileRespVO {
 

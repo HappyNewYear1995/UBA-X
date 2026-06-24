@@ -7,12 +7,14 @@ import com.huanniankj.module.source.enums.event.MatchLogicEnum;
 import com.huanniankj.module.source.enums.event.MatchPositionEnum;
 import com.huanniankj.module.source.enums.event.MatchTypeEnum;
 import lombok.*;
+import org.apache.ibatis.type.Alias;
 
 /**
  * 事件配置 DO
  *
  * @author zhaoff
  */
+@Alias("GatherEventConfigDO")
 @TableName("gather_event_config")
 @Data
 @EqualsAndHashCode(callSuper = true)

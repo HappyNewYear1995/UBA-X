@@ -10,6 +10,11 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
+/**
+ * 配置 Convert
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface ConfigConvert {
 

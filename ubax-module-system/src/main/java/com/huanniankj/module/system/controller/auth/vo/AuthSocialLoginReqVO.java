@@ -3,15 +3,19 @@ package com.huanniankj.module.system.controller.auth.vo;
 import com.huanniankj.framework.common.validation.InEnum;
 import com.huanniankj.module.system.enums.social.SocialTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-
-@Schema(description = "管理后台 - 社交绑定登录 Request VO，使用 code 授权码 + 账号密码")
+/**
+ * 社交绑定登录 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "社交绑定登录 Request VO，使用 code 授权码 + 账号密码")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

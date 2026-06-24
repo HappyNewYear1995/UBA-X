@@ -29,7 +29,12 @@ import java.util.List;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-@Tag(name = "管理后台 - 部门")
+/**
+ * 部门控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "部门")
 @RestController
 @RequestMapping("/system/dept")
 @Validated

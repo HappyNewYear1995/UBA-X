@@ -11,7 +11,7 @@ import com.huanniankj.module.system.dal.dataobject.user.AdminUserDO;
 import jakarta.validation.Valid;
 
 /**
- * 管理后台的认证 Service 接口
+ * 管理后台的认证服务接口
  * <p>
  * 提供用户的登录、登出的能力
  *

@@ -32,7 +32,12 @@ import static com.huanniankj.framework.common.pojo.CommonResult.success;
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertList;
 import static com.huanniankj.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 社交用户")
+/**
+ * 社交用户控制层
+ *
+ * @author zhaoff
+ */
+@Tag(name = "社交用户")
 @RestController
 @RequestMapping("/system/social-user")
 @Validated

@@ -7,6 +7,11 @@ import com.huanniankj.module.system.controller.socail.vo.client.SocialClientPage
 import com.huanniankj.module.system.dal.dataobject.social.SocialClientDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 社交客户端 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface SocialClientMapper extends BaseMapperX<SocialClientDO> {
 

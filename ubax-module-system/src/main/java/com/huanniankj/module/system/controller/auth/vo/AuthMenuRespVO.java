@@ -8,7 +8,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Schema(description = "管理后台 - 登录用户的菜单信息 Response VO")
+/**
+ * 登录用户的菜单信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "登录用户的菜单信息 Response VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

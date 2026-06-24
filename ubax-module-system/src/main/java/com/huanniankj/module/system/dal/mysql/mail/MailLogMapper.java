@@ -9,6 +9,11 @@ import com.huanniankj.module.system.controller.mail.vo.log.MailLogPageReqVO;
 import com.huanniankj.module.system.dal.dataobject.mail.MailLogDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 邮件日志 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface MailLogMapper extends BaseMapperX<MailLogDO> {
 

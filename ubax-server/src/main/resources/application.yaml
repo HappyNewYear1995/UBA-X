@@ -8,6 +8,11 @@ spring:
   main:
     allow-circular-references: true # 允许循环依赖
 
+  # 当 Kafka 服务未启动时，排除 Kafka 自动配置，避免应用启动失败
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+
   # Servlet 配置
   servlet:
     # 文件上传相关配置项

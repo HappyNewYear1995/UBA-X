@@ -11,7 +11,12 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "管理后台 - 租户 Response VO")
+/**
+ * 租户 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "租户 Response VO")
 @Data
 @ExcelIgnoreUnannotated
 public class TenantRespVO {

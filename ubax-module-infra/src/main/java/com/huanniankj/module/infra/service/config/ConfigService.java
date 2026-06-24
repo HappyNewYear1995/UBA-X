@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 参数配置 Service 接口
+ * 参数配置服务接口
  *
  * @author zhaoff
  */

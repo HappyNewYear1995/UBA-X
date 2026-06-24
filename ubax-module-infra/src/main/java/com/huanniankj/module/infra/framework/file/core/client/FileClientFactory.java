@@ -2,6 +2,11 @@ package com.huanniankj.module.infra.framework.file.core.client;
 
 import com.huanniankj.module.infra.framework.file.core.enums.FileStorageEnum;
 
+/**
+ * 文件客户端的工厂接口
+ *
+ * @author zhaoff
+ */
 public interface FileClientFactory {
 
     /**

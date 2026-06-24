@@ -24,10 +24,17 @@ import java.util.Objects;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.containsAny;
-import static com.huanniankj.module.infra.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.infra.enums.ErrorCodeConstants.JOB_CHANGE_STATUS_EQUALS;
+import static com.huanniankj.module.infra.enums.ErrorCodeConstants.JOB_CHANGE_STATUS_INVALID;
+import static com.huanniankj.module.infra.enums.ErrorCodeConstants.JOB_CRON_EXPRESSION_VALID;
+import static com.huanniankj.module.infra.enums.ErrorCodeConstants.JOB_HANDLER_BEAN_NOT_EXISTS;
+import static com.huanniankj.module.infra.enums.ErrorCodeConstants.JOB_HANDLER_BEAN_TYPE_ERROR;
+import static com.huanniankj.module.infra.enums.ErrorCodeConstants.JOB_HANDLER_EXISTS;
+import static com.huanniankj.module.infra.enums.ErrorCodeConstants.JOB_NOT_EXISTS;
+import static com.huanniankj.module.infra.enums.ErrorCodeConstants.JOB_UPDATE_ONLY_NORMAL_STATUS;
 
 /**
- * 定时任务 Service 实现类
+ * 定时任务服务实现类
  *
  * @author zhaoff
  */

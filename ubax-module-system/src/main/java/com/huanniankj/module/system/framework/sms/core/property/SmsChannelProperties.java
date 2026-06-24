@@ -46,7 +46,7 @@ public class SmsChannelProperties {
      */
     @NotEmpty(message = "短信 API 的密钥不能为空")
     private String apiSecret;
-    
+
     /**
      * 短信发送回调 URL
      */

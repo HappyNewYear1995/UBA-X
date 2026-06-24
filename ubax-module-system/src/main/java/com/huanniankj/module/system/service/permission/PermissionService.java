@@ -8,7 +8,7 @@ import java.util.Set;
 import static java.util.Collections.singleton;
 
 /**
- * 权限 Service 接口
+ * 权限服务接口
  * <p>
  * 提供用户-角色、角色-菜单、角色-部门的关联权限处理
  *

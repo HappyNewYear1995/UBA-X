@@ -16,7 +16,7 @@ import static com.huanniankj.framework.common.exception.util.ServiceExceptionUti
 import static com.huanniankj.module.system.enums.ErrorCodeConstants.NOTICE_NOT_FOUND;
 
 /**
- * 通知公告 Service 实现类
+ * 通知公告服务实现类
  *
  * @author zhaoff
  */

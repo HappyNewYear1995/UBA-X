@@ -3,12 +3,16 @@ package com.huanniankj.module.system.controller.notify.vo.template;
 import com.huanniankj.framework.common.enums.CommonStatusEnum;
 import com.huanniankj.framework.common.validation.InEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-@Schema(description = "管理后台 - 站内信模版创建/修改 Request VO")
+/**
+ * 站内信模版创建/修改 Request VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "站内信模版创建/修改 Request VO")
 @Data
 public class NotifyTemplateSaveReqVO {
 

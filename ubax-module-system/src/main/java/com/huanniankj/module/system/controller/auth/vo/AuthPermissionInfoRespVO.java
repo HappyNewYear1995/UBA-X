@@ -9,7 +9,12 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Set;
 
-@Schema(description = "管理后台 - 登录用户的权限信息 Response VO，额外包括用户信息和角色列表")
+/**
+ * 登录用户的权限信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "登录用户的权限信息 Response VO，额外包括用户信息和角色列表")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -55,7 +60,7 @@ public class AuthPermissionInfoRespVO {
 
     }
 
-    @Schema(description = "管理后台 - 登录用户的菜单信息 Response VO")
+    @Schema(description = "登录用户的菜单信息 Response VO")
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

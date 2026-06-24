@@ -37,11 +37,22 @@ import java.util.Set;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static com.huanniankj.framework.common.util.collection.CollectionUtils.convertMap;
-import static com.huanniankj.module.system.enums.ErrorCodeConstants.*;
-import static com.huanniankj.module.system.enums.LogRecordConstants.*;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.ROLE_ADMIN_CODE_ERROR;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.ROLE_CODE_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.ROLE_IS_DISABLE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.ROLE_NAME_DUPLICATE;
+import static com.huanniankj.module.system.enums.ErrorCodeConstants.ROLE_NOT_EXISTS;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_ROLE_CREATE_SUB_TYPE;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_ROLE_CREATE_SUCCESS;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_ROLE_DELETE_SUB_TYPE;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_ROLE_DELETE_SUCCESS;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_ROLE_TYPE;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_ROLE_UPDATE_SUB_TYPE;
+import static com.huanniankj.module.system.enums.LogRecordConstants.SYSTEM_ROLE_UPDATE_SUCCESS;
 
 /**
- * 角色 Service 实现类
+ * 角色服务实现类
  *
  * @author zhaoff
  */

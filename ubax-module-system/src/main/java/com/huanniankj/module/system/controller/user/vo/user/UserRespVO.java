@@ -11,7 +11,12 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Schema(description = "管理后台 - 用户信息 Response VO")
+/**
+ * 用户信息 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "用户信息 Response VO")
 @Data
 @ExcelIgnoreUnannotated
 public class UserRespVO {

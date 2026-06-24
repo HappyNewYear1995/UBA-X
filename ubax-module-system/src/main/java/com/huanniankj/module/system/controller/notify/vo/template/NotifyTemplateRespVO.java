@@ -6,7 +6,12 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "管理后台 - 站内信模版 Response VO")
+/**
+ * 站内信模版 Response VO
+ *
+ * @author zhaoff
+ */
+@Schema(description = "站内信模版 Response VO")
 @Data
 public class NotifyTemplateRespVO {
 

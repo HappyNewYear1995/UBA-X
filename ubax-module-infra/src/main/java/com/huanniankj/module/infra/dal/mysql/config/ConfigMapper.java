@@ -7,6 +7,11 @@ import com.huanniankj.module.infra.controller.config.vo.ConfigPageReqVO;
 import com.huanniankj.module.infra.dal.dataobject.config.ConfigDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * 配置 Mapper
+ *
+ * @author zhaoff
+ */
 @Mapper
 public interface ConfigMapper extends BaseMapperX<ConfigDO> {
 

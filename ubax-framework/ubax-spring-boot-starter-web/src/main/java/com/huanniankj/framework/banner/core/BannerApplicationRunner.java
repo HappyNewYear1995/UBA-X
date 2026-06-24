@@ -24,11 +24,14 @@ public class BannerApplicationRunner implements ApplicationRunner {
                     "项目启动成功！\n\t" +
                     "----------------------------------------------------------");
 
-            // source 模块
             if (isNotPresent("com.huanniankj.module.source.framework.security.config.SecurityConfiguration")) {
-                System.out.println("[采集模块 ubax-module-source - 已禁用]");
+                System.out.println("[数据源模块 ubax-module-source - 已禁用]");
+            } else if (isNotPresent("com.huanniankj.module.processing.framework.security.config.SecurityConfiguration")) {
+                System.out.println("[数据处理模块 ubax-module-processing - 已禁用]");
             } else if (isNotPresent("com.huanniankj.module.analysis.framework.security.config.SecurityConfiguration")) {
-                System.out.println("[采集模块 ubax-module-analysis - 已禁用]");
+                System.out.println("[数据分析模块 ubax-module-analysis - 已禁用]");
+            } else if (isNotPresent("com.huanniankj.module.app.framework.security.config.SecurityConfiguration")) {
+                System.out.println("[数据应用模块 ubax-module-app - 已禁用]");
             }
         });
     }
