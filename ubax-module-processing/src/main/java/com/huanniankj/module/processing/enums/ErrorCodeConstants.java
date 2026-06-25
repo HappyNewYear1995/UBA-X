@@ -3,7 +3,7 @@ package com.huanniankj.module.processing.enums;
 import com.huanniankj.framework.common.exception.ErrorCode;
 
 /**
- * 数据采集模块错误码常量
+ * 数据处理模块错误码常量
  * <p>
  * collect 模块，使用 1-103-000-000 段
  *

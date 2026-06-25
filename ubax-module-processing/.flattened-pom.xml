@@ -6,7 +6,7 @@
   <artifactId>ubax-module-processing</artifactId>
   <version>1.0.0</version>
   <name>ubax-module-processing</name>
-  <description>数据采集模块，负责接收各端 SDK 上报的事件和属性数据，进行基础的数据校验、IP解析、清洗，并下发到消息队列。</description>
+  <description>数据处理模块</description>
   <url>https://github.com/HappyNewYear1995/UBA-X/ubax-module-processing</url>
   <dependencies>
     <dependency>

@@ -1,9 +1,9 @@
 package com.huanniankj.module.analysis.convert;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.analysis.controller.vo.PathConfigRespVO;
-import com.huanniankj.module.analysis.controller.vo.PathConfigSaveReqVO;
-import com.huanniankj.module.analysis.dal.dataobject.PathConfigDO;
+import com.huanniankj.module.analysis.controller.path.vo.PathConfigRespVO;
+import com.huanniankj.module.analysis.controller.path.vo.PathConfigSaveReqVO;
+import com.huanniankj.module.analysis.dal.dataobject.path.PathConfigDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

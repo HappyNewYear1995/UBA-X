@@ -1,0 +1,1 @@
+﻿[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

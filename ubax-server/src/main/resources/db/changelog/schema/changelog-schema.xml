@@ -1487,11 +1487,12 @@
         </sql>
     </changeSet>
 
-    <changeSet id="schema-20260623-001" author="zhaoff">
+    <changeSet id="schema-20260623-001" author="zhaoff" runOnChange="true">
+        <preConditions onFail="MARK_RAN"><not><tableExists tableName="processing_clean_pipeline"/></not></preConditions>
         <comment>数据分析</comment>
         <sql>
             <![CDATA[
-            CREATE TABLE `collect_clean_pipeline` (
+            CREATE TABLE `processing_clean_pipeline` (
                                                       `id` bigint NOT NULL COMMENT '管道 ID',
                                                       `name` varchar(100) NOT NULL COMMENT '管道名称',
                                                       `type` varchar(32) DEFAULT NULL COMMENT '管道类型（format_convert/data_clean/data_map/data_filter）',
@@ -1510,7 +1511,7 @@
                                                       PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='清洗管道表';
 
-            CREATE TABLE `collect_error_log` (
+            CREATE TABLE `processing_error_log` (
                                                  `id` bigint NOT NULL COMMENT '日志 ID',
                                                  `error_type` varchar(32) NOT NULL COMMENT '异常类型（format_error/duplicate_data/invalid_char/timestamp_error/other）',
                                                  `source` varchar(100) DEFAULT NULL COMMENT '数据来源',
@@ -1531,7 +1532,7 @@
                                                  KEY `idx_status` (`status`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='异常日志表';
 
-            CREATE TABLE `collect_data_log` (
+            CREATE TABLE `processing_data_log` (
                                                 `id` bigint NOT NULL COMMENT '日志 ID',
                                                 `log_id` varchar(64) DEFAULT NULL COMMENT '日志唯一标识',
                                                 `app_id` varchar(64) DEFAULT NULL COMMENT '来源应用标识',
@@ -1560,11 +1561,12 @@
         </sql>
     </changeSet>
 
-    <changeSet id="schema-20260623-002" author="zhaoff">
+    <changeSet id="schema-20260623-002" author="zhaoff" runOnChange="true">
+        <preConditions onFail="MARK_RAN"><not><tableExists tableName="processing_event"/></not></preConditions>
         <comment>数据分析</comment>
         <sql>
             <![CDATA[
-            CREATE TABLE `collect_event` (
+            CREATE TABLE `processing_event` (
                                              `id` bigint NOT NULL COMMENT '事件 ID',
                                              `name` varchar(100) NOT NULL COMMENT '事件名称',
                                              `code` varchar(64) NOT NULL COMMENT '事件编码（唯一标识）',
@@ -1584,6 +1586,287 @@
                                              PRIMARY KEY (`id`),
                                              UNIQUE KEY `uk_code` (`code`,`deleted`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='采集事件表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260624-001" author="zhaoff">
+        <comment>数据应用模块 - 告警规则表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE `app_alert_rule` (
+                `id` bigint NOT NULL COMMENT '规则ID',
+                `name` varchar(100) NOT NULL COMMENT '规则名称',
+                `alert_type` int NOT NULL COMMENT '告警类型: 1=指标阈值 2=波动检测 3=异常检测',
+                `metric_name` varchar(100) DEFAULT NULL COMMENT '监控指标名称',
+                `condition_operator` varchar(20) DEFAULT NULL COMMENT '条件运算符: gt/lt/gte/lte/eq/neq',
+                `threshold_value` varchar(200) DEFAULT NULL COMMENT '阈值',
+                `duration_minutes` int DEFAULT NULL COMMENT '持续时间(分钟)',
+                `notification_type` varchar(50) DEFAULT NULL COMMENT '通知方式: email/dingtalk/wechat/webhook',
+                `notification_config` text COMMENT '通知配置(JSON)',
+                `enabled` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否启用',
+                `last_triggered_time` datetime DEFAULT NULL COMMENT '最后触发时间',
+                `trigger_count` bigint NOT NULL DEFAULT 0 COMMENT '触发次数',
+                `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='告警规则表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260624-002" author="zhaoff">
+        <comment>数据应用模块 - 告警记录表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE `app_alert_record` (
+                `id` bigint NOT NULL COMMENT '记录ID',
+                `rule_id` bigint NOT NULL COMMENT '规则ID',
+                `rule_name` varchar(100) DEFAULT NULL COMMENT '规则名称',
+                `alert_type` int DEFAULT NULL COMMENT '告警类型',
+                `alert_level` int NOT NULL DEFAULT 1 COMMENT '告警级别: 1=提示 2=警告 3=严重 4=紧急',
+                `metric_value` varchar(200) DEFAULT NULL COMMENT '实际指标值',
+                `threshold_value` varchar(200) DEFAULT NULL COMMENT '阈值',
+                `message` varchar(500) DEFAULT NULL COMMENT '告警消息',
+                `notification_status` int NOT NULL DEFAULT 0 COMMENT '通知状态: 0=未通知 1=已通知 2=通知失败',
+                `acknowledged` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否已确认',
+                `acknowledged_by` varchar(64) DEFAULT NULL COMMENT '确认人',
+                `acknowledged_time` datetime DEFAULT NULL COMMENT '确认时间',
+                `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                PRIMARY KEY (`id`),
+                KEY `idx_rule_id` (`rule_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='告警记录表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260624-003" author="zhaoff">
+        <comment>数据应用模块 - 安全检测规则表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE `app_security_rule` (
+                `id` bigint NOT NULL COMMENT '规则ID',
+                `name` varchar(100) NOT NULL COMMENT '规则名称',
+                `detection_type` int NOT NULL COMMENT '检测类型: 1=SQL注入 2=XSS攻击 3=暴力破解 4=异常访问 5=自定义',
+                `pattern` text COMMENT '检测模式(JSON)',
+                `severity` int NOT NULL DEFAULT 2 COMMENT '严重等级: 1=低 2=中 3=高 4=严重',
+                `action` varchar(20) DEFAULT 'alert' COMMENT '处置动作: alert/block/log',
+                `enabled` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否启用',
+                `trigger_count` bigint NOT NULL DEFAULT 0 COMMENT '触发次数',
+                `last_triggered_time` datetime DEFAULT NULL COMMENT '最后触发时间',
+                `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全检测规则表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260624-004" author="zhaoff">
+        <comment>数据应用模块 - 安全检测事件表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE `app_security_event` (
+                `id` bigint NOT NULL COMMENT '事件ID',
+                `rule_id` bigint DEFAULT NULL COMMENT '规则ID',
+                `rule_name` varchar(100) DEFAULT NULL COMMENT '规则名称',
+                `detection_type` int DEFAULT NULL COMMENT '检测类型',
+                `source_ip` varchar(64) DEFAULT NULL COMMENT '来源IP',
+                `target_resource` varchar(200) DEFAULT NULL COMMENT '目标资源',
+                `event_detail` text COMMENT '事件详情(JSON)',
+                `severity` int NOT NULL DEFAULT 2 COMMENT '严重等级',
+                `action_taken` varchar(20) DEFAULT NULL COMMENT '执行的处置动作',
+                `handled` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否已处理',
+                `handler` varchar(64) DEFAULT NULL COMMENT '处理人',
+                `handle_time` datetime DEFAULT NULL COMMENT '处理时间',
+                `handle_remark` varchar(500) DEFAULT NULL COMMENT '处理备注',
+                `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                PRIMARY KEY (`id`),
+                KEY `idx_rule_id` (`rule_id`),
+                KEY `idx_source_ip` (`source_ip`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全检测事件表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260624-005" author="zhaoff">
+        <comment>数据应用模块 - 数据看板表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE `app_dashboard` (
+                `id` bigint NOT NULL COMMENT '看板ID',
+                `name` varchar(100) NOT NULL COMMENT '看板名称',
+                `description` varchar(500) DEFAULT NULL COMMENT '看板描述',
+                `layout_config` text COMMENT '布局配置(JSON)',
+                `enabled` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否启用',
+                `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='数据看板表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260624-006" author="zhaoff">
+        <comment>数据处理模块 - 事件配置表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE IF NOT EXISTS `processing_event_config` (
+                `id` bigint NOT NULL COMMENT '事件配置 ID',
+                `name` varchar(100) NOT NULL COMMENT '配置名称',
+                `code` varchar(64) NOT NULL COMMENT '事件编码（唯一标识）',
+                `data_source_id` bigint DEFAULT NULL COMMENT '数据源 ID',
+                `data_source_type` varchar(32) DEFAULT NULL COMMENT '数据源类型（database/webservice/sdk）',
+                `event_type` varchar(32) DEFAULT NULL COMMENT '事件类型（page_view/click/custom）',
+                `properties` text COMMENT '事件属性定义（JSON 格式）',
+                `filter_condition` text COMMENT '过滤条件（JSON 格式）',
+                `field_mapping` text COMMENT '字段映射规则（JSON 格式）',
+                `status` int NOT NULL DEFAULT 1 COMMENT '状态（0=禁用 1=启用）',
+                `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `uk_code` (`code`,`deleted`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='事件配置表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260624-007" author="zhaoff">
+        <comment>数据处理模块 - 修复事件表结构</comment>
+        <sql>
+            <![CDATA[
+            DROP TABLE IF EXISTS `processing_event`;
+            CREATE TABLE `processing_event` (
+                `id` bigint NOT NULL COMMENT '事件 ID',
+                `event_id` varchar(64) NOT NULL COMMENT '事件唯一标识',
+                `event_type` varchar(64) DEFAULT NULL COMMENT '事件类型编码',
+                `event_category` varchar(32) DEFAULT NULL COMMENT '事件大类',
+                `source_id` varchar(64) DEFAULT NULL COMMENT '数据源标识',
+                `pipeline_id` bigint DEFAULT NULL COMMENT '清洗管道标识',
+                `actor_id` varchar(64) DEFAULT NULL COMMENT '行为主体标识',
+                `actor_type` varchar(32) DEFAULT NULL COMMENT '主体类型',
+                `actor_attributes` text COMMENT '主体附加属性（JSON）',
+                `event_time` datetime DEFAULT NULL COMMENT '事件发生时间',
+                `ingest_time` datetime DEFAULT NULL COMMENT '摄入时间',
+                `process_time` datetime DEFAULT NULL COMMENT '处理时间',
+                `event_time_zone` varchar(32) DEFAULT NULL COMMENT '时区',
+                `location` varchar(100) DEFAULT NULL COMMENT '地理位置',
+                `action` varchar(64) DEFAULT NULL COMMENT '具体动作',
+                `target_resource` varchar(200) DEFAULT NULL COMMENT '目标资源',
+                `target_resource_type` varchar(64) DEFAULT NULL COMMENT '目标资源类型',
+                `result` varchar(16) DEFAULT NULL COMMENT '事件结果',
+                `severity` varchar(16) DEFAULT NULL COMMENT '严重等级',
+                `raw_event` text COMMENT '原始事件数据（JSON）',
+                `enrichments` text COMMENT '补充上下文（JSON）',
+                `tags` varchar(500) DEFAULT NULL COMMENT '标签（JSON array）',
+                `session_id` varchar(64) DEFAULT NULL COMMENT '会话标识',
+                `correlation_id` varchar(64) DEFAULT NULL COMMENT '关联标识',
+                `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+                `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+                `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+                PRIMARY KEY (`id`),
+                KEY `idx_event_id` (`event_id`),
+                KEY `idx_event_type` (`event_type`),
+                KEY `idx_event_time` (`event_time`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='标准化事件表';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260624-008" author="zhaoff">
+        <comment>UBAX 模块菜单权限及角色分配</comment>
+        <sql>
+            <![CDATA[
+            -- ===== 数据采集模块 (source) =====
+            INSERT IGNORE INTO `system_menu` VALUES (3000, '数据采集', '', 1, 20, 0, '/ubax/source', 'ep:data-board', NULL, NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (3001, '探针管理', '', 1, 1, 3000, 'agent', 'ep:monitor', NULL, NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (3002, '事件管理', '', 2, 1, 3001, 'events', 'ep:lightning', 'ubax/source/events/index', 'SourceEvent', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (300201, '事件查询', 'source:event:query', 3, 1, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (300202, '事件创建', 'source:event:create', 3, 2, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (300203, '事件处理', 'source:event:update', 3, 3, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (300204, '事件删除', 'source:event:delete', 3, 4, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (300205, '事件配置查询', 'source:event-config:query', 3, 5, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (300206, '事件配置创建', 'source:event-config:create', 3, 6, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (300207, '事件配置更新', 'source:event-config:update', 3, 7, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (300208, '事件配置删除', 'source:event-config:delete', 3, 8, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (3003, '监控指标', '', 2, 2, 3001, 'monitor', 'ep:trend-charts', 'ubax/source/monitor/index', 'SourceMonitor', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (300301, '监控指标查询', 'source:monitor:query', 3, 1, 3003, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+
+            -- ===== 数据处理模块 (processing) =====
+            INSERT IGNORE INTO `system_menu` VALUES (3010, '数据处理', '', 1, 21, 0, '/ubax/processing', 'ep:cpu', NULL, NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (3011, '事件管理', '', 2, 1, 3010, 'event', 'ep:lightning', 'ubax/processing/event/index', 'CollectEvent', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (301101, '事件查询', 'processing:event:query', 3, 1, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (301102, '事件创建', 'processing:event:create', 3, 2, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (301103, '事件删除', 'processing:event:delete', 3, 3, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (301104, '事件配置查询', 'processing:event-config:query', 3, 4, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (301105, '事件配置创建', 'processing:event-config:create', 3, 5, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (301106, '事件配置删除', 'processing:event-config:delete', 3, 6, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (3012, '清洗管道', '', 2, 2, 3010, 'clean-pipeline', 'ep:set-up', 'ubax/processing/clean-pipeline/index', 'CleanPipeline', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (301201, '清洗管道查询', 'processing:clean-pipeline:query', 3, 1, 3012, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (301202, '清洗管道创建', 'processing:clean-pipeline:create', 3, 2, 3012, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (301203, '清洗管道更新', 'processing:clean-pipeline:update', 3, 3, 3012, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (301204, '清洗管道删除', 'processing:clean-pipeline:delete', 3, 4, 3012, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+
+            -- ===== 数据应用模块 (app) =====
+            INSERT IGNORE INTO `system_menu` VALUES (3020, '数据应用', '', 1, 22, 0, '/ubax/app', 'ep:data-analysis', NULL, NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (3021, '实时监控', '', 2, 1, 3020, 'realtime', 'ep:monitor', 'ubax/dashboard/realtime-monitor/index', 'RealtimeMonitor', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302101, '监控查询', 'app:monitor:query', 3, 1, 3021, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (3022, '检测配置', '', 2, 2, 3020, 'alert-config', 'ep:bell', 'ubax/dashboard/alert-config/index', 'AlertConfig', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302201, '告警规则查询', 'app:alert-rule:query', 3, 1, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302202, '告警规则创建', 'app:alert-rule:create', 3, 2, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302203, '告警规则更新', 'app:alert-rule:update', 3, 3, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302204, '告警规则删除', 'app:alert-rule:delete', 3, 4, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302205, '安全规则查询', 'app:security-rule:query', 3, 5, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302206, '安全规则创建', 'app:security-rule:create', 3, 6, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302207, '安全规则更新', 'app:security-rule:update', 3, 7, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302208, '安全规则删除', 'app:security-rule:delete', 3, 8, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (3023, '告警中心', '', 2, 3, 3020, 'alerts', 'ep:warning', 'ubax/dashboard/alerts/index', 'AlertCenter', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302301, '告警记录查询', 'app:alert-record:query', 3, 1, 3023, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302302, '告警确认', 'app:alert-record:ack', 3, 2, 3023, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302303, '安全事件查询', 'app:security-event:query', 3, 3, 3023, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (302304, '安全事件处理', 'app:security-event:handle', 3, 4, 3023, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
+
+            -- ===== 分配超级管理员角色 (role_id=1) 所有菜单权限 =====
+            INSERT IGNORE INTO `system_role_menu` (`role_id`, `menu_id`, `creator`, `create_time`, `updater`, `update_time`, `deleted`, `tenant_id`)
+            SELECT 1, id, 'admin', NOW(), '1', NOW(), b'0', 1
+            FROM `system_menu` WHERE `id` >= 3000 AND `id` < 4000 AND `deleted` = b'0';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260625-001" author="zhaoff">
+        <comment>事件配置表 - 数据源ID改为多选（data_source_id → data_source_ids）</comment>
+        <sql>
+            <![CDATA[
+            ALTER TABLE `processing_event_config` CHANGE COLUMN `data_source_id` `data_source_ids` varchar(500) DEFAULT NULL COMMENT '数据源ID列表（JSON数组格式）';
             ]]>
         </sql>
     </changeSet>

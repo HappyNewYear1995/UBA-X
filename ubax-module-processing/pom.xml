@@ -13,7 +13,7 @@
 
     <name>${project.artifactId}</name>
     <description>
-        数据采集模块，负责接收各端 SDK 上报的事件和属性数据，进行基础的数据校验、IP解析、清洗，并下发到消息队列。
+        数据处理模块
     </description>
 
     <dependencies>
@@ -28,6 +28,7 @@
             <artifactId>ubax-module-infra</artifactId>
             <version>${revision}</version>
         </dependency>
+
         <!-- Web 相关 -->
         <dependency>
             <groupId>com.huanniankj</groupId>
