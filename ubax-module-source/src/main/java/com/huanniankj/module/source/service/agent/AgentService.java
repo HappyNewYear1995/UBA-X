@@ -1,8 +1,12 @@
 package com.huanniankj.module.source.service.agent;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.source.controller.agent.vo.*;
-import com.huanniankj.module.source.controller.agent.vo.*;
+import com.huanniankj.module.source.controller.agent.vo.AgentCommandReqVO;
+import com.huanniankj.module.source.controller.agent.vo.AgentHeartbeatReqVO;
+import com.huanniankj.module.source.controller.agent.vo.AgentPageReqVO;
+import com.huanniankj.module.source.controller.agent.vo.AgentRespVO;
+import com.huanniankj.module.source.controller.agent.vo.AgentSaveReqVO;
+import com.huanniankj.module.source.controller.agent.vo.AgentUpdateReqVO;
 
 /**
  * Agent服务接口

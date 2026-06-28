@@ -1,8 +1,8 @@
 package com.huanniankj.module.source.convert.agent;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.source.controller.agent.vo.MonitorMetricRespVO;
-import com.huanniankj.module.source.controller.agent.vo.MonitorMetricSaveReqVO;
+import com.huanniankj.module.source.controller.agent.vo.AgentMonitorRespVO;
+import com.huanniankj.module.source.controller.agent.vo.AgentMonitorSaveReqVO;
 import com.huanniankj.module.source.dal.dataobject.agent.AgentMonitorMetricDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -17,10 +17,10 @@ public interface MonitorMetricConvert {
 
     MonitorMetricConvert INSTANCE = Mappers.getMapper(MonitorMetricConvert.class);
 
-    AgentMonitorMetricDO convert(MonitorMetricSaveReqVO bean);
+    AgentMonitorMetricDO convert(AgentMonitorSaveReqVO bean);
 
-    MonitorMetricRespVO convert(AgentMonitorMetricDO bean);
+    AgentMonitorRespVO convert(AgentMonitorMetricDO bean);
 
-    PageResult<MonitorMetricRespVO> convertPage(PageResult<AgentMonitorMetricDO> bean);
+    PageResult<AgentMonitorRespVO> convertPage(PageResult<AgentMonitorMetricDO> bean);
 
 }

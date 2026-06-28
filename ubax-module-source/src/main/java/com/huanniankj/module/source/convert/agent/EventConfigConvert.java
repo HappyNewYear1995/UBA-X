@@ -1,8 +1,8 @@
 package com.huanniankj.module.source.convert.agent;
 
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.source.controller.agent.vo.EventConfigRespVO;
-import com.huanniankj.module.source.controller.agent.vo.EventConfigSaveReqVO;
+import com.huanniankj.module.source.controller.agent.vo.AgentRuleConfigRespVO;
+import com.huanniankj.module.source.controller.agent.vo.AgentRuleConfigSaveReqVO;
 import com.huanniankj.module.source.dal.dataobject.agent.AgentRuleConfigDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -17,10 +17,10 @@ public interface EventConfigConvert {
 
     EventConfigConvert INSTANCE = Mappers.getMapper(EventConfigConvert.class);
 
-    AgentRuleConfigDO convert(EventConfigSaveReqVO bean);
+    AgentRuleConfigDO convert(AgentRuleConfigSaveReqVO bean);
 
-    EventConfigRespVO convert(AgentRuleConfigDO bean);
+    AgentRuleConfigRespVO convert(AgentRuleConfigDO bean);
 
-    PageResult<EventConfigRespVO> convertPage(PageResult<AgentRuleConfigDO> bean);
+    PageResult<AgentRuleConfigRespVO> convertPage(PageResult<AgentRuleConfigDO> bean);
 
 }

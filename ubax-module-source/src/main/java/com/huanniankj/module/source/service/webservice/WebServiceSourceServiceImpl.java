@@ -2,14 +2,13 @@ package com.huanniankj.module.source.service.webservice;
 
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.module.source.controller.database.vo.DatabaseSqlExecuteRespVO;
-import com.huanniankj.module.source.controller.database.vo.WebServiceExecuteReqVO;
+import com.huanniankj.module.source.controller.webservice.vo.WebServiceExecuteReqVO;
 import com.huanniankj.module.source.controller.webservice.vo.WebServicePageReqVO;
 import com.huanniankj.module.source.controller.webservice.vo.WebServiceRespVO;
 import com.huanniankj.module.source.controller.webservice.vo.WebServiceSaveReqVO;
 import com.huanniankj.module.source.convert.datasource.WebServiceSourceConvert;
 import com.huanniankj.module.source.dal.dataobject.webservice.WebServiceDO;
 import com.huanniankj.module.source.dal.mysql.webservice.WebServiceMapper;
-import com.huanniankj.module.source.service.datasource.WebServiceExecutionService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
