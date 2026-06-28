@@ -11,8 +11,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.annotation.security.PermitAll;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,14 +35,14 @@ public class RetentionConfigController {
 
     @PostMapping("/create")
     @Operation(summary = "创建留存分析配置")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:retention-config:create')")
     public CommonResult<Long> createRetentionConfig(@Validated @RequestBody RetentionConfigSaveReqVO saveReqVO) {
         return success(retentionConfigService.createRetentionConfig(saveReqVO));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新留存分析配置")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:retention-config:update')")
     public CommonResult<Boolean> updateRetentionConfig(@Validated @RequestBody RetentionConfigSaveReqVO saveReqVO) {
         retentionConfigService.updateRetentionConfig(saveReqVO);
         return success(true);
@@ -51,7 +51,7 @@ public class RetentionConfigController {
     @DeleteMapping("/delete")
     @Operation(summary = "删除留存分析配置")
     @Parameter(name = "id", description = "配置 ID", required = true)
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:retention-config:delete')")
     public CommonResult<Boolean> deleteRetentionConfig(@RequestParam("id") Long id) {
         retentionConfigService.deleteRetentionConfig(id);
         return success(true);
@@ -60,21 +60,21 @@ public class RetentionConfigController {
     @GetMapping("/get")
     @Operation(summary = "获取留存分析配置详情")
     @Parameter(name = "id", description = "配置 ID", required = true)
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:retention-config:query')")
     public CommonResult<RetentionConfigRespVO> getRetentionConfig(@RequestParam("id") Long id) {
         return success(retentionConfigService.getRetentionConfig(id));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获取留存分析配置分页")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:retention-config:query')")
     public CommonResult<PageResult<RetentionConfigRespVO>> getRetentionConfigPage(@Validated RetentionConfigPageReqVO pageReqVO) {
         return success(retentionConfigService.getRetentionConfigPage(pageReqVO));
     }
 
     @GetMapping("/results")
     @Operation(summary = "查询留存分析结果")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:retention-config:query')")
     public CommonResult<List<RetentionResultRespVO>> getRetentionResults(
             @RequestParam("configId") Long configId,
             @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,

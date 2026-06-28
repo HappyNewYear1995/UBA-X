@@ -7,8 +7,11 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Analysis: typeof import('./../api/ubax/analysis/index.ts')['default']
+    App: typeof import('./../api/ubax/app/index.ts')['default']
     AreaSelect: typeof import('./../components/FormCreate/src/components/AreaSelect.vue')['default']
     Backtop: typeof import('./../components/Backtop/src/Backtop.vue')['default']
+    Collect: typeof import('./../api/ubax/collect/index.ts')['default']
     ConfigGlobal: typeof import('./../components/ConfigGlobal/src/ConfigGlobal.vue')['default']
     ContentDetailWrap: typeof import('./../components/ContentDetailWrap/src/ContentDetailWrap.vue')['default']
     ContentWrap: typeof import('./../components/ContentWrap/src/ContentWrap.vue')['default']
@@ -38,6 +41,8 @@ declare module 'vue' {
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElCol: typeof import('element-plus/es')['ElCol']
+    ElCollapse: typeof import('element-plus/es')['ElCollapse']
+    ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDescriptions: typeof import('element-plus/es')['ElDescriptions']
     ElDescriptionsItem: typeof import('element-plus/es')['ElDescriptionsItem']
@@ -60,6 +65,7 @@ declare module 'vue' {
     ElOption: typeof import('element-plus/es')['ElOption']
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElPopover: typeof import('element-plus/es')['ElPopover']
+    ElProgress: typeof import('element-plus/es')['ElProgress']
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRadioButton: typeof import('element-plus/es')['ElRadioButton']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
@@ -82,6 +88,8 @@ declare module 'vue' {
     ElTreeSelect: typeof import('element-plus/es')['ElTreeSelect']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     Error: typeof import('./../components/Error/src/Error.vue')['default']
+    Event: typeof import('./../views/ubax/processing/event/index.vue')['default']
+    Execution: typeof import('./../views/ubax/source/datasource/execution.vue')['default']
     Form: typeof import('./../components/Form/src/Form.vue')['default']
     Highlight: typeof import('./../components/Highlight/src/Highlight.vue')['default']
     Icon: typeof import('./../components/Icon/src/Icon.vue')['default']
@@ -100,6 +108,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterSearch: typeof import('./../components/RouterSearch/index.vue')['default']
     RouterView: typeof import('vue-router')['RouterView']
+    Script: typeof import('./../views/ubax/source/datasource/script.vue')['default']
     Search: typeof import('./../components/Search/src/Search.vue')['default']
     ShortcutDateRangePicker: typeof import('./../components/ShortcutDateRangePicker/index.vue')['default']
     Sticky: typeof import('./../components/Sticky/src/Sticky.vue')['default']
@@ -116,6 +125,7 @@ declare module 'vue' {
     VerifyPoints: typeof import('./../components/Verifition/src/Verify/VerifyPoints.vue')['default']
     VerifySlide: typeof import('./../components/Verifition/src/Verify/VerifySlide.vue')['default']
     VerticalButtonGroup: typeof import('./../components/VerticalButtonGroup/index.vue')['default']
+    Webservice: typeof import('./../api/ubax/gather/datasource/webservice.ts')['default']
     XButton: typeof import('./../components/XButton/src/XButton.vue')['default']
     XTextButton: typeof import('./../components/XButton/src/XTextButton.vue')['default']
   }

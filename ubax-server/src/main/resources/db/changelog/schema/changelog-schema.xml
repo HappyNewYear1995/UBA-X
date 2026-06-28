@@ -1095,7 +1095,7 @@
         <comment>Agent 探针表</comment>
         <sql>
             <![CDATA[
-            CREATE TABLE IF NOT EXISTS `gather_agent`
+            CREATE TABLE IF NOT EXISTS `source_agent`
             (
                 `id`               BIGINT       NOT NULL AUTO_INCREMENT COMMENT 'Agent ID',
                 `uuid`             VARCHAR(255) NOT NULL COMMENT 'UUID',
@@ -1167,7 +1167,7 @@
         <comment>运行监控指标表</comment>
         <sql>
             <![CDATA[
-            CREATE TABLE IF NOT EXISTS `gather_monitor_metric`
+            CREATE TABLE IF NOT EXISTS `source_monitor_metric`
             (
                 `id`               BIGINT        NOT NULL AUTO_INCREMENT COMMENT '指标 ID',
                 `agent_uuid`       VARCHAR(128)  DEFAULT NULL COMMENT 'Agent UUID',
@@ -1801,72 +1801,42 @@
         </sql>
     </changeSet>
 
-    <changeSet id="schema-20260624-008" author="zhaoff">
-        <comment>UBAX 模块菜单权限及角色分配</comment>
-        <sql>
-            <![CDATA[
-            -- ===== 数据采集模块 (source) =====
-            INSERT IGNORE INTO `system_menu` VALUES (3000, '数据采集', '', 1, 20, 0, '/ubax/source', 'ep:data-board', NULL, NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (3001, '探针管理', '', 1, 1, 3000, 'agent', 'ep:monitor', NULL, NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (3002, '事件管理', '', 2, 1, 3001, 'events', 'ep:lightning', 'ubax/source/events/index', 'SourceEvent', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (300201, '事件查询', 'source:event:query', 3, 1, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (300202, '事件创建', 'source:event:create', 3, 2, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (300203, '事件处理', 'source:event:update', 3, 3, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (300204, '事件删除', 'source:event:delete', 3, 4, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (300205, '事件配置查询', 'source:event-config:query', 3, 5, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (300206, '事件配置创建', 'source:event-config:create', 3, 6, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (300207, '事件配置更新', 'source:event-config:update', 3, 7, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (300208, '事件配置删除', 'source:event-config:delete', 3, 8, 3002, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (3003, '监控指标', '', 2, 2, 3001, 'monitor', 'ep:trend-charts', 'ubax/source/monitor/index', 'SourceMonitor', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (300301, '监控指标查询', 'source:monitor:query', 3, 1, 3003, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-
-            -- ===== 数据处理模块 (processing) =====
-            INSERT IGNORE INTO `system_menu` VALUES (3010, '数据处理', '', 1, 21, 0, '/ubax/processing', 'ep:cpu', NULL, NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (3011, '事件管理', '', 2, 1, 3010, 'event', 'ep:lightning', 'ubax/processing/event/index', 'CollectEvent', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (301101, '事件查询', 'processing:event:query', 3, 1, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (301102, '事件创建', 'processing:event:create', 3, 2, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (301103, '事件删除', 'processing:event:delete', 3, 3, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (301104, '事件配置查询', 'processing:event-config:query', 3, 4, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (301105, '事件配置创建', 'processing:event-config:create', 3, 5, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (301106, '事件配置删除', 'processing:event-config:delete', 3, 6, 3011, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (3012, '清洗管道', '', 2, 2, 3010, 'clean-pipeline', 'ep:set-up', 'ubax/processing/clean-pipeline/index', 'CleanPipeline', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (301201, '清洗管道查询', 'processing:clean-pipeline:query', 3, 1, 3012, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (301202, '清洗管道创建', 'processing:clean-pipeline:create', 3, 2, 3012, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (301203, '清洗管道更新', 'processing:clean-pipeline:update', 3, 3, 3012, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (301204, '清洗管道删除', 'processing:clean-pipeline:delete', 3, 4, 3012, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-
-            -- ===== 数据应用模块 (app) =====
-            INSERT IGNORE INTO `system_menu` VALUES (3020, '数据应用', '', 1, 22, 0, '/ubax/app', 'ep:data-analysis', NULL, NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (3021, '实时监控', '', 2, 1, 3020, 'realtime', 'ep:monitor', 'ubax/dashboard/realtime-monitor/index', 'RealtimeMonitor', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302101, '监控查询', 'app:monitor:query', 3, 1, 3021, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (3022, '检测配置', '', 2, 2, 3020, 'alert-config', 'ep:bell', 'ubax/dashboard/alert-config/index', 'AlertConfig', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302201, '告警规则查询', 'app:alert-rule:query', 3, 1, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302202, '告警规则创建', 'app:alert-rule:create', 3, 2, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302203, '告警规则更新', 'app:alert-rule:update', 3, 3, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302204, '告警规则删除', 'app:alert-rule:delete', 3, 4, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302205, '安全规则查询', 'app:security-rule:query', 3, 5, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302206, '安全规则创建', 'app:security-rule:create', 3, 6, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302207, '安全规则更新', 'app:security-rule:update', 3, 7, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302208, '安全规则删除', 'app:security-rule:delete', 3, 8, 3022, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (3023, '告警中心', '', 2, 3, 3020, 'alerts', 'ep:warning', 'ubax/dashboard/alerts/index', 'AlertCenter', 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302301, '告警记录查询', 'app:alert-record:query', 3, 1, 3023, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302302, '告警确认', 'app:alert-record:ack', 3, 2, 3023, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302303, '安全事件查询', 'app:security-event:query', 3, 3, 3023, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (302304, '安全事件处理', 'app:security-event:handle', 3, 4, 3023, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-24 00:00:00', '1', '2026-06-24 00:00:00', b'0');
-
-            -- ===== 分配超级管理员角色 (role_id=1) 所有菜单权限 =====
-            INSERT IGNORE INTO `system_role_menu` (`role_id`, `menu_id`, `creator`, `create_time`, `updater`, `update_time`, `deleted`, `tenant_id`)
-            SELECT 1, id, 'admin', NOW(), '1', NOW(), b'0', 1
-            FROM `system_menu` WHERE `id` >= 3000 AND `id` < 4000 AND `deleted` = b'0';
-            ]]>
-        </sql>
-    </changeSet>
-
     <changeSet id="schema-20260625-001" author="zhaoff">
         <comment>事件配置表 - 数据源ID改为多选（data_source_id → data_source_ids）</comment>
         <sql>
             <![CDATA[
             ALTER TABLE `processing_event_config` CHANGE COLUMN `data_source_id` `data_source_ids` varchar(500) DEFAULT NULL COMMENT '数据源ID列表（JSON数组格式）';
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="schema-20260625-002" author="zhaoff">
+        <comment>创建 WebService 数据源表</comment>
+        <sql>
+            <![CDATA[
+            CREATE TABLE IF NOT EXISTS `source_webservice` (
+              `id` bigint NOT NULL AUTO_INCREMENT COMMENT '数据源 ID',
+              `name` varchar(200) DEFAULT NULL COMMENT '数据源名称',
+              `url` varchar(1024) DEFAULT NULL COMMENT '服务地址',
+              `method` varchar(20) DEFAULT 'GET' COMMENT '请求方法 (GET/POST/PUT/DELETE)',
+              `headers` text DEFAULT NULL COMMENT '请求头 (JSON 格式)',
+              `body` text DEFAULT NULL COMMENT '请求体 (JSON 格式)',
+              `auth_type` varchar(30) DEFAULT 'none' COMMENT '认证类型 (none/basic/bearer/apikey)',
+              `auth_token` varchar(1024) DEFAULT NULL COMMENT '认证凭据',
+              `soap_namespace` varchar(500) DEFAULT NULL COMMENT 'SOAP 命名空间',
+              `soap_action` varchar(200) DEFAULT NULL COMMENT 'SOAP 操作名',
+              `response_path` varchar(500) DEFAULT NULL COMMENT '响应数据路径 (JSONPath)',
+              `sync_interval` int DEFAULT 0 COMMENT '同步间隔（秒）',
+              `status` tinyint DEFAULT 0 COMMENT '状态 (0-正常 1-异常)',
+              `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+              `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+              `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+              `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+              `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+              `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+              `tenant_id` bigint NOT NULL DEFAULT 0 COMMENT '租户编号',
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WebService 数据源';
             ]]>
         </sql>
     </changeSet>

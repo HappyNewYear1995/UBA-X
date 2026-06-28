@@ -7,7 +7,7 @@ import com.huanniankj.module.analysis.service.base.EventAnalysisService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.annotation.security.PermitAll;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +30,7 @@ public class EventAnalysisController {
 
     @PostMapping("/trend")
     @Operation(summary = "查询事件趋势 (PV/UV/平均耗时等)", description = "支持按小时、省份、浏览器等维度聚合")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:dashboard:query')")
     public CommonResult<List<EventAnalysisRespVO>> getEventTrend(@RequestBody @Validated EventAnalysisReqVO reqVO) {
         List<EventAnalysisRespVO> list = eventAnalysisService.analyzeEvent(reqVO);
         return CommonResult.success(list);

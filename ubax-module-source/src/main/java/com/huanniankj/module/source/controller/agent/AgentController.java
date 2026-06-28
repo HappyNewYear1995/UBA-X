@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class AgentController {
 
     @GetMapping("/page")
     @Operation(summary = "获得 Agent 分页列表", description = "用于管理后台查看 Agent 列表")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('source:agent:query')")
     public CommonResult<PageResult<AgentRespVO>> getAgentPage(@Validated AgentPageReqVO pageReqVO) {
         return success(agentService.getAgentPage(pageReqVO));
     }
@@ -41,14 +42,14 @@ public class AgentController {
     @GetMapping("/get")
     @Operation(summary = "获得 Agent 详情", description = "用于管理后台查看 Agent 详情")
     @Parameter(name = "id", description = "Agent ID", required = true, example = "1")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('source:agent:query')")
     public CommonResult<AgentRespVO> getAgent(@RequestParam("id") Long id) {
         return success(agentService.getAgent(id));
     }
 
     @PostMapping("/push-command")
     @Operation(summary = "向指定 Agent 推送命令")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('source:agent:update')")
     public CommonResult<Boolean> pushCommand(@Validated @RequestBody AgentCommandReqVO reqVO) {
         agentService.pushCommand(reqVO);
         return success(true);
@@ -57,7 +58,7 @@ public class AgentController {
     @PostMapping("/push-config")
     @Operation(summary = "向指定 Agent 推送配置")
     @Parameter(name = "uuid", description = "Agent UUID", required = true, example = "agent-uuid-001")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('source:agent:update')")
     public CommonResult<Boolean> pushConfig(@RequestParam("uuid") String uuid) {
         agentService.pushConfig(uuid);
         return success(true);
@@ -83,7 +84,7 @@ public class AgentController {
     @Operation(summary = "更新 Agent 状态", description = "用于开启或关闭指定 Agent")
     @Parameter(name = "id", description = "Agent ID", required = true, example = "1")
     @Parameter(name = "status", description = "状态值 0-开启 1-关闭", required = true, example = "0")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('source:agent:update')")
     public CommonResult<Boolean> updateAgentStatus(@RequestParam("id") Long id, @RequestParam("status") Integer status) {
         agentService.updateAgentStatus(id, status);
         return success(true);
@@ -91,7 +92,7 @@ public class AgentController {
 
     @PutMapping("/update")
     @Operation(summary = "更新 Agent 信息", description = "用于编辑 Agent 平台类型、备注和配置信息")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('source:agent:update')")
     public CommonResult<Boolean> updateAgent(@Validated @RequestBody AgentUpdateReqVO updateReqVO) {
         agentService.updateAgent(updateReqVO);
         return success(true);

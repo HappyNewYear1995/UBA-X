@@ -7,7 +7,7 @@ import com.huanniankj.module.analysis.service.retention.RetentionAnalysisService
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.annotation.security.PermitAll;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +30,7 @@ public class RetentionAnalysisController {
 
     @PostMapping("/analyze")
     @Operation(summary = "执行留存分析", description = "按日期统计新用户数和后续留存率")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:retention:query')")
     public CommonResult<RetentionAnalysisRespVO> analyzeRetention(@RequestBody @Validated RetentionAnalysisReqVO reqVO) {
         return CommonResult.success(retentionAnalysisService.analyzeRetention(reqVO));
     }

@@ -7,7 +7,7 @@ import com.huanniankj.module.analysis.service.path.PathAnalysisService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.annotation.security.PermitAll;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +30,7 @@ public class PathAnalysisController {
 
     @PostMapping("/analyze")
     @Operation(summary = "执行路径分析", description = "统计用户行为路径流转，生成桑基图和路径统计")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:path:query')")
     public CommonResult<PathAnalysisRespVO> analyzePath(@RequestBody @Validated PathAnalysisReqVO reqVO) {
         return CommonResult.success(pathAnalysisService.analyzePath(reqVO));
     }

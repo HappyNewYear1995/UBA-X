@@ -11,8 +11,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.annotation.security.PermitAll;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,14 +42,14 @@ public class FunnelConfigController {
 
     @PostMapping("/create")
     @Operation(summary = "创建漏斗分析配置")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:funnel-config:create')")
     public CommonResult<Long> createFunnelConfig(@Validated @RequestBody FunnelConfigSaveReqVO saveReqVO) {
         return success(funnelConfigService.createFunnelConfig(saveReqVO));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新漏斗分析配置")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:funnel-config:update')")
     public CommonResult<Boolean> updateFunnelConfig(@Validated @RequestBody FunnelConfigSaveReqVO saveReqVO) {
         funnelConfigService.updateFunnelConfig(saveReqVO);
         return success(true);
@@ -58,7 +58,7 @@ public class FunnelConfigController {
     @DeleteMapping("/delete")
     @Operation(summary = "删除漏斗分析配置")
     @Parameter(name = "id", description = "配置 ID", required = true)
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:funnel-config:delete')")
     public CommonResult<Boolean> deleteFunnelConfig(@RequestParam("id") Long id) {
         funnelConfigService.deleteFunnelConfig(id);
         return success(true);
@@ -67,21 +67,21 @@ public class FunnelConfigController {
     @GetMapping("/get")
     @Operation(summary = "获取漏斗分析配置详情")
     @Parameter(name = "id", description = "配置 ID", required = true)
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:funnel-config:query')")
     public CommonResult<FunnelConfigRespVO> getFunnelConfig(@RequestParam("id") Long id) {
         return success(funnelConfigService.getFunnelConfig(id));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获取漏斗分析配置分页")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:funnel-config:query')")
     public CommonResult<PageResult<FunnelConfigRespVO>> getFunnelConfigPage(@Validated FunnelConfigPageReqVO pageReqVO) {
         return success(funnelConfigService.getFunnelConfigPage(pageReqVO));
     }
 
     @GetMapping("/results")
     @Operation(summary = "查询漏斗分析结果")
-    @PermitAll
+    @PreAuthorize("@ss.hasPermission('analysis:funnel-config:query')")
     public CommonResult<List<FunnelResultRespVO>> getFunnelResults(
             @RequestParam("configId") Long configId,
             @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,

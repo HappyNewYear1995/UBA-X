@@ -7,7 +7,12 @@ import com.huanniankj.module.source.enums.agent.AgentStatusEnum;
 import com.huanniankj.module.source.enums.agent.CollectorStatusEnum;
 import com.huanniankj.module.source.enums.agent.PlatformEnum;
 import com.huanniankj.module.source.enums.agent.TerminalEnum;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +21,7 @@ import java.time.LocalDateTime;
  *
  * @author zhaoff
  */
-@TableName("gather_agent")
+@TableName("source_agent")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
