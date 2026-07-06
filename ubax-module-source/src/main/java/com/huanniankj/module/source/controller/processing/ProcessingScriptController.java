@@ -25,6 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
+/**
+ * 处理脚本控制层
+ *
+ * @author zhaoff
+ */
 @Tag(name = "数据源管理 - 处理脚本")
 @RestController
 @RequestMapping("/source/processing-script")

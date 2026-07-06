@@ -2,13 +2,18 @@ package com.huanniankj.module.source.service.processing;
 
 import com.alibaba.fastjson.JSON;
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.source.controller.database.vo.*;
-import com.huanniankj.module.source.controller.processing.vo.*;
+import com.huanniankj.module.source.controller.database.vo.DatabaseScriptExecuteReqVO;
+import com.huanniankj.module.source.controller.database.vo.DatabaseScriptExecuteRespVO;
+import com.huanniankj.module.source.controller.database.vo.DatabaseSqlExecuteRespVO;
+import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptExecuteReqVO;
+import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptExecuteRespVO;
+import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptPageReqVO;
+import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptRespVO;
+import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptSaveReqVO;
 import com.huanniankj.module.source.controller.webservice.vo.WebServiceExecuteReqVO;
 import com.huanniankj.module.source.dal.dataobject.processing.ProcessingScriptDO;
 import com.huanniankj.module.source.dal.mysql.processing.ProcessingScriptMapper;
 import com.huanniankj.module.source.service.datasource.DatabaseScriptService;
-import com.huanniankj.module.source.service.datasource.GroovyExecutionService;
 import com.huanniankj.module.source.service.webservice.WebServiceExecutionService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +23,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.huanniankj.module.source.enums.ErrorCodeConstants.*;
+import static com.huanniankj.module.source.enums.ErrorCodeConstants.PROCESSING_SCRIPT_CODE_DUPLICATE;
+import static com.huanniankj.module.source.enums.ErrorCodeConstants.PROCESSING_SCRIPT_NOT_EXISTS;
 
+/**
+ * 处理脚本服务接口实现
+ *
+ * @author zhaoff
+ */
 @Slf4j
 @Service
 public class ProcessingScriptServiceImpl implements ProcessingScriptService {
@@ -183,7 +197,10 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
             for (Map.Entry<String, Object> entry : row.entrySet()) {
                 String targetField = fieldMapping.isEmpty() ? entry.getKey() : fieldMapping.get(entry.getKey());
                 if (targetField == null) continue;
-                if (!first) { columns.append(", "); values.append(", "); }
+                if (!first) {
+                    columns.append(", ");
+                    values.append(", ");
+                }
                 columns.append("`").append(targetField).append("`");
                 values.append(formatValue(entry.getValue()));
                 first = false;
@@ -215,12 +232,23 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
         }
     }
 
+    /**
+     * 校验处理脚本是否存在
+     *
+     * @param id 处理脚本ID
+     */
     private void validateExists(Long id) {
         if (processingScriptMapper.selectById(id) == null) {
             throw exception(PROCESSING_SCRIPT_NOT_EXISTS);
         }
     }
 
+    /**
+     * 校验处理脚本编码是否唯一
+     *
+     * @param id   处理脚本ID
+     * @param code 处理脚本编码
+     */
     private void validateCodeUnique(Long id, String code) {
         ProcessingScriptDO existing = processingScriptMapper.selectByCode(code);
         if (existing != null && !existing.getId().equals(id)) {
@@ -228,6 +256,12 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
         }
     }
 
+    /**
+     * 处理脚本响应转换
+     *
+     * @param script 处理脚本
+     * @return 处理脚本响应
+     */
     private ProcessingScriptRespVO convertToRespVO(ProcessingScriptDO script) {
         ProcessingScriptRespVO respVO = new ProcessingScriptRespVO();
         respVO.setId(script.getId());
@@ -258,8 +292,8 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
         private final DataSource businessDataSource;
 
         public ScriptInvocationHelper(DatabaseScriptService databaseScriptService,
-                                       WebServiceExecutionService webServiceExecutionService,
-                                       DataSource businessDataSource) {
+                                      WebServiceExecutionService webServiceExecutionService,
+                                      DataSource businessDataSource) {
             this.databaseScriptService = databaseScriptService;
             this.webServiceExecutionService = webServiceExecutionService;
             this.businessDataSource = businessDataSource;

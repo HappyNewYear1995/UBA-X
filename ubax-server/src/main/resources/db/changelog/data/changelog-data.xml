@@ -493,7 +493,7 @@
 
             -- ===== 处理脚本(504) 作为与探针管理、数据库、Web服务并列的顶级模块 =====
             INSERT IGNORE INTO `system_menu` VALUES (504, '处理脚本', '', 1, 4, 5, 'processing', 'fa:cogs', NULL, NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-30 00:00:00', '1', '2026-06-30 00:00:00', b'0');
-            INSERT IGNORE INTO `system_menu` VALUES (50401, '脚本管理', '', 2, 1, 504, 'list', 'fa:code', 'ubax/source/datasource/processing-script', 'ProcessingScript', 0, b'1', b'1', b'1', 'admin', '2026-06-30 00:00:00', '1', '2026-06-30 00:00:00', b'0');
+            INSERT IGNORE INTO `system_menu` VALUES (50401, '脚本管理', '', 2, 1, 504, 'list', 'fa:code', 'ubax/source/processing/index', 'ProcessingScript', 0, b'1', b'1', b'1', 'admin', '2026-06-30 00:00:00', '1', '2026-06-30 00:00:00', b'0');
             INSERT IGNORE INTO `system_menu` VALUES (5040101, '处理脚本查询', 'source:processing-script:query', 3, 1, 50401, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-30 00:00:00', '1', '2026-06-30 00:00:00', b'0');
             INSERT IGNORE INTO `system_menu` VALUES (5040102, '处理脚本创建', 'source:processing-script:create', 3, 2, 50401, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-30 00:00:00', '1', '2026-06-30 00:00:00', b'0');
             INSERT IGNORE INTO `system_menu` VALUES (5040103, '处理脚本更新', 'source:processing-script:update', 3, 3, 50401, '', '', '', NULL, 0, b'1', b'1', b'1', 'admin', '2026-06-30 00:00:00', '1', '2026-06-30 00:00:00', b'0');

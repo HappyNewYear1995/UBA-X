@@ -113,7 +113,7 @@
                 ref="scriptTextareaRef"
                 v-model="formData.scriptContent"
                 class="script-editor__textarea"
-                placeholder="// 输入 Groovy 脚本&#10;// 脚本需返回 List&lt;Map&gt; 格式结果&#10;&#10;def result = invoker.callDatabaseScript(1, [param1: 'value'])&#10;return result.results"
+                placeholder="// Groovy 处理脚本 - 通用数据处理与编排&#10;// 可用: invoker.callDatabaseScript() / invoker.callWebService() / invoker.getJdbcTemplate()&#10;// 脚本需返回 List&lt;Map&gt; 格式结果&#10;&#10;def dbResult = invoker.callDatabaseScript(1, [key: 'value'])&#10;def wsResult = invoker.callWebService(1, [param: 'test'])&#10;return dbResult.results + wsResult.results"
                 spellcheck="false"
                 @scroll="handleScriptScroll"
                 @input="updateLineCount"

@@ -92,6 +92,7 @@ declare module 'vue' {
     MapDialog: typeof import('./../components/Map/src/MapDialog.vue')['default']
     MarkdownView: typeof import('./../components/MarkdownView/index.vue')['default']
     Pagination: typeof import('./../components/Pagination/index.vue')['default']
+    Processing: typeof import('./../views/ubax/source/processing/index.vue')['default']
     ProcessingScript: typeof import('./../api/ubax/gather/datasource/processing-script.ts')['default']
     Qrcode: typeof import('./../components/Qrcode/src/Qrcode.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
