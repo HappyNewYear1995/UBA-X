@@ -92,6 +92,7 @@ declare module 'vue' {
     MapDialog: typeof import('./../components/Map/src/MapDialog.vue')['default']
     MarkdownView: typeof import('./../components/MarkdownView/index.vue')['default']
     Pagination: typeof import('./../components/Pagination/index.vue')['default']
+    ProcessingScript: typeof import('./../api/ubax/gather/datasource/processing-script.ts')['default']
     Qrcode: typeof import('./../components/Qrcode/src/Qrcode.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterSearch: typeof import('./../components/RouterSearch/index.vue')['default']
@@ -112,6 +113,7 @@ declare module 'vue' {
     VerifyPoints: typeof import('./../components/Verifition/src/Verify/VerifyPoints.vue')['default']
     VerifySlide: typeof import('./../components/Verifition/src/Verify/VerifySlide.vue')['default']
     VerticalButtonGroup: typeof import('./../components/VerticalButtonGroup/index.vue')['default']
+    WsExecution: typeof import('./../views/ubax/source/datasource/ws-execution.vue')['default']
     XButton: typeof import('./../components/XButton/src/XButton.vue')['default']
     XTextButton: typeof import('./../components/XButton/src/XTextButton.vue')['default']
   }

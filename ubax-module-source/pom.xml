@@ -67,6 +67,13 @@
             <artifactId>ojdbc8</artifactId>
         </dependency>
 
+        <!-- Groovy 脚本引擎 (JSR-223) -->
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-jsr223</artifactId>
+            <version>4.0.15</version>
+        </dependency>
+
         <!-- 基础依赖 -->
         <dependency>
             <groupId>org.projectlombok</groupId>

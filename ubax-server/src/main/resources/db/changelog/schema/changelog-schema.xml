@@ -1841,4 +1841,37 @@
         </sql>
     </changeSet>
 
+    <changeSet id="schema-20260628-001" author="zhaoff">
+        <comment>处理脚本表：Groovy 脚本支持传参、调用数据库脚本和 WebService、持久化结果</comment>
+        <createTable tableName="source_processing_script" remarks="处理脚本">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)" remarks="脚本名称">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(100)" remarks="脚本编码（唯一标识）">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="script_content" type="TEXT" remarks="Groovy 脚本内容">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(500)" remarks="脚本描述"/>
+            <column name="input_params" type="TEXT" remarks="入参定义（JSON格式）"/>
+            <column name="result_table_name" type="VARCHAR(200)" remarks="结果持久化表名"/>
+            <column name="result_field_mapping" type="TEXT" remarks="结果字段映射（JSON格式）"/>
+            <column name="cron_expression" type="VARCHAR(100)" remarks="Cron表达式"/>
+            <column name="execute_count" type="INT" defaultValueNumeric="0" remarks="执行次数"/>
+            <column name="last_execute_time" type="DATETIME" remarks="最后执行时间"/>
+            <column name="last_execute_status" type="TINYINT" remarks="最后执行状态（0-成功 1-失败）"/>
+            <column name="status" type="TINYINT" defaultValueNumeric="0" remarks="状态（0-启用 1-禁用）"/>
+            <column name="remark" type="VARCHAR(500)" remarks="备注"/>
+            <column name="creator" type="VARCHAR(64)" remarks="创建者"/>
+            <column name="create_time" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" remarks="创建时间"/>
+            <column name="updater" type="VARCHAR(64)" remarks="更新者"/>
+            <column name="update_time" type="DATETIME" remarks="更新时间"/>
+            <column name="deleted" type="BIT" defaultValueNumeric="0" remarks="是否删除"/>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

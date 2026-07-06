@@ -366,7 +366,7 @@ const handleTestInForm = async () => {
 }
 
 const handleExecute = (row: WebServiceSourceRespVO) => {
-  router.push({ path: '/ubax/source/datasource/execution', query: { wsId: row.id, tab: 'webservice' } })
+  router.push({ path: '/ubax/source/webservice/ws-execution', query: { wsId: row.id } })
 }
 
 const submitForm = async () => {

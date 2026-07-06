@@ -29,7 +29,7 @@ public class DatabaseScriptSaveReqVO {
     @NotNull(message = "数据源ID不能为空")
     private Long databaseId;
 
-    @Schema(description = "脚本类型 (sql/procedure/view)", requiredMode = Schema.RequiredMode.REQUIRED, example = "sql")
+    @Schema(description = "脚本类型 (sql/procedure/view/webservice)", requiredMode = Schema.RequiredMode.REQUIRED, example = "sql")
     @NotBlank(message = "脚本类型不能为空")
     private String scriptType;
 

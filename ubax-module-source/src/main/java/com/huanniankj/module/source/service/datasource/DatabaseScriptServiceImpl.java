@@ -141,6 +141,7 @@ public class DatabaseScriptServiceImpl implements DatabaseScriptService {
             List<Map<String, Object>> results = executeResult.getResults();
             List<List<Map<String, Object>>> resultSetList = executeResult.getResultSetList();
             Integer affectedRows = executeResult.getAffectedRows();
+
             // 持久化结果
             boolean persistResult = reqVO.getPersistResult() != null && reqVO.getPersistResult() == 1;
             long persistRecordCount = 0;

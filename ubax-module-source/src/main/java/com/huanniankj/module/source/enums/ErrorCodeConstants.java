@@ -48,4 +48,8 @@ public interface ErrorCodeConstants {
     ErrorCode DATABASE_SCRIPT_INPUT_PARAM_REQUIRED = new ErrorCode(1_101_004_006, "脚本必填入参缺失：{}");
     ErrorCode DATABASE_SCRIPT_RESULT_TABLE_NOT_EXISTS = new ErrorCode(1_101_004_007, "结果持久化表不存在：{}");
 
+    // ========== 处理脚本 1_101_005_000 ==========
+    ErrorCode PROCESSING_SCRIPT_NOT_EXISTS = new ErrorCode(1_101_005_000, "处理脚本不存在");
+    ErrorCode PROCESSING_SCRIPT_CODE_DUPLICATE = new ErrorCode(1_101_005_001, "处理脚本编码已存在");
+
 }
