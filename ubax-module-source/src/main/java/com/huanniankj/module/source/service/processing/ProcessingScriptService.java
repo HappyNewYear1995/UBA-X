@@ -3,6 +3,8 @@ package com.huanniankj.module.source.service.processing;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptExecuteReqVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptExecuteRespVO;
+import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptLogPageReqVO;
+import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptLogRespVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptPageReqVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptRespVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptSaveReqVO;
@@ -59,5 +61,11 @@ public interface ProcessingScriptService {
      * @return 执行结果
      */
     ProcessingScriptExecuteRespVO executeScript(ProcessingScriptExecuteReqVO reqVO);
+
+    PageResult<ProcessingScriptLogRespVO> getScriptLogPage(ProcessingScriptLogPageReqVO pageReqVO);
+
+    ProcessingScriptLogRespVO getScriptLog(Long id);
+
+    void deleteScriptLog(Long id);
 
 }

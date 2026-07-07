@@ -38,18 +38,9 @@ public interface ErrorCodeConstants {
     ErrorCode WEBSERVICE_DATASOURCE_NAME_DUPLICATE = new ErrorCode(1_101_006_001, "WebService 数据源名称已存在");
     ErrorCode WEBSERVICE_URL_INVALID = new ErrorCode(1_101_006_002, "WebService 地址格式无效");
 
-    // ========== 脚本管理模块 1-101-004-000 ==========
-    ErrorCode DATABASE_SCRIPT_NOT_EXISTS = new ErrorCode(1_101_004_000, "数据库脚本不存在");
-    ErrorCode DATABASE_SCRIPT_CODE_DUPLICATE = new ErrorCode(1_101_004_001, "脚本编码已存在");
-    ErrorCode DATABASE_SCRIPT_TYPE_NOT_SUPPORTED = new ErrorCode(1_101_004_002, "不支持的脚本类型");
-    ErrorCode DATABASE_SCRIPT_RESULT_TABLE_NOT_CONFIGURED = new ErrorCode(1_101_004_003, "未配置结果映射表");
-    ErrorCode DATABASE_SCRIPT_RESULT_PERSIST_ERROR = new ErrorCode(1_101_004_004, "脚本结果持久化失败");
-    ErrorCode DATABASE_SCRIPT_LOG_NOT_EXISTS = new ErrorCode(1_101_004_005, "脚本执行日志不存在");
-    ErrorCode DATABASE_SCRIPT_INPUT_PARAM_REQUIRED = new ErrorCode(1_101_004_006, "脚本必填入参缺失：{}");
-    ErrorCode DATABASE_SCRIPT_RESULT_TABLE_NOT_EXISTS = new ErrorCode(1_101_004_007, "结果持久化表不存在：{}");
-
     // ========== 处理脚本 1_101_005_000 ==========
     ErrorCode PROCESSING_SCRIPT_NOT_EXISTS = new ErrorCode(1_101_005_000, "处理脚本不存在");
     ErrorCode PROCESSING_SCRIPT_CODE_DUPLICATE = new ErrorCode(1_101_005_001, "处理脚本编码已存在");
+    ErrorCode PROCESSING_SCRIPT_LOG_NOT_EXISTS = new ErrorCode(1_101_005_002, "处理脚本执行日志不存在");
 
 }

@@ -4,6 +4,8 @@ import com.huanniankj.framework.common.pojo.CommonResult;
 import com.huanniankj.framework.common.pojo.PageResult;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptExecuteReqVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptExecuteRespVO;
+import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptLogPageReqVO;
+import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptLogRespVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptPageReqVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptRespVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptSaveReqVO;
@@ -25,11 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.huanniankj.framework.common.pojo.CommonResult.success;
 
-/**
- * 处理脚本控制层
- *
- * @author zhaoff
- */
 @Tag(name = "数据源管理 - 处理脚本")
 @RestController
 @RequestMapping("/source/processing-script")
@@ -81,6 +78,28 @@ public class ProcessingScriptController {
     @PreAuthorize("@ss.hasPermission('source:processing-script:execute')")
     public CommonResult<ProcessingScriptExecuteRespVO> executeScript(@Valid @RequestBody ProcessingScriptExecuteReqVO reqVO) {
         return success(processingScriptService.executeScript(reqVO));
+    }
+
+    @GetMapping("/log/page")
+    @Operation(summary = "获取执行日志分页")
+    @PreAuthorize("@ss.hasPermission('source:processing-script:query')")
+    public CommonResult<PageResult<ProcessingScriptLogRespVO>> getScriptLogPage(@Valid ProcessingScriptLogPageReqVO pageReqVO) {
+        return success(processingScriptService.getScriptLogPage(pageReqVO));
+    }
+
+    @GetMapping("/log/get")
+    @Operation(summary = "获取执行日志详情")
+    @PreAuthorize("@ss.hasPermission('source:processing-script:query')")
+    public CommonResult<ProcessingScriptLogRespVO> getScriptLog(@RequestParam("id") Long id) {
+        return success(processingScriptService.getScriptLog(id));
+    }
+
+    @DeleteMapping("/log/delete")
+    @Operation(summary = "删除执行日志")
+    @PreAuthorize("@ss.hasPermission('source:processing-script:delete')")
+    public CommonResult<Boolean> deleteScriptLog(@RequestParam("id") Long id) {
+        processingScriptService.deleteScriptLog(id);
+        return success(true);
     }
 
 }

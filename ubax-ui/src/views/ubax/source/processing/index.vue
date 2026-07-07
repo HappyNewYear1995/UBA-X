@@ -71,10 +71,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="description" label="描述" min-width="120" show-overflow-tooltip />
-        <el-table-column label="操作" width="200" fixed="right" align="center">
+        <el-table-column label="操作" width="260" fixed="right" align="center">
           <template #default="{ row }">
             <span class="table-action" @click="handleEdit(row)">编辑</span>
             <span class="table-action success" @click="handleExecute(row)">执行</span>
+            <span class="table-action warning" @click="handleViewLog(row)">日志</span>
             <span class="table-action danger" @click="handleDelete(row)">删除</span>
           </template>
         </el-table-column>
@@ -113,7 +114,7 @@
                 ref="scriptTextareaRef"
                 v-model="formData.scriptContent"
                 class="script-editor__textarea"
-                placeholder="// Groovy 处理脚本 - 通用数据处理与编排&#10;// 可用: invoker.callDatabaseScript() / invoker.callWebService() / invoker.getJdbcTemplate()&#10;// 脚本需返回 List&lt;Map&gt; 格式结果&#10;&#10;def dbResult = invoker.callDatabaseScript(1, [key: 'value'])&#10;def wsResult = invoker.callWebService(1, [param: 'test'])&#10;return dbResult.results + wsResult.results"
+                placeholder="// Groovy 处理脚本 - 通用数据处理与编排&#10;// 可用: invoker.callWebService() / invoker.getJdbcTemplate() / logger.info()&#10;// 脚本需返回 List&lt;Map&gt; 格式结果&#10;&#10;def wsResult = invoker.callWebService(1, [param: 'test'])&#10;def jdbc = invoker.getJdbcTemplate()&#10;return wsResult.results"
                 spellcheck="false"
                 @scroll="handleScriptScroll"
                 @input="updateLineCount"
@@ -260,6 +261,91 @@
         <el-button type="primary" @click="resultDialogVisible = false">关闭</el-button>
       </template>
     </el-dialog>
+
+    <!-- 执行日志弹窗 -->
+    <el-dialog v-model="logDialogVisible" title="执行日志" width="900px">
+      <div class="log-filter-bar">
+        <el-select v-model="logQueryParams.status" placeholder="执行状态" clearable style="width: 120px" @change="getLogList">
+          <el-option label="成功" :value="0" />
+          <el-option label="失败" :value="1" />
+        </el-select>
+        <el-button @click="getLogList"><Icon icon="ep:refresh" /> 刷新</el-button>
+      </div>
+      <el-table v-loading="logLoading" :data="logList" stripe>
+        <el-table-column prop="id" label="ID" width="60" align="center" />
+        <el-table-column prop="scriptName" label="脚本" width="120" show-overflow-tooltip />
+        <el-table-column prop="status" label="状态" width="70" align="center">
+          <template #default="{ row }">
+            <span :style="{ color: row.status === 0 ? 'var(--el-color-success)' : 'var(--el-color-danger)' }">
+              {{ row.status === 0 ? '成功' : '失败' }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="costTime" label="耗时(ms)" width="80" align="center" />
+        <el-table-column prop="resultRecordCount" label="记录数" width="70" align="center" />
+        <el-table-column prop="persisted" label="持久化" width="70" align="center">
+          <template #default="{ row }">
+            <span v-if="row.persisted === 1" style="color: var(--el-color-success)">是</span>
+            <span v-else style="color: #999">否</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="errorMessage" label="错误信息" min-width="150" show-overflow-tooltip />
+        <el-table-column prop="createTime" label="执行时间" width="160" align="center">
+          <template #default="{ row }">
+            {{ formatTime(row.createTime) }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="80" fixed="right" align="center">
+          <template #default="{ row }">
+            <span class="table-action" @click="handleViewLogDetail(row)">详情</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <Pagination
+        v-model:page="logQueryParams.pageNo"
+        v-model:limit="logQueryParams.pageSize"
+        :total="logTotal"
+        @pagination="getLogList"
+      />
+    </el-dialog>
+
+    <!-- 日志详情弹窗 -->
+    <el-dialog v-model="logDetailDialogVisible" title="日志详情" width="800px">
+      <div v-if="logDetail" class="log-detail">
+        <el-descriptions :column="2" border>
+          <el-descriptions-item label="脚本名称">{{ logDetail.scriptName }}</el-descriptions-item>
+          <el-descriptions-item label="脚本编码">{{ logDetail.scriptCode }}</el-descriptions-item>
+          <el-descriptions-item label="执行状态">
+            <el-tag :type="logDetail.status === 0 ? 'success' : 'danger'" size="small">
+              {{ logDetail.status === 0 ? '成功' : '失败' }}
+            </el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="执行耗时">{{ logDetail.costTime }}ms</el-descriptions-item>
+          <el-descriptions-item label="结果记录数">{{ logDetail.resultRecordCount || 0 }}</el-descriptions-item>
+          <el-descriptions-item label="是否持久化">{{ logDetail.persisted === 1 ? '是' : '否' }}</el-descriptions-item>
+          <el-descriptions-item label="执行时间" :span="2">{{ formatTime(logDetail.createTime) }}</el-descriptions-item>
+        </el-descriptions>
+        <div v-if="logDetail.inputParams" class="log-section">
+          <div class="log-section-title">执行入参</div>
+          <pre class="log-pre">{{ formatJson(logDetail.inputParams) }}</pre>
+        </div>
+        <div v-if="logDetail.errorMessage" class="log-section">
+          <div class="log-section-title" style="color: var(--el-color-danger)">错误信息</div>
+          <pre class="log-pre log-error">{{ logDetail.errorMessage }}</pre>
+        </div>
+        <div v-if="logDetail.persistError" class="log-section">
+          <div class="log-section-title" style="color: var(--el-color-danger)">持久化错误</div>
+          <pre class="log-pre log-error">{{ logDetail.persistError }}</pre>
+        </div>
+        <div v-if="logDetail.executeResult" class="log-section">
+          <div class="log-section-title">执行结果</div>
+          <pre class="log-pre">{{ formatJson(logDetail.executeResult) }}</pre>
+        </div>
+      </div>
+      <template #footer>
+        <el-button type="primary" @click="logDetailDialogVisible = false">关闭</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -271,11 +357,15 @@ import {
   updateProcessingScript,
   deleteProcessingScript,
   executeProcessingScript,
+  getProcessingScriptLogPage,
+  getProcessingScriptLog,
   type ProcessingScriptRespVO,
   type ProcessingScriptSaveReqVO,
   type ProcessingScriptPageReqVO,
   type ProcessingScriptExecuteReqVO,
-  type ProcessingScriptExecuteRespVO
+  type ProcessingScriptExecuteRespVO,
+  type ProcessingScriptLogRespVO,
+  type ProcessingScriptLogPageReqVO
 } from '@/api/ubax/gather/datasource/processing-script'
 
 interface ScriptParamDef {
@@ -323,6 +413,15 @@ const executeForm = ref({ scriptId: 0, scriptName: '', scriptCode: '', persistRe
 
 const resultDialogVisible = ref(false)
 const executeResult = ref<ProcessingScriptExecuteRespVO | null>(null)
+
+// 日志相关
+const logDialogVisible = ref(false)
+const logLoading = ref(false)
+const logList = ref<ProcessingScriptLogRespVO[]>([])
+const logTotal = ref(0)
+const logQueryParams = ref<ProcessingScriptLogPageReqVO>({ pageNo: 1, pageSize: 10 })
+const logDetailDialogVisible = ref(false)
+const logDetail = ref<ProcessingScriptLogRespVO | null>(null)
 
 const scriptTextareaRef = ref<HTMLTextAreaElement>()
 const lineCount = ref(1)
@@ -444,6 +543,34 @@ const handleExecuteConfirm = async () => {
   }
 }
 
+const handleViewLog = (row: ProcessingScriptRespVO) => {
+  logQueryParams.value = { pageNo: 1, pageSize: 10, scriptId: row.id }
+  logDialogVisible.value = true
+  getLogList()
+}
+
+const getLogList = async () => {
+  logLoading.value = true
+  try {
+    const data = await getProcessingScriptLogPage(logQueryParams.value)
+    logList.value = data.list
+    logTotal.value = data.total
+  } finally {
+    logLoading.value = false
+  }
+}
+
+const handleViewLogDetail = async (row: ProcessingScriptLogRespVO) => {
+  const data = await getProcessingScriptLog(row.id)
+  logDetail.value = data
+  logDetailDialogVisible.value = true
+}
+
+const formatJson = (str: string | undefined) => {
+  if (!str) return ''
+  try { return JSON.stringify(JSON.parse(str), null, 2) } catch { return str }
+}
+
 onMounted(() => { getList() })
 </script>
 
@@ -455,7 +582,7 @@ onMounted(() => { getList() })
 .search-bar { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
 .search-input { width: 200px; }
 .filter-select { width: 130px; }
-.table-action { color: var(--el-color-primary); cursor: pointer; margin: 0 6px; &:hover { opacity: 0.7; } &.success { color: var(--el-color-success); } &.danger { color: var(--el-color-danger); } }
+.table-action { color: var(--el-color-primary); cursor: pointer; margin: 0 6px; &:hover { opacity: 0.7; } &.success { color: var(--el-color-success); } &.warning { color: var(--el-color-warning); } &.danger { color: var(--el-color-danger); } }
 .text-gray { color: #999; }
 .info-row { display: flex; padding: 4px 0; }
 .info-label { width: 80px; color: #999; }
@@ -473,6 +600,13 @@ onMounted(() => { getList() })
 .result-table { margin-top: 16px; }
 .result-more { text-align: center; padding: 8px; color: #999; font-size: 12px; }
 .result-error { padding: 32px; text-align: center; color: #ef4444; font-size: 14px; }
+
+.log-filter-bar { display: flex; gap: 12px; margin-bottom: 16px; }
+.log-detail { padding: 8px 0; }
+.log-section { margin-top: 16px; }
+.log-section-title { font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.log-pre { background: #f5f5f5; padding: 12px; border-radius: 6px; font-size: 12px; max-height: 300px; overflow: auto; white-space: pre-wrap; word-break: break-all; margin: 0; }
+.log-error { color: #ef4444; background: #fef2f2; }
 
 // 脚本编辑器
 .script-editor {

@@ -2,18 +2,19 @@ package com.huanniankj.module.source.service.processing;
 
 import com.alibaba.fastjson.JSON;
 import com.huanniankj.framework.common.pojo.PageResult;
-import com.huanniankj.module.source.controller.database.vo.DatabaseScriptExecuteReqVO;
-import com.huanniankj.module.source.controller.database.vo.DatabaseScriptExecuteRespVO;
 import com.huanniankj.module.source.controller.database.vo.DatabaseSqlExecuteRespVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptExecuteReqVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptExecuteRespVO;
+import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptLogPageReqVO;
+import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptLogRespVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptPageReqVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptRespVO;
 import com.huanniankj.module.source.controller.processing.vo.ProcessingScriptSaveReqVO;
 import com.huanniankj.module.source.controller.webservice.vo.WebServiceExecuteReqVO;
 import com.huanniankj.module.source.dal.dataobject.processing.ProcessingScriptDO;
+import com.huanniankj.module.source.dal.dataobject.processing.ProcessingScriptLogDO;
+import com.huanniankj.module.source.dal.mysql.processing.ProcessingScriptLogMapper;
 import com.huanniankj.module.source.dal.mysql.processing.ProcessingScriptMapper;
-import com.huanniankj.module.source.service.datasource.DatabaseScriptService;
 import com.huanniankj.module.source.service.webservice.WebServiceExecutionService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -30,13 +31,9 @@ import java.util.Map;
 
 import static com.huanniankj.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static com.huanniankj.module.source.enums.ErrorCodeConstants.PROCESSING_SCRIPT_CODE_DUPLICATE;
+import static com.huanniankj.module.source.enums.ErrorCodeConstants.PROCESSING_SCRIPT_LOG_NOT_EXISTS;
 import static com.huanniankj.module.source.enums.ErrorCodeConstants.PROCESSING_SCRIPT_NOT_EXISTS;
 
-/**
- * 处理脚本服务接口实现
- *
- * @author zhaoff
- */
 @Slf4j
 @Service
 public class ProcessingScriptServiceImpl implements ProcessingScriptService {
@@ -45,10 +42,10 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
     private ProcessingScriptMapper processingScriptMapper;
 
     @Resource
-    private GroovyExecutionService groovyExecutionService;
+    private ProcessingScriptLogMapper processingScriptLogMapper;
 
     @Resource
-    private DatabaseScriptService databaseScriptService;
+    private GroovyExecutionService groovyExecutionService;
 
     @Resource
     private WebServiceExecutionService webServiceExecutionService;
@@ -133,13 +130,21 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
 
         long startTime = System.currentTimeMillis();
         ProcessingScriptExecuteRespVO respVO = new ProcessingScriptExecuteRespVO();
+        ProcessingScriptLogDO logDO = ProcessingScriptLogDO.builder()
+                .scriptId(script.getId())
+                .scriptName(script.getName())
+                .scriptCode(script.getCode())
+                .executeType("manual")
+                .scriptContent(script.getScriptContent())
+                .build();
+        if (reqVO.getInputParams() != null && !reqVO.getInputParams().isEmpty()) {
+            logDO.setInputParams(JSON.toJSONString(reqVO.getInputParams()));
+        }
 
         try {
-            // 构建调用辅助对象
             ScriptInvocationHelper invocationHelper = new ScriptInvocationHelper(
-                    databaseScriptService, webServiceExecutionService, businessDataSource);
+                    webServiceExecutionService, businessDataSource);
 
-            // 通过 Groovy 执行引擎执行脚本，注入调用上下文
             DatabaseSqlExecuteRespVO groovyResult = groovyExecutionService.executeGroovyWithInvocation(
                     script.getScriptContent(), reqVO.getInputParams(), invocationHelper);
 
@@ -150,7 +155,15 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
             long persistRecordCount = 0;
 
             if (persistResult && results != null && !results.isEmpty() && script.getResultTableName() != null) {
-                persistRecordCount = persistResult(script, results);
+                try {
+                    persistRecordCount = persistResult(script, results);
+                    logDO.setPersisted(1);
+                } catch (Exception e) {
+                    logDO.setPersisted(0);
+                    logDO.setPersistError(e.getMessage());
+                }
+            } else {
+                logDO.setPersisted(0);
             }
 
             respVO.setSuccess(true);
@@ -160,9 +173,14 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
             respVO.setResultSetColumns(groovyResult.getResultSetColumns());
             if (results != null) {
                 respVO.setResultRecordCount((long) results.size());
+                logDO.setResultRecordCount((long) results.size());
             }
             respVO.setPersisted(persistResult);
             respVO.setPersistRecordCount(persistRecordCount);
+
+            logDO.setStatus(0);
+            logDO.setCostTime(costTime);
+            logDO.setExecuteResult(JSON.toJSONString(groovyResult));
 
             updateExecuteStats(script.getId(), 0);
             log.info("处理脚本执行成功: scriptId={}, costTime={}ms, rows={}", script.getId(), costTime, respVO.getResultRecordCount());
@@ -171,16 +189,47 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
             respVO.setSuccess(false);
             respVO.setCostTime(costTime);
             respVO.setErrorMessage(e.getMessage());
+
+            logDO.setStatus(1);
+            logDO.setCostTime(costTime);
+            logDO.setErrorMessage(e.getMessage());
+
             updateExecuteStats(script.getId(), 1);
             log.error("处理脚本执行失败: scriptId={}, error={}", script.getId(), e.getMessage(), e);
         }
 
+        processingScriptLogMapper.insert(logDO);
         return respVO;
     }
 
-    /**
-     * 持久化结果集到指定表
-     */
+    @Override
+    public PageResult<ProcessingScriptLogRespVO> getScriptLogPage(ProcessingScriptLogPageReqVO pageReqVO) {
+        PageResult<ProcessingScriptLogDO> pageResult = processingScriptLogMapper.selectPage(pageReqVO);
+        return new PageResult<>(
+                pageResult.getList().stream().map(this::convertLogToRespVO).toList(),
+                pageResult.getTotal()
+        );
+    }
+
+    @Override
+    public ProcessingScriptLogRespVO getScriptLog(Long id) {
+        ProcessingScriptLogDO logDO = processingScriptLogMapper.selectById(id);
+        if (logDO == null) {
+            throw exception(PROCESSING_SCRIPT_LOG_NOT_EXISTS);
+        }
+        return convertLogToRespVO(logDO);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteScriptLog(Long id) {
+        ProcessingScriptLogDO logDO = processingScriptLogMapper.selectById(id);
+        if (logDO == null) {
+            throw exception(PROCESSING_SCRIPT_LOG_NOT_EXISTS);
+        }
+        processingScriptLogMapper.deleteById(id);
+    }
+
     @SuppressWarnings("unchecked")
     private long persistResult(ProcessingScriptDO script, List<Map<String, Object>> results) {
         String tableName = script.getResultTableName();
@@ -232,23 +281,12 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
         }
     }
 
-    /**
-     * 校验处理脚本是否存在
-     *
-     * @param id 处理脚本ID
-     */
     private void validateExists(Long id) {
         if (processingScriptMapper.selectById(id) == null) {
             throw exception(PROCESSING_SCRIPT_NOT_EXISTS);
         }
     }
 
-    /**
-     * 校验处理脚本编码是否唯一
-     *
-     * @param id   处理脚本ID
-     * @param code 处理脚本编码
-     */
     private void validateCodeUnique(Long id, String code) {
         ProcessingScriptDO existing = processingScriptMapper.selectByCode(code);
         if (existing != null && !existing.getId().equals(id)) {
@@ -256,12 +294,6 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
         }
     }
 
-    /**
-     * 处理脚本响应转换
-     *
-     * @param script 处理脚本
-     * @return 处理脚本响应
-     */
     private ProcessingScriptRespVO convertToRespVO(ProcessingScriptDO script) {
         ProcessingScriptRespVO respVO = new ProcessingScriptRespVO();
         respVO.setId(script.getId());
@@ -282,44 +314,37 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
         return respVO;
     }
 
-    /**
-     * 脚本调用辅助类，提供给 Groovy 脚本调用数据库脚本和 WebService
-     */
+    private ProcessingScriptLogRespVO convertLogToRespVO(ProcessingScriptLogDO logDO) {
+        ProcessingScriptLogRespVO respVO = new ProcessingScriptLogRespVO();
+        respVO.setId(logDO.getId());
+        respVO.setScriptId(logDO.getScriptId());
+        respVO.setScriptName(logDO.getScriptName());
+        respVO.setScriptCode(logDO.getScriptCode());
+        respVO.setExecuteType(logDO.getExecuteType());
+        respVO.setScriptContent(logDO.getScriptContent());
+        respVO.setInputParams(logDO.getInputParams());
+        respVO.setStatus(logDO.getStatus());
+        respVO.setErrorMessage(logDO.getErrorMessage());
+        respVO.setCostTime(logDO.getCostTime());
+        respVO.setResultRecordCount(logDO.getResultRecordCount());
+        respVO.setPersisted(logDO.getPersisted());
+        respVO.setPersistError(logDO.getPersistError());
+        respVO.setExecuteResult(logDO.getExecuteResult());
+        respVO.setCreateTime(logDO.getCreateTime());
+        return respVO;
+    }
+
     public static class ScriptInvocationHelper {
 
-        private final DatabaseScriptService databaseScriptService;
         private final WebServiceExecutionService webServiceExecutionService;
         private final DataSource businessDataSource;
 
-        public ScriptInvocationHelper(DatabaseScriptService databaseScriptService,
-                                      WebServiceExecutionService webServiceExecutionService,
+        public ScriptInvocationHelper(WebServiceExecutionService webServiceExecutionService,
                                       DataSource businessDataSource) {
-            this.databaseScriptService = databaseScriptService;
             this.webServiceExecutionService = webServiceExecutionService;
             this.businessDataSource = businessDataSource;
         }
 
-        /**
-         * 调用数据库脚本
-         *
-         * @param scriptId    数据库脚本 ID
-         * @param inputParams 执行入参
-         * @return 执行结果
-         */
-        public DatabaseScriptExecuteRespVO callDatabaseScript(Long scriptId, Map<String, Object> inputParams) {
-            DatabaseScriptExecuteReqVO reqVO = new DatabaseScriptExecuteReqVO();
-            reqVO.setScriptId(scriptId);
-            reqVO.setInputParams(inputParams);
-            return databaseScriptService.executeScript(reqVO);
-        }
-
-        /**
-         * 调用 WebService
-         *
-         * @param wsId   WebService 数据源 ID
-         * @param params 请求参数
-         * @return 执行结果
-         */
         public DatabaseSqlExecuteRespVO callWebService(Long wsId, Map<String, String> params) {
             WebServiceExecuteReqVO reqVO = new WebServiceExecuteReqVO();
             reqVO.setDatabaseId(wsId);
@@ -327,9 +352,6 @@ public class ProcessingScriptServiceImpl implements ProcessingScriptService {
             return webServiceExecutionService.executeWebService(reqVO);
         }
 
-        /**
-         * 获取业务数据库 JdbcTemplate（用于直接数据库操作和持久化）
-         */
         public JdbcTemplate getJdbcTemplate() {
             return new JdbcTemplate(businessDataSource);
         }

@@ -480,11 +480,15 @@
     </changeSet>
 
     <changeSet id="data-20260630-001" author="zhaoff">
-        <comment>处理脚本提升为顶级模块，Web服务新增调用测试菜单</comment>
+        <comment>处理脚本提升为顶级模块，Web服务新增调用测试菜单，去除数据库脚本管理</comment>
         <sql>
             <![CDATA[
             -- 将 503 从"其他数据源"改名为"Web服务"
             UPDATE `system_menu` SET name = 'Web服务' WHERE id = 503;
+
+            -- ===== 删除数据库脚本管理菜单(50203)及按钮权限 =====
+            DELETE FROM `system_menu` WHERE id IN (5020301, 5020302, 5020303, 5020304, 5020305);
+            DELETE FROM `system_menu` WHERE id = 50203;
 
             -- ===== Web服务(503) 下新增"调用测试"菜单 =====
             INSERT IGNORE INTO `system_menu` VALUES (50302, '调用测试', '', 2, 2, 503, 'ws-execution', 'fa:window-restore', 'ubax/source/datasource/ws-execution', 'WebServiceExecution', 0, b'1', b'1', b'1', 'admin', '2026-06-30 00:00:00', '1', '2026-06-30 00:00:00', b'0');

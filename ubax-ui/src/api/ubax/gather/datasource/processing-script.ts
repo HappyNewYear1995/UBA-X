@@ -54,6 +54,32 @@ export interface ProcessingScriptExecuteRespVO {
   errorMessage?: string
 }
 
+export interface ProcessingScriptLogRespVO {
+  id: number
+  scriptId: number
+  scriptName: string
+  scriptCode: string
+  executeType: string
+  scriptContent?: string
+  inputParams?: string
+  status: number
+  errorMessage?: string
+  costTime?: number
+  resultRecordCount?: number
+  persisted?: number
+  persistError?: string
+  executeResult?: string
+  createTime: Date
+}
+
+export interface ProcessingScriptLogPageReqVO extends PageParam {
+  scriptId?: number
+  status?: number
+  executeType?: string
+  beginTime?: string
+  endTime?: string
+}
+
 export const getProcessingScriptPage = (params: ProcessingScriptPageReqVO) => {
   return request.get({ url: '/source/processing-script/page', params })
 }
@@ -76,4 +102,16 @@ export const deleteProcessingScript = (id: number) => {
 
 export const executeProcessingScript = (data: ProcessingScriptExecuteReqVO) => {
   return request.post({ url: '/source/processing-script/execute', data })
+}
+
+export const getProcessingScriptLogPage = (params: ProcessingScriptLogPageReqVO) => {
+  return request.get({ url: '/source/processing-script/log/page', params })
+}
+
+export const getProcessingScriptLog = (id: number) => {
+  return request.get({ url: '/source/processing-script/log/get', params: { id } })
+}
+
+export const deleteProcessingScriptLog = (id: number) => {
+  return request.delete({ url: '/source/processing-script/log/delete', params: { id } })
 }

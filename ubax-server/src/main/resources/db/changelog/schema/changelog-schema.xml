@@ -1874,4 +1874,31 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="schema-20260706-001" author="zhaoff">
+        <comment>处理脚本执行日志表</comment>
+        <createTable tableName="source_processing_script_log" remarks="处理脚本执行日志">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="script_id" type="BIGINT" remarks="脚本ID"/>
+            <column name="script_name" type="VARCHAR(100)" remarks="脚本名称"/>
+            <column name="script_code" type="VARCHAR(100)" remarks="脚本编码"/>
+            <column name="execute_type" type="VARCHAR(20)" defaultValue="manual" remarks="执行类型（manual/scheduled）"/>
+            <column name="script_content" type="TEXT" remarks="执行的脚本内容"/>
+            <column name="input_params" type="TEXT" remarks="执行入参（JSON）"/>
+            <column name="status" type="TINYINT" remarks="执行状态（0-成功 1-失败）"/>
+            <column name="error_message" type="TEXT" remarks="错误信息"/>
+            <column name="cost_time" type="BIGINT" remarks="执行耗时（毫秒）"/>
+            <column name="result_record_count" type="BIGINT" remarks="结果记录数"/>
+            <column name="persisted" type="TINYINT" defaultValueNumeric="0" remarks="是否持久化（0-未持久化 1-已持久化）"/>
+            <column name="persist_error" type="TEXT" remarks="持久化错误信息"/>
+            <column name="execute_result" type="TEXT" remarks="执行结果（JSON）"/>
+            <column name="creator" type="VARCHAR(64)" remarks="创建者"/>
+            <column name="create_time" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" remarks="创建时间"/>
+            <column name="updater" type="VARCHAR(64)" remarks="更新者"/>
+            <column name="update_time" type="DATETIME" remarks="更新时间"/>
+            <column name="deleted" type="BIT" defaultValueNumeric="0" remarks="是否删除"/>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

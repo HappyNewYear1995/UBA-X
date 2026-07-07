@@ -57,6 +57,8 @@ public class WebServiceDO extends BaseDO {
 
     /**
      * 认证类型 (none/basic/bearer/apikey)
+     *
+     * @see com.huanniankj.module.source.enums.webservice.AuthTypeEnum
      */
     private String authType;
 
