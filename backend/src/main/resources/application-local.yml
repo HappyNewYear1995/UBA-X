@@ -1,0 +1,53 @@
+# Local development profile: runs entirely on an in-memory H2 database
+# (MySQL compatibility mode), so no external MySQL install is required.
+# Activate with:  --spring.profiles.active=local
+# Production (default profile) still uses MySQL - this file never affects it.
+server:
+  port: 8081
+  compression:
+    enabled: true
+
+spring:
+  datasource:
+    # MODE=MySQL       -> MySQL-compatible SQL/types (e.g. TEXT columnDefinition)
+    # NON_KEYWORDS     -> allow reserved words used as column names (minute)
+    # DB_CLOSE_DELAY=-1-> keep the in-memory DB alive for the JVM lifetime
+    url: jdbc:h2:mem:ubax;MODE=MySQL;NON_KEYWORDS=MINUTE,VALUE,KEY;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+    hikari:
+      maximum-pool-size: 8
+      minimum-idle: 2
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: false
+    show-sql: false
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+ubax:
+  jwt:
+    secret: ubax-local-dev-secret-key-please-do-not-use-in-production-2026
+    expiration-minutes: 720
+  collector:
+    max-batch-size: 500
+  stream:
+    queue-capacity: 50000
+    flush-interval-ms: 5000
+
+logging:
+  level:
+    root: INFO
+    com.ubax: INFO

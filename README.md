@@ -1,369 +1,282 @@
-# UBA-X
+# UBA-X · 数智化用户行为洞察与分析系统
 
-**数智化用户行为洞察与分析系统**
+> User Behavior Analytics Platform —— 一套面向多租户 SaaS 的用户行为采集、实时分析与洞察平台。
+> 前端 Vue 3 + Element Plus，后端 Spring Boot 3 + JPA，内置分布式 Agent 探针、浏览器埋点 SDK、
+> 40+ 分析视图与 AI 数据助手。
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.9-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Vue](https://img.shields.io/badge/Vue-3.x-green.svg)](https://vuejs.org/)
+---
 
-## 项目简介
+## 目录
 
-UBA-X（User Behavior Analytics）是一个企业级的用户行为分析平台，提供从数据采集、传输、存储到分析洞察的全链路解决方案。系统采用微服务架构设计，支持多租户管理，可灵活部署于各种规模的业务场景。
+- [产品简介](#产品简介)
+- [核心特性](#核心特性)
+- [技术栈](#技术栈)
+- [系统架构](#系统架构)
+- [快速开始（本地）](#快速开始本地)
+- [默认账号](#默认账号)
+- [功能模块一览](#功能模块一览)
+- [数据接入](#数据接入)
+- [Agent 探针](#agent-探针)
+- [项目结构](#项目结构)
+- [生产部署](#生产部署)
+- [文档索引](#文档索引)
+
+---
+
+## 产品简介
+
+UBA-X 帮助企业把「用户在产品里做了什么」变成可查询、可下钻、可预警的数据资产。系统覆盖从
+**数据采集**（浏览器 SDK / 服务端 API / 分布式探针）到 **实时计算**（分钟级流式聚合）再到
+**分析洞察**（漏斗、留存、路径、归因、A/B、RFM、流失预警等）的完整链路，并提供多租户隔离、
+基于角色的权限控制（RBAC）、操作审计与 AI 自然语言查询助手。
+
+平台采用多租户架构：平台超级管理员跨租户运营，租户管理员管理本租户的用户、应用与数据，
+数据分析师与只读访客按需查看分析结果。
 
 ## 核心特性
 
-- **全链路数据采集**：支持 Web、H5、App、小程序等多端数据采集
-- **实时数据处理**：基于 Flink 的实时数据流处理引擎
-- **智能分析洞察**：提供页面访问、事件追踪、用户画像等多维度分析
-- **多租户架构**：完善的租户隔离与权限管理体系
-- **灵活存储方案**：支持多种数据存储策略，满足不同规模需求
-- **Agent 探针管理**：通过 ubax-pilot 实现分布式数据采集探针的远程控制与配置管理
-- **可视化报表**：丰富的数据可视化组件，直观展示分析结果
+- **多租户 SaaS**：租户级数据隔离（`TenantContext` ThreadLocal 贯穿全链路），平台超管与租户管理员分层运营。
+- **实时行为分析**：概览看板、实时分析（分钟级流式聚合）、事件/页面/漏斗/留存分析。
+- **深度洞察**：用户画像、点击热力图、会话回放、用户旅程时间线。
+- **数据应用市场**：14 个开箱即用的分析应用（安全风控、地域、转化路径、归因、A/B 实验、RFM、流失预警、异常检测等）。
+- **AI 数据助手**：自然语言查询平台数据与指标。
+- **分布式 Agent 探针**：远程注册、心跳、指标上报、配置下发与指令控制（重载/启停/重启/立即上报/升级）。
+- **浏览器埋点 SDK**：自动采集 pageview / click / leave，支持 SPA 路由与 `sendBeacon` 兜底。
+- **完整系统管理**：用户、角色权限、参数配置、数据字典、通知公告、系统监控、定时任务、操作日志、登录日志、个人中心。
+- **RBAC 权限体系**：细粒度权限点 + 角色，前端路由/菜单按权限动态过滤。
 
 ## 技术栈
 
-### 后端
+| 层次 | 技术 |
+| --- | --- |
+| 前端 | Vue 3.5、Vite 5、Element Plus 2.8、Pinia 2、Vue Router 4、ECharts 5、Axios |
+| 后端 | Spring Boot 3.3.5、Java 17、Spring Data JPA、Spring Security、Hibernate |
+| 鉴权 | JWT（jjwt 0.12.6），无状态会话 |
+| 数据库 | 生产 MySQL 8；本地开发 H2 内存库（MySQL 兼容模式） |
+| 探针 | Bash + Python 3（仅标准库）运行时，通过 `/sdk/**` 下发 |
+| 构建 | Maven（后端）、Vite（前端） |
 
-| 技术 | 版本 | 说明 |
-|------|------|------|
-| Java | 17 | 开发语言 |
-| Spring Boot | 3.5.9 | 核心框架 |
-| MyBatis Plus | - | ORM 框架 |
-| Liquibase | - | 数据库版本管理 |
-| Redis | - | 缓存中间件 |
-| Flink | - | 实时计算引擎 |
-| MapStruct | 1.6.3 | 对象转换 |
-| Lombok | 1.18.42 | 代码简化 |
-| Hutool | 5.8.25 | 工具类库 |
+## 系统架构
 
-### 前端
+```
+┌──────────────┐   ┌──────────────┐   ┌───────────────────┐
+│ 浏览器 SDK    │   │ 服务端 API    │   │ Agent 探针         │
+│ (ubax.js)    │   │ (自定义埋点)  │   │ (pilot-agent.sh)  │
+└──────┬───────┘   └──────┬───────┘   └─────────┬─────────┘
+       │  /api/collect/*  │                     │ /api/pilot/agents/*
+       ▼                  ▼                     ▼
+┌─────────────────────────────────────────────────────────┐
+│                   Spring Boot 后端 (:8081)                │
+│  Collector → StreamEngine(异步队列+5s flush) → 持久化      │
+│  Event / RealtimeMinute / UserProfile                     │
+│  ─────────────────────────────────────────────────────   │
+│  Analytics · Ext(数据应用) · Pilot(探针管理) · System     │
+│  Assistant(AI) · Tenant/User/Role(RBAC) · SDK 下发        │
+└───────────────────────────┬─────────────────────────────┘
+                            ▼
+                   MySQL / H2  +  JWT 鉴权
+                            ▲
+┌───────────────────────────┴─────────────────────────────┐
+│              Vue 3 前端 (:5173 / nginx :8888)             │
+└───────────────────────────────────────────────────────────┘
+```
 
-| 技术 | 版本 | 说明 |
-|------|------|------|
-| Vue | 3.x | 前端框架 |
-| Vite | - | 构建工具 |
-| Element Plus | - | UI 组件库 |
-| TypeScript | - | 类型系统 |
-| Pinia | - | 状态管理 |
-| Vue Router | - | 路由管理 |
+采集管线：`/api/collect/batch` → `CollectorService.ingest`（校验 appKey，拒绝未知/停用应用）
+→ `StreamEngine`（有界异步队列 + worker + 5 秒批量 flush）→ 落库 `Event` / `RealtimeMinute` /
+`UserProfile`。详见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。
+
+## 快速开始（本地）
+
+本地开发使用 H2 内存库，无需安装 MySQL。**注意：H2 profile 为 `create-drop`，每次重启后端都会重新播种，数据会被清空。**
+
+### 环境要求
+
+- JDK 17
+- Node.js 18+（前端）
+- Maven 3.9+（后端；仓库 `.tools/` 内置便携版 JDK17 与 Maven，可选用）
+
+### 1. 启动后端
+
+```bash
+cd backend
+mvn spring-boot:run -Dspring-boot.run.profiles=local
+# 或先打包再运行：
+mvn clean package -DskipTests
+java -jar target/ubax-server.jar --spring.profiles.active=local
+```
+
+后端监听 `http://localhost:8081`，健康检查 `http://localhost:8081/health`。
+H2 控制台（local profile）：`http://localhost:8081/h2-console`。
+
+### 2. 启动前端
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+前端监听 `http://localhost:5173`，已配置 `/api` 代理到后端 `8081`。浏览器打开即可登录。
+
+### 3. 生产构建
+
+```bash
+cd frontend && npm run build   # 产物在 frontend/dist
+cd backend  && mvn clean package -DskipTests   # 产物 backend/target/ubax-server.jar
+```
+
+## 默认账号
+
+本地 H2 每次启动由 `DataSeeder` 播种以下账号：
+
+| 用户名 | 密码 | 角色 | 租户 | 说明 |
+| --- | --- | --- | --- | --- |
+| `admin` | `admin123` | SUPER_ADMIN | 无（平台级） | 跨租户管理，落地页为「用户管理」 |
+| `demo` | `demo123` | ADMIN | 租户 1 | 租户管理员，可查看包括 Agent 探针在内的全部租户功能 |
+| `analyst` | `analyst123` | ANALYST | 租户 1 | 数据分析师，只读分析 + 应用管理 |
+
+> **提示**：Agent 探针、应用接入等租户级页面（路由 `meta.tenant=true`）需用 **租户用户**（如 `demo`）登录。
+> 平台超管 `admin` 无租户上下文，访问这些接口会返回 401 并被拦截器踢回登录页。
+
+内置角色与权限点：
+
+| 角色 | 权限点 |
+| --- | --- |
+| SUPER_ADMIN | analytics:view, data:view, assistant:use, app:manage, agent:manage, user:manage, role:manage, tenant:manage, system:manage |
+| ADMIN | analytics:view, data:view, assistant:use, app:manage, agent:manage, user:manage, role:manage, system:manage |
+| ANALYST | analytics:view, data:view, assistant:use, app:manage, agent:manage |
+| VIEWER | analytics:view, data:view, assistant:use |
+
+## 功能模块一览
+
+**分析（`analytics:view`）**
+
+- 概览看板 `/dashboard`、实时分析 `/realtime`
+- 事件分析 `/events`、页面分析 `/pages`、漏斗分析 `/funnel`、留存分析 `/retention`
+
+**洞察（`data:view`）**
+
+- 用户画像 `/profiles`（+ 详情 `/profiles/:distinctId`）、点击热力图 `/heatmap`、会话回放 `/sessions`
+
+**数据应用市场（`/ext`，14 个应用）**
+
+安全风控、地域分析、转化路径、漏斗对比、客户端指纹、留存分群、流失预警/健康分、RFM 价值分层、
+用户旅程时间线、页面性能与体验、异常预警、事件探索、归因分析、A/B 实验。
+
+**采集与接入**
+
+- 应用与接入 `/apps`（`app:manage`）：创建应用、生成 appKey、轮换密钥、查看接入 SDK 片段。
+- Agent 探针 `/agents`（`agent:manage`）：探针注册、心跳、指标、远程配置、指令控制、下载探针脚本。
+
+**AI 助手** `/assistant`（`assistant:use`）：自然语言查询数据。
+
+**系统管理（`system:manage` / `user:manage` / `role:manage` / `tenant:manage`）**
+
+用户管理、角色权限、参数设置、数据字典、通知公告、系统监控、定时任务、操作日志、登录日志、个人中心、租户管理（超管）。
+
+## 数据接入
+
+### 浏览器 SDK
+
+在应用页面引入即可自动采集 pageview / click / leave：
+
+```html
+<script>
+  window.UBAX_CONFIG = {
+    appKey: 'ubax_demo_mini_0002',   // 在「应用与接入」页获取
+    server: 'http://your-host:8081',
+    autoTrack: true
+  };
+</script>
+<script src="http://your-host:8081/sdk/ubax.js"></script>
+<script>
+  ubax.identify('user-123');          // 绑定业务用户 ID（可选）
+  ubax.track('purchase', { amount: 99 });  // 自定义事件
+</script>
+```
+
+### 服务端 API
+
+```bash
+curl -X POST http://your-host:8081/api/collect/batch \
+  -H 'Content-Type: application/json' \
+  -d '{"appKey":"ubax_demo_mini_0002","events":[{"event":"$pageview","distinctId":"u1","properties":{}}]}'
+```
+
+采集端点 `/api/collect/**` 为开放端点（凭 appKey 校验），详见 [docs/API.md](docs/API.md)。
+
+## Agent 探针
+
+`ubax-pilot` 是分布式采集探针，Bash 外壳内嵌纯标准库 Python 3 运行时，无需 curl/jq 依赖。
+
+在「Agent 探针」页注册探针后，可复制安装命令，或直接点击「下载探针」获取 `pilot-agent.sh`：
+
+```bash
+curl -fsSL http://your-host:8081/sdk/pilot-agent.sh | bash -s -- \
+  --key <AGENT_KEY> \
+  --server your-host:8081 \
+  --name web-collector-03 \
+  --tags 生产,华东
+```
+
+探针运行时循环：**注册 → 心跳（上报主机指标）→ 拉取并执行指令 → 采集事件上报**。
+支持指令：`RELOAD_CONFIG`（重载配置）、`START`/`STOP`（启停采集）、`FLUSH`（立即上报）、
+`RESTART`（重启）、`UPGRADE`（升级）。后端每 30 秒巡检，探针静默 90 秒自动置为离线。
+
+新装探针会自动注入租户默认 appKey，开箱即采集。详见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
 
 ## 项目结构
 
 ```
-uba-x/
-├── ubax-dependencies/              # 依赖管理 BOM
-├── ubax-framework/                 # 框架核心
-│   ├── ubax-common/                # 通用工具类
-│   ├── ubax-spring-boot-starter-web/           # Web 组件
-│   ├── ubax-spring-boot-starter-security/      # 安全组件
-│   ├── ubax-spring-boot-starter-mybatis/       # MyBatis 组件
-│   ├── ubax-spring-boot-starter-redis/         # Redis 组件
-│   ├── ubax-spring-boot-starter-mq/            # 消息队列组件
-│   ├── ubax-spring-boot-starter-job/           # 定时任务组件
-│   ├── ubax-spring-boot-starter-excel/         # Excel 组件
-│   ├── ubax-spring-boot-starter-monitor/       # 监控组件
-│   ├── ubax-spring-boot-starter-protection/    # 服务保障组件
-│   ├── ubax-spring-boot-starter-websocket/     # WebSocket 组件
-│   ├── ubax-spring-boot-starter-biz-tenant/    # 多租户组件
-│   ├── ubax-spring-boot-starter-biz-ip/        # IP 组件
-│   └── ubax-spring-boot-starter-biz-data-permission/  # 数据权限组件
-├── ubax-server/                    # 主启动模块
-├── ubax-module-system/             # 系统管理模块
-├── ubax-module-infra/              # 基础设施模块
-├── ubax-module-collect/            # 数据采集模块
-├── ubax-module-storage/            # 数据存储模块
-├── ubax-module-analysis/           # 数据分析模块
-├── ubax-module-flink/              # Flink 实时计算模块
-├── ubax-module-pilot/              # Agent 探针管理模块
-└── ubax-ui/                        # 前端项目
+ubax/
+├── backend/                     Spring Boot 后端
+│   └── src/main/
+│       ├── java/com/ubax/
+│       │   ├── analytics/       核心分析（概览/趋势/实时/漏斗/留存/热力/会话）
+│       │   ├── app/             应用与 appKey 管理
+│       │   ├── assistant/       AI 数据助手
+│       │   ├── bootstrap/       DataSeeder 种子数据
+│       │   ├── collector/       采集入口 + StreamEngine
+│       │   ├── common/          安全配置 / JWT 过滤器 / 审计
+│       │   ├── event/           事件领域模型
+│       │   ├── ext/             数据应用（14 个扩展分析）
+│       │   ├── pilot/           Agent 探针管理面 + 探针面
+│       │   ├── profile/         用户画像
+│       │   ├── sdk/             /sdk/** 探针与 JS SDK 下发
+│       │   ├── stream/          实时分钟聚合
+│       │   ├── system/          系统管理（配置/字典/公告/监控/任务/日志/账户）
+│       │   └── tenant/          租户 / 用户 / 角色 / 鉴权
+│       └── resources/
+│           ├── sdk/pilot-agent.sh   探针运行时
+│           ├── sdk/ubax.js          浏览器 SDK
+│           ├── application.yml      生产（MySQL）
+│           └── application-local.yml 本地（H2）
+├── frontend/                    Vue 3 前端
+│   └── src/
+│       ├── views/               40+ 页面（含 ext/ 数据应用、system/ 系统管理）
+│       ├── api/                 axios 封装 + 各模块 API
+│       ├── router/              路由与权限守卫
+│       ├── store/               Pinia（auth）
+│       └── layouts/             主布局
+├── deploy/                      nginx / systemd / ssh 部署脚本
+├── .deploy/                     打包产物（backend.tar.gz / dist.tar.gz，可能过期）
+└── docs/                        产品文档
 ```
 
-## 模块说明
+## 生产部署
 
-### ubax-framework
+生产使用 MySQL + nginx 反向代理 + systemd 托管。**端口约束：禁止使用 80/443**，nginx 监听 8888，
+后端监听 8081。完整步骤见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
 
-框架核心层，提供项目所需的各种 Starter 组件：
+> 当前 `.deploy/` 下的 `backend.tar.gz` 与 `dist.tar.gz` 为历史打包产物，可能已过期；
+> 上线前请重新执行 `npm run build` 与 `mvn clean package` 并重打包。
 
-- **ubax-common**: 通用工具类、常量、枚举、异常处理等
-- **ubax-spring-boot-starter-web**: Web 相关配置、全局异常处理、统一返回格式
-- **ubax-spring-boot-starter-security**: 安全认证、权限控制、JWT 支持
-- **ubax-spring-boot-starter-mybatis**: MyBatis Plus 集成、自动填充、分页插件
-- **ubax-spring-boot-starter-redis**: Redis 缓存、分布式锁
-- **ubax-spring-boot-starter-mq**: 消息队列集成
-- **ubax-spring-boot-starter-job**: 定时任务（Quartz）
-- **ubax-spring-boot-starter-biz-tenant**: 多租户支持、租户隔离
-- **ubax-spring-boot-starter-excel**: Excel 导入导出
-- **ubax-spring-boot-starter-monitor**: 监控与链路追踪
-- **ubax-spring-boot-starter-protection**: 限流、防重、幂等
-- **ubax-spring-boot-starter-websocket**: WebSocket 支持
-- **ubax-spring-boot-starter-biz-ip**: IP 地址解析
-- **ubax-spring-boot-starter-biz-data-permission**: 数据权限控制
+## 文档索引
 
-### ubax-module-system
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) —— 分层架构、采集管线、多租户与 RBAC、探针闭环、数据模型
+- [docs/API.md](docs/API.md) —— 全部 REST 端点、鉴权、请求/响应约定、分页规范
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) —— 本地运行、生产部署、探针安装、运维
 
-系统管理模块，提供基础的系统管理功能：
+## 许可
 
-- 用户管理、角色管理、权限管理
-- 菜单管理、部门管理、岗位管理
-- 字典管理、参数配置
-- 登录日志、操作日志
-- 租户管理、租户套餐
-- OAuth2 认证、第三方登录
-- 短信服务、邮件服务、通知服务
-
-### ubax-module-infra
-
-基础设施模块，提供系统基础设施支持：
-
-- 文件管理、文件存储配置
-- 代码生成器
-- 定时任务管理
-- API 访问日志、错误日志
-- Redis 监控
-
-### ubax-module-collect
-
-数据采集模块，负责用户行为数据的采集与接入。
-
-### ubax-module-storage
-
-数据存储模块，提供灵活的数据存储策略。
-
-### ubax-module-analysis
-
-数据分析模块，提供用户行为分析功能：
-
-- 页面访问分析
-- 事件追踪分析
-- 用户画像分析
-- 转化漏斗分析
-
-### ubax-module-flink
-
-Flink 实时计算模块，基于 Apache Flink 实现：
-
-- 实时数据流处理
-- 实时指标计算
-- 实时告警
-
-### ubax-module-pilot
-
-Agent 探针管理模块，用于与 ubax-pilot 探针通讯和控制交互：
-
-- Agent 注册与心跳管理
-- SSE 长连接推送配置与命令
-- Agent 在线状态监控
-- 远程命令下发
-- Agent 数据持久化
-
-**接口说明**：
-
-| 接口路径 | 方法 | 说明 | 类型 |
-|---------|------|------|------|
-| `/pilot/agent/config` | GET | 探针拉取配置 | App |
-| `/pilot/agent/heartbeat` | POST | 心跳上报 | App |
-| `/pilot/agent/push` | GET | SSE 推送流 | App |
-| `/pilot/agent/page` | GET | Agent 分页列表 | Admin |
-| `/pilot/agent/get` | GET | Agent 详情 | Admin |
-| `/pilot/agent/push-command` | POST | 推送命令 | Admin |
-
-### ubax-ui
-
-前端管理后台，基于 Vue 3 + Element Plus 构建：
-
-- 响应式布局，支持多端适配
-- 丰富的组件库
-- 动态路由、权限控制
-- 多标签页、主题切换
-
-## 快速开始
-
-### 环境要求
-
-- JDK 17+
-- Maven 3.8+
-- MySQL 8.0+
-- Redis 6.0+
-- Node.js 18+（前端）
-- pnpm 8+（前端）
-
-### 后端启动
-
-1. **克隆项目**
-   ```bash
-   git clone https://gitee.com/FoleyZhao/uba-x.git
-   cd uba-x
-   ```
-
-2. **初始化数据库**
-   ```bash
-   # 创建数据库
-   mysql -u root -p -e "CREATE DATABASE ubax DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-   
-   # 项目启动时 Liquibase 会自动执行数据库脚本
-   ```
-
-3. **修改配置**
-   ```bash
-   # 编辑配置文件
-   vim ubax-server/src/main/resources/application-dev.yaml
-   ```
-   
-   修改数据库连接、Redis 连接等配置。
-
-4. **编译项目**
-   ```bash
-   mvn clean install -DskipTests
-   ```
-
-5. **启动服务**
-   ```bash
-   cd ubax-server
-   mvn spring-boot:run
-   ```
-
-### 前端启动
-
-1. **安装依赖**
-   ```bash
-   cd ubax-ui
-   pnpm install
-   ```
-
-2. **启动开发服务器**
-   ```bash
-   pnpm dev
-   ```
-
-3. **访问系统**
-   
-   打开浏览器访问 `http://localhost:3000`
-
-## 配置说明
-
-### 数据库配置
-
-在 `application-dev.yaml` 中配置数据库连接：
-
-```yaml
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/ubax?useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
-    password: your_password
-```
-
-### Redis 配置
-
-```yaml
-spring:
-  redis:
-    host: localhost
-    port: 6379
-    password: your_password
-```
-
-### Liquibase 配置
-
-```yaml
-spring:
-  liquibase:
-    enabled: true
-    change-log: classpath:db/changelog/master.xml
-```
-
-## 开发规范
-
-### 代码规范
-
-- 遵循阿里巴巴 Java 开发手册
-- 使用 Lombok 简化代码
-- 使用 MapStruct 进行对象转换
-- Controller 层严禁业务逻辑，统一返回 `CommonResult<T>`
-- 业务异常统一抛出 `ServiceException`
-
-### 数据库规范
-
-- 使用 Liquibase 管理数据库版本
-- 表名使用 `模块_业务` 命名（如 `system_users`）
-- 所有表必须包含 `create_time`、`update_time`、`creator`、`updater`、`deleted` 字段
-- 使用 `BaseDO` 作为实体基类
-
-### 接口规范
-
-- Controller 分为 `admin`（管理后台）和 `app`（用户端）
-- 接口路径格式 `/模块/业务`
-- 使用 Swagger 注解标注接口信息
-- 参数校验使用 JSR-303 注解
-
-## 数据库版本管理
-
-项目使用 Liquibase 进行数据库版本管理，脚本位于 `ubax-server/src/main/resources/db/changelog/`：
-
-```
-db/changelog/
-├── master.xml                    # 主入口
-├── schema/                       # 表结构变更（DDL）
-│   ├── changelog-schema.xml
-│   └── V1__init_schema.sql
-└── data/                         # 数据变更（DML）
-    ├── changelog-data.xml
-    └── V1__init_data.sql
-```
-
-**新增变更**：
-- 表结构变更：在 `schema/` 下创建 SQL 文件，并在 `changelog-schema.xml` 中引用
-- 数据变更：在 `data/` 下创建 SQL 文件，并在 `changelog-data.xml` 中引用
-
-## 部署
-
-### Docker 部署
-
-（待补充）
-
-### 生产环境配置
-
-（待补充）
-
-## 常见问题
-
-### Q: 启动时数据库初始化失败？
-
-A: 确保 MySQL 版本为 8.0+，并创建了 `ubax` 数据库。Liquibase 会在启动时自动执行建表脚本。
-
-### Q: 如何添加新的业务模块？
-
-A: 
-1. 在根 `pom.xml` 中添加新模块
-2. 创建模块目录结构，参考 `ubax-module-system`
-3. 在 `ubax-server` 中引入新模块依赖
-
-## 贡献指南
-
-欢迎提交 Issue 和 Pull Request！
-
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 提交 Pull Request
-
-## 许可证
-
-本项目采用 Apache 2.0 许可证，详见 [LICENSE](LICENSE) 文件。
-
-## 联系方式
-
-- 项目地址：https://gitee.com/FoleyZhao/uba-x
-- 问题反馈：提交 Issue
-
-## 致谢
-
-感谢以下开源项目：
-
-- [Spring Boot](https://spring.io/projects/spring-boot)
-- [MyBatis Plus](https://baomidou.com/)
-- [Vue.js](https://vuejs.org/)
-- [Element Plus](https://element-plus.org/)
-- [Liquibase](https://www.liquibase.org/)
+本项目为内部产品代码，未附开源许可证。如需对外分发请先明确授权。

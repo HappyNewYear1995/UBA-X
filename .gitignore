@@ -1,38 +1,19 @@
-# Compiled class file
-*.class
+# build outputs
+backend/target/
+frontend/dist/
+frontend/node_modules/
 
-# Log file
+# local toolchain & stale deploy packages (not source)
+.tools/
+.deploy/
+
+# logs
 *.log
+backend/run.log
 
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# IntelliJ IDEA #
-.idea
-*.iws
+# IDE / OS
+.idea/
 *.iml
-*.ipr
-target/*
-target/
-/*/target/
-/*/**/target/
-/.vscode/
-/ubax-framework/*/target/
-./dependency-reduced-pom.xml
-
-# frontend #
-ubax-ui/.idea/*
-ubax-ui/node_modules/*
-ubax-ui/pnpm-lock.yaml
+.vscode/
+.DS_Store
+Thumbs.db

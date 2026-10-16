@@ -1,0 +1,49 @@
+:root {
+  --ubax-bg: #f4f6fa;
+  --ubax-primary: #2b5cff;
+}
+* { box-sizing: border-box; }
+html, body, #app { height: 100%; margin: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+  background: var(--ubax-bg);
+  color: #1f2329;
+}
+.page { padding: 18px 22px; }
+.page-title { font-size: 19px; font-weight: 600; margin: 0 0 4px; }
+.page-sub { color: #8a9099; font-size: 13px; margin: 0 0 16px; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+.stat-card {
+  background: #fff; border-radius: 12px; padding: 18px 20px;
+  box-shadow: 0 1px 8px rgba(20, 40, 90, .06);
+}
+.stat-card .label { color: #8a9099; font-size: 13px; }
+.stat-card .value { font-size: 28px; font-weight: 700; margin-top: 6px; color: #1f2329; }
+.stat-card .value small { font-size: 14px; font-weight: 500; color: #8a9099; }
+.card {
+  background: #fff; border-radius: 12px; padding: 16px 18px; margin-top: 16px;
+  box-shadow: 0 1px 8px rgba(20, 40, 90, .06);
+}
+.card-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.chart { width: 100%; height: 320px; }
+.chart-sm { width: 100%; height: 260px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .row2 { grid-template-columns: 1fr; } }
+.toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+/* Element Plus date pickers inherit .el-input__wrapper { flex-grow: 1 }, so inside a flex
+   .toolbar they stretch to fill the whole row (a daterange editor ballooned to ~830px).
+   Pin every date/range editor in a toolbar to a sensible fixed width. Global (unscoped)
+   so it covers RangeBar, standalone pickers, and any future toolbar uniformly — and it
+   works even though Element Plus sets inheritAttrs:false (class selectors still match). */
+.toolbar .el-date-editor.el-input__wrapper,
+.toolbar .el-date-editor.el-input { flex-grow: 0; flex-shrink: 0; }
+.toolbar .el-date-editor--daterange,
+.toolbar .el-date-editor--datetimerange,
+.toolbar .el-date-editor--monthrange { width: 260px; }
+.toolbar .el-date-editor--date { width: 150px; }
+.toolbar .el-date-editor--datetime { width: 200px; }
+.toolbar .el-date-editor--month,
+.toolbar .el-date-editor--year { width: 130px; }
+.toolbar .el-date-editor .el-range-separator { padding: 0 4px; flex: 0 0 auto; }
+.muted { color: #8a9099; }
+.mono { font-family: ui-monospace, Menlo, Consolas, monospace; }

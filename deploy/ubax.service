@@ -1,0 +1,26 @@
+[Unit]
+Description=UBA-X User Behavior Analytics Server
+Documentation=https://github.com/ubax
+After=network.target mysql.service
+Wants=mysql.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/ubax/app
+Environment=MYSQL_HOST=127.0.0.1
+Environment=MYSQL_PORT=3306
+Environment=MYSQL_DB=ubax
+Environment=MYSQL_USER=ubax
+Environment=MYSQL_PASSWORD=ubax@2026
+Environment=JWT_SECRET=ubax-prod-secret-key-2026-please-change-a8f3f0
+Environment=TZ=Asia/Shanghai
+ExecStart=/usr/bin/java -Xms256m -Xmx640m -XX:MaxMetaspaceSize=256m -XX:+UseSerialGC -Djava.security.egd=file:/dev/./urandom -jar /opt/ubax/app/ubax-server.jar
+SuccessExitStatus=143
+Restart=always
+RestartSec=8
+StandardOutput=append:/opt/ubax/logs/ubax.log
+StandardError=append:/opt/ubax/logs/ubax-error.log
+
+[Install]
+WantedBy=multi-user.target

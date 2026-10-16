@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UBA-X 演示商城 · 数据采集示例</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; color: #1f2329; background: #f5f6f8; }
+    header { background: linear-gradient(90deg,#2b5cff,#6a3cff); color:#fff; padding:16px 24px; display:flex; align-items:center; gap:16px; }
+    header h1 { font-size:18px; margin:0; }
+    nav a { color:#fff; margin-right:16px; text-decoration:none; opacity:.9; }
+    .wrap { max-width:1080px; margin:24px auto; padding:0 16px; }
+    .banner { background:#fff; border-radius:12px; padding:28px; text-align:center; box-shadow:0 2px 12px rgba(0,0,0,.05); }
+    .banner-cta { background:#2b5cff; color:#fff; border:none; padding:12px 28px; border-radius:8px; font-size:15px; cursor:pointer; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; margin-top:20px; }
+    .product-card { background:#fff; border-radius:12px; padding:16px; box-shadow:0 2px 12px rgba(0,0,0,.05); cursor:pointer; transition:.2s; }
+    .product-card:hover { transform:translateY(-3px); }
+    .thumb { height:110px; border-radius:8px; background:linear-gradient(135deg,#e0e7ff,#f3e8ff); display:flex; align-items:center; justify-content:center; font-size:34px; }
+    .price { color:#f5222d; font-weight:600; margin-top:8px; }
+    .btn { border:none; padding:9px 16px; border-radius:8px; cursor:pointer; font-size:14px; }
+    .add-to-cart-btn { background:#ff7a00; color:#fff; }
+    #buy-now { background:#f5222d; color:#fff; }
+    .panel { background:#fff; border-radius:12px; padding:20px; margin-top:20px; box-shadow:0 2px 12px rgba(0,0,0,.05); }
+    .tip { color:#8a9099; font-size:13px; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    input[type=text] { padding:9px 12px; border:1px solid #dcdfe6; border-radius:8px; }
+    #toast { position:fixed; bottom:24px; right:24px; background:#111; color:#fff; padding:12px 18px; border-radius:8px; opacity:0; transition:.3s; font-size:13px; }
+    code { background:#f0f2f5; padding:2px 6px; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛍️ UBA-X 演示商城</h1>
+    <nav>
+      <a href="#" data-page="/">首页</a>
+      <a href="#" data-page="/products">全部商品</a>
+      <a href="#" data-page="/cart">购物车</a>
+      <a href="#" data-page="/checkout">结算</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <div class="banner">
+      <h2 id="page-title">欢迎来到演示商城</h2>
+      <p class="tip">这是一个用于验证 UBA-X 全链路采集的示例页面。你的浏览、点击、加购、下单行为都会通过 SDK 实时上报。</p>
+      <button class="banner-cta" id="search-box">立即选购</button>
+    </div>
+
+    <div class="grid" id="product-list"></div>
+
+    <div class="panel">
+      <h3>手动触发事件</h3>
+      <p class="tip">SDK 已自动采集 <code>$pageview</code> / <code>$click</code> / <code>$leave</code>；下面的按钮演示自定义业务事件。</p>
+      <div class="row">
+        <button class="btn add-to-cart-btn" id="add-to-cart">加入购物车 (add_to_cart)</button>
+        <button class="btn" id="begin-checkout" style="background:#2b5cff;color:#fff">去结算 (begin_checkout)</button>
+        <button class="btn" id="buy-now">支付成功 (purchase)</button>
+        <button class="btn" id="sign-up" style="background:#52c41a;color:#fff">注册 (sign_up)</button>
+      </div>
+      <div class="row">
+        <input type="text" id="kw" placeholder="搜索关键词…" />
+        <button class="btn" id="do-search" style="background:#eee">搜索 (search)</button>
+        <button class="btn" id="identify" style="background:#eee">识别用户 (identify)</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <!-- UBA-X SDK 接入代码 -->
+  <script>
+    window.UBAX_CONFIG = { appKey: 'ubax_demo_web_0001', server: '', autoTrack: true };
+  </script>
+  <script src="/sdk/ubax.js"></script>
+  <script>
+    var products = [
+      { e:'🎧', n:'无线降噪耳机', p:599 },
+      { e:'⌨️', n:'机械键盘', p:399 },
+      { e:'⌚', n:'智能手表', p:899 },
+      { e:'🖥️', n:'27寸显示器', p:1299 },
+      { e:'🔋', n:'移动电源', p:129 },
+      { e:'🖱️', n:'无线鼠标', p:159 }
+    ];
+    var list = document.getElementById('product-list');
+    products.forEach(function (pr) {
+      var card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = '<div class="thumb">' + pr.e + '</div><div>' + pr.n + '</div><div class="price">¥' + pr.p + '</div>';
+      card.onclick = function () {
+        toast('浏览商品：' + pr.n);
+        window.ubax && ubax.track('view_product', { name: pr.n, price: pr.p });
+      };
+      list.appendChild(card);
+    });
+
+    function toast(msg) {
+      var t = document.getElementById('toast');
+      t.innerText = '📤 已上报：' + msg;
+      t.style.opacity = '1';
+      clearTimeout(t._t);
+      t._t = setTimeout(function () { t.style.opacity = '0'; }, 1800);
+    }
+    function fire(name, props, label) {
+      if (window.ubax) { ubax.track(name, props || {}); toast(label || name); }
+    }
+    document.getElementById('add-to-cart').onclick = function(){ fire('add_to_cart',{sku:'demo'},'加入购物车'); };
+    document.getElementById('begin-checkout').onclick = function(){ fire('begin_checkout',{},'去结算'); };
+    document.getElementById('buy-now').onclick = function(){ fire('purchase',{amount:599,currency:'CNY'},'支付成功'); };
+    document.getElementById('sign-up').onclick = function(){ fire('sign_up',{},'注册'); };
+    document.getElementById('do-search').onclick = function(){ fire('search',{keyword:document.getElementById('kw').value||'耳机'},'搜索'); };
+    document.getElementById('identify').onclick = function(){ if(window.ubax){ubax.identify('demo_user_001'); toast('已识别用户 demo_user_001');} };
+    document.getElementById('search-box').onclick = function(){ fire('view_product',{from:'banner'},'点击Banner'); };
+
+    // SPA 式路由切换（触发 SDK 的 history 监听）
+    document.querySelectorAll('nav a').forEach(function(a){
+      a.onclick = function(ev){
+        ev.preventDefault();
+        var p = a.getAttribute('data-page');
+        history.pushState({}, '', p);
+        document.getElementById('page-title').innerText = ({
+          '/':'欢迎来到演示商城','/products':'全部商品','/cart':'我的购物车','/checkout':'订单结算'
+        })[p] || '演示商城';
+      };
+    });
+  </script>
+</body>
+</html>

@@ -1,3 +1,0 @@
-com.huanniankj.framework.security.config.UbaxSecurityAutoConfiguration
-com.huanniankj.framework.security.config.UbaxWebSecurityConfigurerAdapter
-com.huanniankj.framework.operatelog.config.UbaxOperateLogConfiguration

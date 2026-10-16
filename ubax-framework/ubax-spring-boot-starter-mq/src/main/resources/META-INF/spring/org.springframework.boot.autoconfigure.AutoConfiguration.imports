@@ -1,3 +1,0 @@
-com.huanniankj.framework.mq.redis.config.UbaxRedisMQProducerAutoConfiguration
-com.huanniankj.framework.mq.redis.config.UbaxRedisMQConsumerAutoConfiguration
-com.huanniankj.framework.mq.rabbitmq.config.UbaxRabbitMQAutoConfiguration

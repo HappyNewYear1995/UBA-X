@@ -1,0 +1,43 @@
+server:
+  port: 8081
+  compression:
+    enabled: true
+
+spring:
+  application:
+    name: ubax-server
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DB:ubax}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    username: ${MYSQL_USER:ubax}
+    password: ${MYSQL_PASSWORD:ubax@2026}
+    hikari:
+      maximum-pool-size: 8
+      minimum-idle: 2
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: false
+    show-sql: false
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: Asia/Shanghai
+
+ubax:
+  jwt:
+    secret: ${JWT_SECRET:ubax-default-secret-key-change-in-production-please-2026}
+    expiration-minutes: 720
+  collector:
+    # simple shared app-key check toggle; per-app keys are validated against DB
+    max-batch-size: 500
+  stream:
+    queue-capacity: 50000
+    flush-interval-ms: 5000
+
+logging:
+  level:
+    root: INFO
+    com.ubax: INFO
