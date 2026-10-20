@@ -1,7 +1,9 @@
 package com.ubax.collector;
 
+import com.ubax.app.domain.App;
 import com.ubax.collector.dto.EventPayload;
 import com.ubax.common.ApiResponse;
+import com.ubax.governance.service.IdentityService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +16,11 @@ import java.util.Map;
 public class CollectorController {
 
     private final CollectorService collectorService;
+    private final IdentityService identityService;
 
-    public CollectorController(CollectorService collectorService) {
+    public CollectorController(CollectorService collectorService, IdentityService identityService) {
         this.collectorService = collectorService;
+        this.identityService = identityService;
     }
 
     @PostMapping("/event")
@@ -58,6 +62,28 @@ public class CollectorController {
         return ApiResponse.ok(m);
     }
 
+    /**
+     * Server-side identity binding: folds an anonymous distinctId onto a
+     * logged-in userId so pre/post-login events map to one profile. Open
+     * endpoint (no auth), appKey-scoped.
+     */
+    @PostMapping("/identify")
+    public ApiResponse<Map<String, Object>> identify(@RequestBody IdentifyRequest body) {
+        Map<String, Object> data = new HashMap<>();
+        App app = collectorService.resolveApp(body.getAppKey());
+        if (app == null || !"ACTIVE".equals(app.getStatus())) {
+            data.put("bound", false);
+            return ApiResponse.ok(data);
+        }
+        try {
+            identityService.identify(app.getTenantId(), app.getId(), body.getDistinctId(), body.getUserId());
+            data.put("bound", true);
+        } catch (Exception ex) {
+            data.put("bound", false);
+        }
+        return ApiResponse.ok(data);
+    }
+
     private String clientIp(HttpServletRequest req) {
         String xff = req.getHeader("X-Forwarded-For");
         if (xff != null && !xff.isBlank()) return xff.split(",")[0].trim();
@@ -73,5 +99,17 @@ public class CollectorController {
         public void setAppKey(String appKey) { this.appKey = appKey; }
         public List<EventPayload> getEvents() { return events; }
         public void setEvents(List<EventPayload> events) { this.events = events; }
+    }
+
+    public static class IdentifyRequest {
+        private String appKey;
+        private String distinctId;
+        private String userId;
+        public String getAppKey() { return appKey; }
+        public void setAppKey(String appKey) { this.appKey = appKey; }
+        public String getDistinctId() { return distinctId; }
+        public void setDistinctId(String distinctId) { this.distinctId = distinctId; }
+        public String getUserId() { return userId; }
+        public void setUserId(String userId) { this.userId = userId; }
     }
 }

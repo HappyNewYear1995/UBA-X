@@ -25,6 +25,9 @@ const routes = [
       { path: 'sessions', name: 'sessions', component: () => import('../views/Sessions.vue'), meta: { title: '会话回放', icon: 'VideoPlay', group: 'insight', perm: 'data:view', tenant: true } },
       { path: 'apps', name: 'apps', component: () => import('../views/Apps.vue'), meta: { title: '应用与接入', icon: 'Grid', group: 'collect', perm: 'app:manage', tenant: true } },
       { path: 'agents', name: 'agents', component: () => import('../views/Agents.vue'), meta: { title: 'Agent 探针', icon: 'Cpu', group: 'collect', perm: 'agent:manage', tenant: true } },
+      { path: 'gov-events', name: 'govEvents', component: () => import('../views/governance/EventDef.vue'), meta: { title: '事件字典', icon: 'Notebook', group: 'collect', perm: 'meta:manage', tenant: true } },
+      { path: 'gov-rules', name: 'govRules', component: () => import('../views/governance/ParsingRule.vue'), meta: { title: '解析规则', icon: 'SetUp', group: 'collect', perm: 'meta:manage', tenant: true } },
+      { path: 'gov-identity', name: 'govIdentity', component: () => import('../views/governance/Identity.vue'), meta: { title: '用户标识', icon: 'Connection', group: 'collect', perm: 'meta:manage', tenant: true } },
       {
         path: 'ext',
         component: () => import('../views/ext/Hub.vue'),

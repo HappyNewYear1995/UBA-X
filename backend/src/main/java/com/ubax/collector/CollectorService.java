@@ -6,6 +6,10 @@ import com.ubax.app.repo.AppRepository;
 import com.ubax.collector.dto.EventPayload;
 import com.ubax.common.UserAgentParser;
 import com.ubax.event.domain.Event;
+import com.ubax.governance.service.EventDefinitionService;
+import com.ubax.governance.service.GovernanceConfigService;
+import com.ubax.governance.service.IdentityService;
+import com.ubax.governance.service.ParsingRuleService;
 import com.ubax.stream.StreamEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,13 +31,23 @@ public class CollectorService {
     private final AppRepository appRepository;
     private final StreamEngine streamEngine;
     private final ObjectMapper objectMapper;
+    private final GovernanceConfigService governanceConfig;
+    private final ParsingRuleService parsingRuleService;
+    private final EventDefinitionService eventDefinitionService;
+    private final IdentityService identityService;
     /** appKey -> App cache to avoid a DB hit per event */
     private final Map<String, App> appCache = new ConcurrentHashMap<>();
 
-    public CollectorService(AppRepository appRepository, StreamEngine streamEngine, ObjectMapper objectMapper) {
+    public CollectorService(AppRepository appRepository, StreamEngine streamEngine, ObjectMapper objectMapper,
+                            GovernanceConfigService governanceConfig, ParsingRuleService parsingRuleService,
+                            EventDefinitionService eventDefinitionService, IdentityService identityService) {
         this.appRepository = appRepository;
         this.streamEngine = streamEngine;
         this.objectMapper = objectMapper;
+        this.governanceConfig = governanceConfig;
+        this.parsingRuleService = parsingRuleService;
+        this.eventDefinitionService = eventDefinitionService;
+        this.identityService = identityService;
     }
 
     public App resolveApp(String appKey) {
@@ -57,12 +71,30 @@ public class CollectorService {
             log.debug("reject event: unknown/inactive appKey={}", p.getAppKey());
             return false;
         }
+        Long tenantId = app.getTenantId();
+        Long appId = app.getId();
+
+        // ② governance switches (collect.enabled / sampling / ip.anonymize) — previously seeded but never read
+        if (!governanceConfig.collectEnabled()) return false;
+        if (!governanceConfig.pass()) return false;
+        if (governanceConfig.ipAnonymize()) ip = governanceConfig.maskIp(ip);
+
+        // ③ parsing rules (field mapping / extraction / filter / routing); null => dropped
+        p = parsingRuleService.apply(tenantId, appId, p);
+        if (p == null) return false;
+
         Event e = new Event();
-        e.setTenantId(app.getTenantId());
-        e.setAppId(app.getId());
+        e.setTenantId(tenantId);
+        e.setAppId(appId);
         String type = p.getType() == null ? "event" : p.getType();
-        e.setEventType(type);
-        e.setEventName(p.getEvent() != null ? p.getEvent() : defaultName(type));
+
+        // ④ event dictionary: standardize name/type on hit; apply on-miss policy otherwise (null => dropped)
+        EventDefinitionService.Resolved resolved =
+                eventDefinitionService.resolve(tenantId, appId, p.getEvent(), type);
+        if (resolved == null) return false;
+        e.setEventType(resolved.type() != null ? resolved.type() : type);
+        e.setEventName(resolved.eventName() != null ? resolved.eventName() : defaultName(type));
+
         e.setDistinctId(orDefault(p.getDistinctId(), "anon-" + app.getAppKey()));
         e.setUserId(p.getUserId());
         e.setSessionId(orDefault(p.getSessionId(), UUID.randomUUID().toString()));
@@ -98,6 +130,10 @@ public class CollectorService {
         } else {
             e.setEventTime(LocalDateTime.now(ZONE));
         }
+
+        // ⑤ identity resolution: fold anonymous distinctId onto a unified identity
+        e.setDistinctId(identityService.resolve(tenantId, appId, e.getDistinctId(), p.getUserId()));
+
         return streamEngine.submit(e);
     }
 

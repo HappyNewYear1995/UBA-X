@@ -124,3 +124,20 @@ export const accountApi = {
   logins: (params) => http.get('/account/logins', { params }),
   logout: () => http.post('/auth/logout')
 }
+
+export const governanceApi = {
+  events: (params) => http.get('/governance/events', { params }),
+  createEvent: (data) => http.post('/governance/events', data),
+  updateEvent: (id, data) => http.put('/governance/events/' + id, data),
+  toggleEvent: (id, enabled) => http.patch('/governance/events/' + id + '/toggle', { enabled }),
+  removeEvent: (id) => http.delete('/governance/events/' + id),
+  rules: (params) => http.get('/governance/rules', { params }),
+  createRule: (data) => http.post('/governance/rules', data),
+  updateRule: (id, data) => http.put('/governance/rules/' + id, data),
+  toggleRule: (id, enabled) => http.patch('/governance/rules/' + id + '/toggle', { enabled }),
+  removeRule: (id) => http.delete('/governance/rules/' + id),
+  identity: (params) => http.get('/governance/identity', { params }),
+  saveIdentity: (data) => http.post('/governance/identity', data),
+  removeIdentity: (id) => http.delete('/governance/identity/' + id),
+  alias: (params) => http.get('/governance/alias', { params })
+}

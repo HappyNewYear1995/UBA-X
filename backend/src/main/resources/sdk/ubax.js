@@ -133,11 +133,34 @@
   }
 
   // ---- 公共 API ----
+  // 上报身份绑定 (distinctId -> userId) 到服务端, 使登录前后事件归并到同一画像。
+  // 失败静默, 不阻塞; 优先 sendBeacon, 回退 XHR。
+  function reportAlias(uid) {
+    if (!SERVER || !APP_KEY || !uid) { return; }
+    var body = JSON.stringify({ appKey: APP_KEY, distinctId: distinctId, userId: String(uid) });
+    try {
+      if (navigator.sendBeacon) {
+        var blob = new Blob([body], { type: 'application/json' });
+        if (navigator.sendBeacon(SERVER + '/api/collect/identify', blob)) { return; }
+      }
+    } catch (e) {}
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', SERVER + '/api/collect/identify', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(body);
+    } catch (e) {}
+  }
+
   var ubax = {
     version: VERSION,
     track: function (event, props) { push({ type: 'custom', event: event || '$event', properties: props || {} }); },
     pageview: function () { trackPageview(); },
-    identify: function (id) { if (id) { userId = String(id); lsSet(LS_USER, userId); } },
+    identify: function (id) {
+      if (!id) { return; }
+      userId = String(id); lsSet(LS_USER, userId);
+      reportAlias(userId);
+    },
     reset: function () {
       distinctId = 'web-' + uuid(); lsSet(LS_DISTINCT, distinctId);
       sessionId = uuid(); lsSet(LS_SESSION, sessionId); lsSet(LS_SESSION + '_ts', String(Date.now()));

@@ -4,6 +4,12 @@ import com.ubax.app.domain.App;
 import com.ubax.app.repo.AppRepository;
 import com.ubax.event.domain.Event;
 import com.ubax.event.repo.EventRepository;
+import com.ubax.governance.domain.EventDefinition;
+import com.ubax.governance.domain.IdentityRule;
+import com.ubax.governance.domain.ParsingRule;
+import com.ubax.governance.repo.EventDefinitionRepository;
+import com.ubax.governance.repo.IdentityRuleRepository;
+import com.ubax.governance.repo.ParsingRuleRepository;
 import com.ubax.pilot.domain.Agent;
 import com.ubax.pilot.repo.AgentRepository;
 import com.ubax.profile.domain.UserProfile;
@@ -57,6 +63,9 @@ public class DataSeeder implements CommandLineRunner {
     private final NoticeRepository noticeRepository;
     private final ScheduledTaskRepository taskRepository;
     private final AuditLogRepository auditLogRepository;
+    private final EventDefinitionRepository eventDefinitionRepository;
+    private final ParsingRuleRepository parsingRuleRepository;
+    private final IdentityRuleRepository identityRuleRepository;
 
     public DataSeeder(TenantRepository tenantRepository, UserRepository userRepository, RoleRepository roleRepository,
                       AppRepository appRepository, EventRepository eventRepository,
@@ -64,7 +73,8 @@ public class DataSeeder implements CommandLineRunner {
                       AgentRepository agentRepository, PasswordEncoder passwordEncoder,
                       SystemConfigRepository configRepository, DictRepository dictRepository,
                       NoticeRepository noticeRepository, ScheduledTaskRepository taskRepository,
-                      AuditLogRepository auditLogRepository) {
+                      AuditLogRepository auditLogRepository, EventDefinitionRepository eventDefinitionRepository,
+                      ParsingRuleRepository parsingRuleRepository, IdentityRuleRepository identityRuleRepository) {
         this.tenantRepository = tenantRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -79,6 +89,9 @@ public class DataSeeder implements CommandLineRunner {
         this.noticeRepository = noticeRepository;
         this.taskRepository = taskRepository;
         this.auditLogRepository = auditLogRepository;
+        this.eventDefinitionRepository = eventDefinitionRepository;
+        this.parsingRuleRepository = parsingRuleRepository;
+        this.identityRuleRepository = identityRuleRepository;
     }
 
     private static final String[] PATHS = {"/", "/products", "/product/1001", "/product/2050", "/cart", "/checkout", "/blog", "/about"};
@@ -158,6 +171,9 @@ public class DataSeeder implements CommandLineRunner {
 
         // pilot agents
         seedAgents(tenant.getId(), app.getAppKey());
+
+        // collection-governance seed (event dictionary / parsing rule / identity rule)
+        seedGovernance(tenant.getId(), app.getId());
 
         // events over last 14 days
         Random rnd = new Random(20260115L);
@@ -315,9 +331,9 @@ public class DataSeeder implements CommandLineRunner {
     private void seedRoles() {
         List<Role> roles = new ArrayList<>();
         roles.add(role("SUPER_ADMIN", "平台超级管理员", "跨租户管理平台，管理租户与全局配置",
-                "analytics:view,data:view,assistant:use,app:manage,agent:manage,user:manage,role:manage,tenant:manage,system:manage"));
+                "analytics:view,data:view,assistant:use,app:manage,agent:manage,meta:manage,user:manage,role:manage,tenant:manage,system:manage"));
         roles.add(role("ADMIN", "租户管理员", "管理本租户用户、应用与全部数据",
-                "analytics:view,data:view,assistant:use,app:manage,agent:manage,user:manage,role:manage,system:manage"));
+                "analytics:view,data:view,assistant:use,app:manage,agent:manage,meta:manage,user:manage,role:manage,system:manage"));
         roles.add(role("ANALYST", "数据分析师", "查看全部分析与数据，可管理应用",
                 "analytics:view,data:view,assistant:use,app:manage,agent:manage"));
         roles.add(role("VIEWER", "只读访客", "仅查看分析报表",
@@ -524,6 +540,56 @@ public class DataSeeder implements CommandLineRunner {
                 "按「日志保留天数」删除超期操作/登录日志，每日 03:30 执行"));
         taskRepository.save(task("refresh_monitor", "刷新监控快照", "0 */5 * * * ?", true,
                 "定期采集服务器/JVM/数据指标，每 5 分钟执行"));
+    }
+
+    /** Seed collection-governance config for the demo tenant (idempotent). */
+    private void seedGovernance(Long tenantId, Long appId) {
+        if (eventDefinitionRepository.count() == 0) {
+            List<EventDefinition> defs = new ArrayList<>();
+            defs.add(eventDef(tenantId, 0L, "$pageview", "页面浏览", "pageview", null, "内置：页面浏览事件"));
+            defs.add(eventDef(tenantId, 0L, "$click", "元素点击", "click", null, "内置：点击事件"));
+            defs.add(eventDef(tenantId, 0L, "$leave", "离开页面", "leave", null, "内置：离开事件"));
+            defs.add(eventDef(tenantId, appId, "order_paid", "订单支付", "custom",
+                    "{\"amount\":{\"type\":\"number\",\"required\":true},\"orderId\":{\"type\":\"string\",\"required\":false}}",
+                    "示例：自定义转化事件，声明 amount 必填"));
+            eventDefinitionRepository.saveAll(defs);
+        }
+        if (parsingRuleRepository.count() == 0) {
+            ParsingRule pass = new ParsingRule();
+            pass.setTenantId(tenantId);
+            pass.setAppId(0L);
+            pass.setPriority(100);
+            pass.setName("默认透传");
+            pass.setMatchExpr("{}");
+            pass.setAction("{}");
+            pass.setEnabled(true);
+            pass.setRemark("内置：不做任何变换，保证默认行为与治理前一致");
+            parsingRuleRepository.save(pass);
+        }
+        if (identityRuleRepository.count() == 0) {
+            IdentityRule ir = new IdentityRule();
+            ir.setTenantId(tenantId);
+            ir.setAppId(0L);
+            ir.setStrategy("DISTINCT_FIRST");
+            ir.setEnabled(true);
+            ir.setRemark("内置：默认以 SDK distinctId 作为画像键，identify 后走 alias 归并");
+            identityRuleRepository.save(ir);
+        }
+    }
+
+    private EventDefinition eventDef(Long tenantId, Long appId, String key, String name, String type,
+                                     String schema, String remark) {
+        EventDefinition d = new EventDefinition();
+        d.setTenantId(tenantId);
+        d.setAppId(appId);
+        d.setEventKey(key);
+        d.setEventName(name);
+        d.setType(type);
+        d.setPropertiesSchema(schema);
+        d.setOnMiss("MARK");
+        d.setEnabled(true);
+        d.setRemark(remark);
+        return d;
     }
 
     private SystemConfig config(String key, String name, String value, String type, String group, String remark) {

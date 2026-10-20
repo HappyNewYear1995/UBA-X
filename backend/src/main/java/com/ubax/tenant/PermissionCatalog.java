@@ -58,7 +58,8 @@ public final class PermissionCatalog {
 
         list.add(new Group("collect", "数据采集")
                 .add("app:manage", "应用管理", "创建、编辑、删除应用及采集配置")
-                .add("agent:manage", "采集节点管理", "管理采集探针 / 节点"));
+                .add("agent:manage", "采集节点管理", "管理采集探针 / 节点")
+                .add("meta:manage", "采集治理", "配置事件字典、解析规则与用户标识归并策略"));
 
         list.add(new Group("system", "系统管理")
                 .add("user:manage", "用户管理", "创建、编辑、删除本租户用户与重置密码")
