@@ -155,12 +155,22 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     long retainedUsers(@Param("tid") Long tid, @Param("appId") Long appId, @Param("users") List<String> users,
                        @Param("from") LocalDateTime from, @Param("to") LocalDateTime to);
 
-    @Query(value = "SELECT x, y, element, COUNT(*) c FROM uba_event WHERE tenant_id = :tid " +
+    @Query(value = "SELECT (x + COALESCE(scroll_x, 0)) ax, (y + COALESCE(scroll_y, 0)) ay, element, " +
+            "COUNT(*) c, AVG(COALESCE(doc_w, 0)) dw, AVG(COALESCE(doc_h, 0)) dh " +
+            "FROM uba_event WHERE tenant_id = :tid " +
             "AND event_type = 'click' AND x IS NOT NULL AND (:path = '' OR url_path = :path) " +
             "AND (:appId = 0 OR app_id = :appId) AND event_time BETWEEN :from AND :to " +
-            "GROUP BY x, y, element", nativeQuery = true)
+            "GROUP BY (x + COALESCE(scroll_x, 0)), (y + COALESCE(scroll_y, 0)), element", nativeQuery = true)
     List<Object[]> heatmapPoints(@Param("tid") Long tid, @Param("appId") Long appId, @Param("path") String path,
                                  @Param("from") LocalDateTime from, @Param("to") LocalDateTime to);
+
+    /** Most-reported absolute URL for a path, used to snapshot the real page. */
+    @Query(value = "SELECT url FROM uba_event WHERE tenant_id = :tid " +
+            "AND (:appId = 0 OR app_id = :appId) AND url_path = :path " +
+            "AND url IS NOT NULL AND url <> '' AND event_time BETWEEN :from AND :to " +
+            "GROUP BY url ORDER BY COUNT(*) DESC LIMIT 1", nativeQuery = true)
+    String heatmapRepresentativeUrl(@Param("tid") Long tid, @Param("appId") Long appId, @Param("path") String path,
+                                    @Param("from") LocalDateTime from, @Param("to") LocalDateTime to);
 
     @Query(value = "SELECT DISTINCT session_id FROM uba_event WHERE tenant_id = :tid " +
             "AND session_id IS NOT NULL AND (:appId = 0 OR app_id = :appId) " +

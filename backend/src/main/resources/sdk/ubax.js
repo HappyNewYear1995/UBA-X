@@ -19,7 +19,7 @@
   var AUTO = CFG.autoTrack !== false;
   var FLUSH_MS = CFG.flushMs || 5000;
   var MAX_BATCH = CFG.batchSize || 30;
-  var VERSION = '1.1.0';
+  var VERSION = '1.2.0';
 
   var LS_DISTINCT = 'ubax_distinct_id';
   var LS_SESSION = 'ubax_session';
@@ -119,9 +119,22 @@
       el = el.parentNode; hops++;
     }
     if (!el || !el.tagName) { return; }
+    // Capture page geometry so clicks can be re-projected onto the full document
+    // (clientX/Y are viewport-relative; without scroll + doc size a scrolled click
+    // cannot be placed on a real full-page snapshot).
+    var de = document.documentElement, bd = document.body;
+    var sx = window.scrollX || window.pageXOffset || (de && de.scrollLeft) || 0;
+    var sy = window.scrollY || window.pageYOffset || (de && de.scrollTop) || 0;
+    var vpW = window.innerWidth || (de && de.clientWidth) || 0;
+    var vpH = window.innerHeight || (de && de.clientHeight) || 0;
+    var docW = Math.max(de ? de.scrollWidth : 0, bd ? bd.scrollWidth : 0, vpW);
+    var docH = Math.max(de ? de.scrollHeight : 0, bd ? bd.scrollHeight : 0, vpH);
     push({
       type: 'click', event: '$click',
       x: e.clientX, y: e.clientY,
+      scrollX: Math.round(sx), scrollY: Math.round(sy),
+      vpW: Math.round(vpW), vpH: Math.round(vpH),
+      docW: Math.round(docW), docH: Math.round(docH),
       element: (el.getAttribute && el.getAttribute('data-ubax-track')) || cssPath(el),
       properties: { text: text(el), tag: el.tagName.toLowerCase() }
     });

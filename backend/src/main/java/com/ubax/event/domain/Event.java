@@ -86,6 +86,19 @@ public class Event {
     /** click coordinates for heatmap */
     private Double x;
     private Double y;
+    /** page geometry at click time (SDK >= 1.2.0); enables full-page projection */
+    @Column(name = "scroll_x")
+    private Integer scrollX;
+    @Column(name = "scroll_y")
+    private Integer scrollY;
+    @Column(name = "vp_w")
+    private Integer vpW;
+    @Column(name = "vp_h")
+    private Integer vpH;
+    @Column(name = "doc_w")
+    private Integer docW;
+    @Column(name = "doc_h")
+    private Integer docH;
     /** clicked element selector/text for heatmap + replay */
     @Column(length = 300)
     private String element;

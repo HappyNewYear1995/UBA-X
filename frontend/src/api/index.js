@@ -16,6 +16,9 @@ export const analyticsApi = {
   funnel: (data) => http.post('/analytics/funnel', data),
   retention: (params) => http.get('/analytics/retention', { params }),
   heatmap: (params) => http.get('/analytics/heatmap', { params }),
+  // Real-page screenshot for heatmap overlay; returns a PNG Blob, or rejects on 404
+  // (unavailable). silent: the 404 fallback is expected, so don't toast.
+  snapshot: (params) => http.get('/analytics/snapshot', { params, responseType: 'blob', silent: true }),
   sessions: (params) => http.get('/analytics/sessions', { params }),
   sessionDetail: (id) => http.get('/analytics/sessions/' + encodeURIComponent(id)),
   streamMetrics: (cfg) => http.get('/analytics/stream-metrics', { ...cfg })

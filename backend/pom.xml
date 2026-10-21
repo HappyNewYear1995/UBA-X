@@ -77,6 +77,14 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- Headless Chromium for real-page heatmap snapshots. Degrades gracefully
+             (snapshot endpoint reports unavailable) when the browser is not installed. -->
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>1.44.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

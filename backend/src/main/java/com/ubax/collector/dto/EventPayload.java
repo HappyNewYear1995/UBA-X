@@ -24,6 +24,14 @@ public class EventPayload {
     private String screen;
     private Double x;
     private Double y;
+    /** page geometry captured with clicks so they can be re-projected onto the
+     *  full document (clientX/Y alone are viewport-relative). */
+    private Integer scrollX;
+    private Integer scrollY;
+    private Integer vpW;
+    private Integer vpH;
+    private Integer docW;
+    private Integer docH;
     private String element;
     private Long duration;
     /** client-side timestamp (epoch millis) */

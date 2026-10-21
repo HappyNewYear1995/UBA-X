@@ -15,7 +15,8 @@ Environment=MYSQL_USER=ubax
 Environment=MYSQL_PASSWORD=ubax@2026
 Environment=JWT_SECRET=ubax-prod-secret-key-2026-please-change-a8f3f0
 Environment=TZ=Asia/Shanghai
-ExecStart=/usr/bin/java -Xms256m -Xmx640m -XX:MaxMetaspaceSize=256m -XX:+UseSerialGC -Djava.security.egd=file:/dev/./urandom -jar /opt/ubax/app/ubax-server.jar
+Environment=PLAYWRIGHT_BROWSERS_PATH=/opt/ubax/ms-playwright
+ExecStart=/usr/bin/java -Xms256m -Xmx640m -XX:MaxMetaspaceSize=256m -XX:+UseSerialGC -Djava.security.egd=file:/dev/./urandom -Dubax.snapshot.enabled=false -Dubax.snapshot.dir=/opt/ubax/app/snapshots -Dubax.snapshot.idle-seconds=45 -jar /opt/ubax/app/ubax-server.jar
 SuccessExitStatus=143
 Restart=always
 RestartSec=8

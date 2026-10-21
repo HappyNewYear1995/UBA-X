@@ -331,23 +331,63 @@ public class AnalyticsService {
         List<Object[]> rows = eventRepository.heatmapPoints(tid, appId, path, r[0], r[1]);
         List<Map<String, Object>> points = new ArrayList<>();
         long total = 0;
+        // geometry accumulators (count-weighted) to derive the representative page size
+        double sumDocW = 0, sumDocH = 0;
+        long geoCount = 0;
         for (Object[] row : rows) {
             Map<String, Object> m = new LinkedHashMap<>();
             double x = row[0] == null ? 0 : ((Number) row[0]).doubleValue();
             double y = row[1] == null ? 0 : ((Number) row[1]).doubleValue();
             long c = ((Number) row[3]).longValue();
+            double dw = row[4] == null ? 0 : ((Number) row[4]).doubleValue();
+            double dh = row[5] == null ? 0 : ((Number) row[5]).doubleValue();
             m.put("x", x);
             m.put("y", y);
             m.put("element", str(row[2]));
             m.put("count", c);
             total += c;
+            if (dh > 0) { sumDocW += dw * c; sumDocH += dh * c; geoCount += c; }
             points.add(m);
         }
+        boolean hasGeometry = geoCount > 0;
+        long docW = hasGeometry ? Math.round(sumDocW / geoCount) : 1440;
+        long docH = hasGeometry ? Math.round(sumDocH / geoCount) : 900;
+        // normalise each point against the representative page size for snapshot overlay
+        for (Map<String, Object> m : points) {
+            double x = ((Number) m.get("x")).doubleValue();
+            double y = ((Number) m.get("y")).doubleValue();
+            m.put("nx", docW > 0 ? round4(x / docW) : 0);
+            m.put("ny", docH > 0 ? round4(y / docH) : 0);
+        }
+        String url = path.isEmpty() ? null : eventRepository.heatmapRepresentativeUrl(tid, appId, path, r[0], r[1]);
+
+        Map<String, Object> page = new LinkedHashMap<>();
+        page.put("docW", docW);
+        page.put("docH", docH);
+        Map<String, Object> viewport = new LinkedHashMap<>();
+        viewport.put("w", 1440);
+        viewport.put("h", 900);
+
         Map<String, Object> out = new LinkedHashMap<>();
         out.put("path", path);
+        out.put("url", url);
+        out.put("hasGeometry", hasGeometry);
+        out.put("page", page);
+        out.put("viewport", viewport);
         out.put("points", points);
         out.put("total", total);
         return out;
+    }
+
+    private static double round4(double v) { return Math.round(v * 10000d) / 10000d; }
+
+    /** Representative absolute URL for a path (most-reported), used to snapshot the real page. */
+    public String representativeUrl(Long tid, Long appId, String path, String from, String to) {
+        appId = nz(appId);
+        path = nz(path);
+        if (path.isEmpty()) return null;
+        LocalDateTime[] r = range(from, to, 7);
+        return eventRepository.heatmapRepresentativeUrl(tid, appId, path, r[0], r[1]);
     }
 
     // ---------- session replay ----------

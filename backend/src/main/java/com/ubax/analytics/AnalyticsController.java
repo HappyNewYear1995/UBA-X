@@ -3,8 +3,13 @@ package com.ubax.analytics;
 import com.ubax.common.ApiResponse;
 import com.ubax.common.TenantContext;
 import com.ubax.stream.StreamEngine;
+import org.springframework.http.CacheControl;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +19,13 @@ public class AnalyticsController {
 
     private final AnalyticsService analyticsService;
     private final StreamEngine streamEngine;
+    private final SnapshotService snapshotService;
 
-    public AnalyticsController(AnalyticsService analyticsService, StreamEngine streamEngine) {
+    public AnalyticsController(AnalyticsService analyticsService, StreamEngine streamEngine,
+                               SnapshotService snapshotService) {
         this.analyticsService = analyticsService;
         this.streamEngine = streamEngine;
+        this.snapshotService = snapshotService;
     }
 
     private Long tid() { return TenantContext.requireTenantId(); }
@@ -91,6 +99,34 @@ public class AnalyticsController {
                                                     @RequestParam(required = false) String from,
                                                     @RequestParam(required = false) String to) {
         return ApiResponse.ok(analyticsService.heatmap(tid(), appId, path, from, to));
+    }
+
+    /**
+     * Full-page screenshot of the real page behind a path, for heatmap overlay.
+     * The URL is derived server-side from the tenant's own ingested events (never
+     * taken from the caller) to prevent SSRF; returns image/png on success or a
+     * 404 JSON body when a snapshot is unavailable (unresolvable/blocked host,
+     * browser not installed, capture failure) so the frontend can fall back.
+     */
+    @GetMapping("/snapshot")
+    public ResponseEntity<byte[]> snapshot(@RequestParam(required = false) Long appId,
+                                           @RequestParam(required = false) String path,
+                                           @RequestParam(required = false) String from,
+                                           @RequestParam(required = false) String to) {
+        String url = analyticsService.representativeUrl(tid(), appId, path, from, to);
+        SnapshotService.Result r = snapshotService.capture(url);
+        if (!r.available()) {
+            String body = "{\"available\":false,\"reason\":\"" + safe(r.reason()) + "\"}";
+            return ResponseEntity.status(404).contentType(MediaType.APPLICATION_JSON)
+                    .body(body.getBytes(StandardCharsets.UTF_8));
+        }
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG)
+                .cacheControl(CacheControl.maxAge(Duration.ofDays(1)).cachePublic())
+                .body(r.png());
+    }
+
+    private static String safe(String s) {
+        return s == null ? "" : s.replaceAll("[^a-zA-Z0-9:_-]", "");
     }
 
     @GetMapping("/sessions")

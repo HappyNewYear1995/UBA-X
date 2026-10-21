@@ -105,6 +105,12 @@ public class CollectorService {
         e.setScreen(trunc(p.getScreen(), 32));
         e.setX(p.getX());
         e.setY(p.getY());
+        e.setScrollX(p.getScrollX());
+        e.setScrollY(p.getScrollY());
+        e.setVpW(p.getVpW());
+        e.setVpH(p.getVpH());
+        e.setDocW(p.getDocW());
+        e.setDocH(p.getDocH());
         e.setElement(trunc(p.getElement(), 300));
         e.setDuration(p.getDuration());
         e.setIp(ip);
