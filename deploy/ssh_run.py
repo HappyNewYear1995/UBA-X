@@ -1,6 +1,6 @@
 import sys, paramiko
 
-HOST = "120.55.38.71"
+HOST = "121.40.98.140"
 USER = "root"
 PW = "happy@0220"
 
